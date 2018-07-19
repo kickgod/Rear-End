@@ -11,7 +11,7 @@
 #### 默认安装以下命令：
 ----
 #### 基本命令
-* <a href="#new">new</a>
+* <a href="#new">new</a> [`官方资料`](https://docs.microsoft.com/zh-cn/dotnet/core/tools/dotnet-new?tabs=netcore20)
 * restore
 * build
 * publish
@@ -38,7 +38,7 @@
 * dotnet install script
 ----
 ####  命令 <a name="new">dotnet new</a>
-* **Dotnet new -all** 命令
+* **Dotnet new -all** 会列出所有的信息说明 与模板引擎提供的所有项目模板已经模板创建样例.
 ```
 PS G:\Acigela\donet> dotnet new -all
 使用情况: new [选项]
@@ -81,3 +81,32 @@ Examples:
     dotnet new classlib --framework netcoreapp2.0
     dotnet new --help
 ```
+* 通常我们的应用有几种对于本人来说无非:`Console Application`,`Class library`,`ASP.NET Core Empty`,`ASP.NET Core Web App`   
+----
+* 创建C# 控制台应用程序:  
+`dotnet new console -lang `
+
+* 备注:某些 shell 将 # 解释为特殊字符。 在这些情况下，需要括住语言参数值，如:  
+`dotnet new console -lang "F#".`
+
+* 创建一个mvc项目, 设置没有身份验证的ASP.NET Core C#程序 使用.net core 2.0框架  
+`dotnet new mvc -au None -f netcoreapp2.0`
+
+----
+#### 参数选项: 
+* -h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--help 列出帮助命令
+* -l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--list 列出命令或者模板
+* -lang&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---lang|--language {C#|F#|VB} 指定语言 
+* -n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--name <OUTPUT_NAME>  所创建的输出的名称。 如果未指定名称，使用的是当前目录的名称。
+* -o&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --用于放置生成的输出的位置。 默认为当前目录。
+* -na &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--namespace <NAMESPACE_NAME> - 生成的代码的命名空间。 默认值为 MyApp.Namespace。
+
+#### 参数
+* `-au|--auth <AUTHENTICATION_TYPE>` - 要使用的身份验证类型。 可能的值为：
+* `None` - 不进行身份验证（默认）。
+* `Individual` - 个人身份验证。
+* `IndividualB2C` - 使用 Azure AD B2C 进行个人身份验证。
+* `SingleOrg` - 对一个租户进行组织身份验证。
+* `MultiOrg` - 对多个租户进行组织身份验证。
+* `Windows` - Windows 身份验证。
+
