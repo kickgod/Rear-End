@@ -92,6 +92,8 @@ Examples:
 * 创建一个mvc项目, 设置没有身份验证的ASP.NET Core C#程序 使用.net core 2.0框架  
 `dotnet new mvc -au None -f netcoreapp2.0`
 
+* 创建一个类库输出文件名称MyLibrary 语言为VB  ` dotnet new classlib -lang VB -o MyLibrary`
+
 ----
 #### 参数选项: 
 * -h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--help 列出帮助命令
