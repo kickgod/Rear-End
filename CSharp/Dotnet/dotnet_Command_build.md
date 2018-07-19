@@ -28,3 +28,36 @@ NET Core 命令行接口 (CLI) 工具
 * 此命令依赖于`dotnet build` 一边在启动程序前生产.NET程序集的源输入
 * 输出文件被写入`bin`文件夹中,如果不存在则创建它,根据需要文件将会被覆盖,临时文件被写入到obj文件夹中。
 * 也可以直接运行dll文件 `Dotnet  Console.dll` 
+
+### `Dotnet test`
+* dotnet test 命令用于执行给定项目中的单元测试。 dotnet test 命令启动为项目指定的测试运行程序控制台应用程序。 测试运行程序执行为单元测试框架（例如 MSTest、NUnit 或 xUnit）定义的测试，并报告每个测试是否成功。 测试运行程序和单元测试库打包为 NuGet 包并还原为该项目的普通依赖项。
+* 测试项目使用普通 <PackageReference> 元素指定测试运行程序，如下方示例项目文件所示：
+```xml
+  <Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+   </ItemGroup>
+   </Project>
+
+```
+
+#### `添加离线引用包的方法:`
+  
+```xml
+    <ItemGroup>
+    <PackageReference Include="MyLibPack" Version="1.0.0" />
+    </ItemGroup>
+  
+```
+
+### `Dotnet pack`
+> 将代码打包到 NuGet 包.
+* dotnet pack 命令生成项目并创建 NuGet 包。 该命令的结果是一个 NuGet 包。 如果 --include-symbols 选项存在，则创建包含调试符号的另一个包。
+* `常用于类库的打包`
