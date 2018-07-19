@@ -75,6 +75,9 @@ NET Core 命令行接口 (CLI) 工具
 * -s|--source <SOURCE>
 ```xml
   将类库:ClassLib pack打包后的nuget包 引入到MyApp 项目中:
+  
+  注意:类库一般使用netstandard2 框架    <TargetFramework>netstandard2.0</TargetFramework>
+  
   先将 ClassLib 打包
 
   首先：MyApp.csproj 文件夹中添加
