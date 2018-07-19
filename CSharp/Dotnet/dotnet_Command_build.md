@@ -57,6 +57,36 @@ NET Core 命令行接口 (CLI) 工具
   
 ```
 
+### `dotnet restore`
+> 恢复项目的依赖项和工具。
+
+#### 从 .Net Core 2.0 开始，当发出下列命令时，如有必要，将隐式运行 dotnet restore。
+----
+* dotnet new
+* dotnet build
+* dotnet build-server
+* dotnet run
+* dotnet test
+* dotnet publish
+* dotnet pack
+----
+#### 用户 添加离线本地nuget包 例如：自己写的类库
+> 指定要在还原操作期间使用的 NuGet 包源。 这会替代 NuGet.config 文件中指定的所有源。 多次指定此选项可以提供多个源。
+* -s|--source <SOURCE>
+```xml
+  将类库:ClassLib pack打包后的nuget包 引入到MyApp 项目中:
+  先将 ClassLib 打包
+
+  首先：MyApp.csproj 文件夹中添加
+    <ItemGroup>
+      <PackageReference Include="ClassLib" Version="1.0.0" />
+    </ItemGroup>
+  然后执行下面命令:
+  G:\Acigela\DotnetConsole\MyApp> dotnet restore -s G:\Acigela\DotnetConsole\ClassLib\bin\Debug\
+  
+```
+  
+  
 ### `Dotnet pack`
 > 将代码打包到 NuGet 包.
 * dotnet pack 命令生成项目并创建 NuGet 包。 该命令的结果是一个 NuGet 包。 如果 --include-symbols 选项存在，则创建包含调试符号的另一个包。
