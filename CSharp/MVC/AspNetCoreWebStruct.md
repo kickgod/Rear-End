@@ -1,7 +1,8 @@
 ASP.NET Core web结构解析
 -----
 #### [Kestrel服务器](https://www.cnblogs.com/Wddpct/p/6123653.html)
-> `Kestrel`是一个基于libuv的跨平台ASP.NET Core web服务器，libuv是一个跨平台的异步I/O库。ASP.NET Core模板项目使用Kestrel作为默认的web服务器。
+> `Kestrel`是一个基于libuv包含托管的跨平台`ASP.NET Core web`服务器，libuv是一个跨平台的异步I/O库。`ASP.NET Core`模板项目使用`Kestrel`作为默认的web服务器。它往往会被运行在一个如`IIS`或者`Nginx`的生产Web服务器之后
+
 
 
 #### 文件结构 `[2.1 Core版本]`
@@ -19,21 +20,25 @@ ASP.NET Core web结构解析
         ```
 * `Program` 类 Main方法 关于Web服务器设置
 
-```C#
-public static void Main(string[] args)
-{
-    CreateWebHostBuilder(args).Build().Run();
-    /*
-      创建一个Web程序宿主,
-     */
-}
-public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-      WebHost.CreateDefaultBuilder(args)
-      .UseStartup<Startup>();
-      /*
-        CreateDefaultBuilder 按照生成模式来创建WEB应用程序主机,生产器提供定义WEB服务器例如UseKestrel和启动类
-        UseStartup的方法Kestrel 是一个庆幸Web服务器可以在IIS或者其他Web服务器上面运行
-       */
-}
-```
------
+    ```C#
+    public static void Main(string[] args)
+    {
+        CreateWebHostBuilder(args).Build().Run();
+        /*
+          创建一个Web程序宿主,
+         */
+    }
+    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+          WebHost.CreateDefaultBuilder(args)
+          .UseStartup<Startup>();
+          /*
+            CreateDefaultBuilder 按照生成模式来创建WEB应用程序主机,生产器提供定义WEB服务器例如UseKestrel和启动类
+            UseStartup的方法Kestrel 是一个庆幸Web服务器可以在IIS或者其他Web服务器上面运行
+           */
+    }
+    ```
+    
+* `网站根目录`：`是项目中类似于CSS,JS和图片文件公开,静态资源的目录.静态文件中间件将默认只读取We根目录和其子目录中的文件。Web根目录默认为
+<content>/wwwroot，但是也可以通过WebHostBuilder`
+
+
