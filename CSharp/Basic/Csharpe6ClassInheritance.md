@@ -7,6 +7,8 @@
 - [ ] <a href="#Polymorphism" >多态性</a>
 
    - [x] <a href="#HiddenMethod">`隐藏方法`</a>
+   - [x] <a href="#ChongzaiFngafa">`重载方法`</a>
+   - [x] <a href="#abstract">`抽象类和抽象方法`</a>
 
 - [ ] <a href="#ClassInhrite" >类的继承</a>
 
@@ -134,7 +136,7 @@ namespace DotnetConsole
 #### <a id="Polymorphism">多态性</a> <a href="#top" >`置顶` :arrow_up:</a>  
 `动态的定义调用的方法,而不是编译期间定义,编译器会创建一个虚拟方法表,其中列出可以在运行期间调用的方法,它根据运行期间的类型调用方法`
 
-##### <a href="#HiddenMethod">:one: 隐藏方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+##### <a id="HiddenMethod">:one: 隐藏方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
 `原因:如果签名相同的方法在基类和派生类中都进行了声明,但该方法没有分别声明virtual和override,派生类方法就会隐藏类方法`
 `子类覆盖了父类的方法 隐藏方法应该尽量避免,使用虚方法解决这个问题`
 ```C#
@@ -157,10 +159,50 @@ namespace DotnetConsole
     Son:SonCount:0
 ```
 ----
-在子类中可以使用base调用父类的方法
+在子类中可以使用 **`base`** 调用父类的方法
 ```C#
     public int getSon(){
         return base.getSon();
     }    
 ```
-    
+##### <a id="ChongzaiFngafa">:one: 重载方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+`方法和同名存在,只要方法签名不同`
+* 方法重载不能够根据返回值类型不同来重载
+```C#
+  public int sum(){
+      return 0;
+  }
+
+  public int sum(int a){
+      return a;
+  }
+  public int sum(int a,int b){
+      return b+a;
+  }
+
+  public int sum(int a,int b,int c){
+      return a+b+c;
+  }
+
+  public int sum(float a,float b){
+      return (int)(a+b);
+  }
+  
+  //下面的两个方法就会报错
+  public int sum(float a,float b){
+      return (int)(a+b);
+  }
+
+  public float sum(float a,float b){
+      return a+b+c;
+  }
+  //但是如果将下面的方法改成 就不会报错了
+   public float sum(float a,float b,float c=0){
+      return a+b+c;
+  }
+```
+
+##### <a id="abstract">:one: 抽象类和抽象方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+`抽象类不可以被实例化,只能通过派生类去继承在非抽象类的派生类中重写,抽象方法本身也是虚拟的，抽象类中不需要实现任何一个方法只需要声明就可以了`
+* 非抽象的派生类要实现父抽象类的全部抽象成员.
+* 在派生类中是用Override 重写 抽象类
