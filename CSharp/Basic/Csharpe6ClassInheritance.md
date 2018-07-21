@@ -4,13 +4,16 @@
 
 - [x] <a href="#ClassInhrite" >类的继承</a>
 
-- [ ] <a href="#Polymorphism" >多态性</a>
+- [x] <a href="#Polymorphism" >多态性</a>
 
    - [x] <a href="#HiddenMethod">`隐藏方法`</a>
    - [x] <a href="#ChongzaiFngafa">`重载方法`</a>
    - [x] <a href="#abstract">`抽象类和抽象方法`</a>
+   - [x] <a href="#sealed">密封类,密封方法</a>
 
-- [ ] <a href="#ClassInhrite" >类的继承</a>
+- [x] <a href="#Interface" >接口</a>
+
+- [x] <a href="#asis" >is和as运算符</a>
 
 #### C#终极父类
 
@@ -165,7 +168,7 @@ namespace DotnetConsole
         return base.getSon();
     }    
 ```
-##### <a id="ChongzaiFngafa">:one: 重载方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+##### <a id="ChongzaiFngafa">:two: 重载方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
 `方法和同名存在,只要方法签名不同`
 * 方法重载不能够根据返回值类型不同来重载
 ```C#
@@ -202,7 +205,127 @@ namespace DotnetConsole
   }
 ```
 
-##### <a id="abstract">:one: 抽象类和抽象方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+##### <a id="abstract">:three: 抽象类和抽象方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
 `抽象类不可以被实例化,只能通过派生类去继承在非抽象类的派生类中重写,抽象方法本身也是虚拟的，抽象类中不需要实现任何一个方法只需要声明就可以了`
 * 非抽象的派生类要实现父抽象类的全部抽象成员.
 * 在派生类中是用Override 重写 抽象类
+```C#
+//抽象类
+using System;
+namespace DotnetConsole
+{
+    using static System.Console;
+    public abstract class Father
+    {
+
+
+        public abstract  String Name{get;set;}
+        private int sonCount;
+        public  Father(String name){
+            this.Name=name;
+        }
+        public abstract void Said();
+        public abstract int getSon();  
+    }
+
+}
+//实现派生类
+using System;
+namespace DotnetConsole
+{
+    using static System.Console;
+    public  class Son:Father
+    {
+        public override void Said(){
+            WriteLine("Son Said:I am Your Son");
+        }
+        public string _name;
+        public override String Name{
+            get{return $"Son:{_name}";}
+            set{_name=value;}
+        }
+        public Son(String name):base(name){
+            
+        }
+        public override int getSon(){
+            return 0;
+        }    
+    }
+
+}
+```
+
+##### <a id="sealed">:four: 密封类,密封方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+`给类添加sealed修饰符号,就不允许创建该类的子类,密封一个方法,表示不能重写该方法`
+
+----
+```C#
+using System;
+using System.Text;
+
+namespace DotnetConsole
+{
+   class Student:Person{
+      public Student(String Name,int Age,String Id,Boolean Sex)
+         :base(Name,Age, Id,Sex){
+          
+      }
+      // 密封方法 : sealed override 
+      public sealed override int Wang(int a){ 
+          return a;
+      }
+  }
+}
+```
+
+#### <a id="Interface">:blue_book: 接口</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+`接口是一门面向对象语言最重要的组成部分,依赖注入,接口式编程等等....总之很重要`
+
+* 接口只包含`方法` `属性` `索引器` `事件` 
+* 接口成员必须实现
+* 接口可以继承
+* 接口命名:前面必须是`I` 后面是名字
+```C#
+
+ public interface IDisposable(){
+   void Dispose();
+ }
+ 
+ 
+```
+##### 接口继承
+
+```C#
+   public interface ItransferBank:IBankCount{
+      bool TransferTo(decimal d);
+   }
+```
+#### <a id="asis">:blue_book: is和as运算符</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+
+* `is`:`判断对象是否是指定类型,满足条件返回 true否则返回 false`
+* `as`:`将一种类型转换为另外一种类型,如果能转换就返回转换后的对象否则返回null`
+
+```C#
+   Son s=new Son("JiangZhiMing");
+   if(s is Son){
+       WriteLine($"{nameof(s)} 对象是Son类型");
+   }
+
+   Object list= s as Object;
+    WriteLine($"{list.ToString()}");
+```
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
