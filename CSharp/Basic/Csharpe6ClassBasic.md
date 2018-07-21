@@ -15,16 +15,18 @@ C# 类
 |成员|说明|
 |-|-|
 |<a href="#ziduan">`字段`</a>|`字段是类的数据成员,它是类型的一个变量,这类型是类的一个成员,字段命名方式为：_book 然后使用属性封装命名为Book`|
-|`常量`|`常量和类相关,编译器使用真实值代替常量`|
-|`属性`|`与读取和写入类的已命名属性相关联的操作`|
-|`方法`|`类可以执行的计算和操作`|
-|`索引器`|`与将类实例编入索引（像处理数组一样）相关联的操作`|
-|`构造函数`|`初始化类实例或类本身所需的操作`|
+|<a href="#changliang">`常量`</a>|`常量和类相关,编译器使用真实值代替常量`|
+|<a href="#shuxing">`属性`</a>|`与读取和写入类的已命名属性相关联的操作`|
+|<a href="#fangfa">`方法`</a>|`类可以执行的计算和操作`|
+|<a href="#suoyinqi">`索引器`</a>|`与将类实例编入索引（像处理数组一样）相关联的操作`|
+|<a href="#gouzaohanshu">`构造函数`</a>|`初始化类实例或类本身所需的操作`|
 |`终结器`|`永久放弃类实例前要执行的操作`|
 |`类型`|`类声明的嵌套类型`|
 |`运算符`|`运算符重载之类的`|
 |`事件`|`类可以生成的通知`|
-##### <a id="ziduan">字段,构造函数</a>
+-----
+<a href="#zonghe">综合实例</a>
+##### <a id="ziduan">字段</a>
 ```C#
 public class Color
 {
@@ -42,7 +44,7 @@ public class Color
     }
 }
 ```
-#### 属性
+#### <a id="shuxing">属性</a>
 * `新特性`:`表达式属性---public String userName=>"JxKicker";`
 ```C#
     public int _id;
@@ -57,7 +59,7 @@ public class Color
     
     /*编译器会自动实现一个_id字段*/
 ```
-#### 方法
+#### <a id="fangfa">方法</a>
 * 表达式体方法:public int getAryCount()=>ArrayInt.Length; 常常用于一些简单的方法,复杂方法还是需要自己写
 * 方法的重载:参数类型不同,参数个数不同,方法名称相同
 * 默认参数,参数也可以是可选的,必须为可选参数提供默认值,可选参数还必须是方法定义的最后的参数
@@ -107,7 +109,7 @@ public class Color
     }
 ```
 
-##### 索引器
+##### <a id="suoyinqi">索引器</a> 
 * 重点:get,set 后面不能跟分号`;`并且 不能像属性方法一样使用名称 只能使用this名称
 * 直接使用类名加索引访问
 ```C#
@@ -168,10 +170,35 @@ namespace DotnetConsole
 
 
 ```
-
+#### <a id="gouzaohanshu">C# 构造函数</a>
+* 调研父类构造函数的方法
+```C#
+  class FatherClass{
+     FatherClass(){
+         //etc
+     }
+     
+     FatherClass(String name){
+        this.Name=name;
+     }
+     //etc
+  }
+  class SonClass:FatherClass{
+      public string _sonFenzhi;
+     
+      SonClass():base(){
+         
+         //etc
+      }
+      
+      SonClass(String FaherName,String _sonFenzhi):base(FaherName){
+        this._sonFenzhi=_sonFenzhi;
+      }
+  }
+```
 
 -------
-#### C# 类
+#### <a id="zonghe">C# 类</a>
 ```C#
 public class List<T>
 {
