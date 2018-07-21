@@ -1,13 +1,13 @@
 C# 类
 -----
-*  <a href="#ClassStructDifference">类和结构的区别</a>
+*  <a href="#ClassStructDifference" id="top">类和结构的区别</a> 
 
 *  <a href="#AnonymousType">匿名类型</a>  
 
 
 
 ---
-#### <a id="ClassStructDifference">类和结构的区别</a>
+#### <a id="ClassStructDifference">类和结构的区别</a>  <a href="#top">置顶</a>  
 * `类和结构实际上都是创建对象的模板,每个对象都包含数据`,`并提供了处理和访问数据的方法`
 * `说明`:`结构不同于类,因为它们不需要再堆上分配空间,类在堆上 结构在栈上面`
 * `说明`:`大多数情况下类要比结构常用得多`
@@ -202,7 +202,7 @@ namespace DotnetConsole
 ```
 
 -------
-#### <a id="zonghe">C# 类</a>
+#### <a id="zonghe">C# 类</a> 
 ```C#
 public class List<T>
 {
@@ -289,7 +289,7 @@ public class List<T>
 }
 ```
 
-#### <a id="AnonymousType">匿名类型</a>
+#### <a id="AnonymousType">匿名类型</a>  <a href="#top">置顶</a>  
 
 `匿名类型提供了一种方便的方法，可用来将一组只读属性封装到单个对象中，而无需首先显式定义一个类型。 类型名由编译器生成，并且不能在源代码级使用。 每个属性的类型由编译器推断。`
 
