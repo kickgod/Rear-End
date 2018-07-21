@@ -9,7 +9,7 @@
    - [x] <a href="#HiddenMethod">`隐藏方法`</a>
    - [x] <a href="#ChongzaiFngafa">`重载方法`</a>
    - [x] <a href="#abstract">`抽象类和抽象方法`</a>
-   - [x] <a href="#sealed">密封类,密封方法</a>
+   - [x] <a href="#sealed">`密封类,密封方法`</a>
 
 - [x] <a href="#Interface" >接口</a>
 
