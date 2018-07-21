@@ -1,13 +1,15 @@
-<a id="top">C# 类</a>
+<a id="top">C# 类</a> . :blue_heart:	
 -----
-*  <a href="#ClassStructDifference" >类和结构的区别</a> 
+- [x] <a href="#ClassStructDifference" >类和结构的区别</a>  
 
-*  <a href="#AnonymousType">匿名类型</a>  
+- [x] <a href="#AnonymousType">匿名类型</a>  
+
+- [x] <a href="#Structure">结构体</a>  
 
 
 
 ---
-#### <a id="ClassStructDifference">类和结构的区别</a>  <a href="#top">置顶</a>  
+#### <a id="ClassStructDifference">类和结构的区别</a>  <a href="#top">置顶 :arrow_up:</a>  
 * `类和结构实际上都是创建对象的模板,每个对象都包含数据`,`并提供了处理和访问数据的方法`
 * `说明`:`结构不同于类,因为它们不需要再堆上分配空间,类在堆上 结构在栈上面`
 * `说明`:`大多数情况下类要比结构常用得多`
@@ -289,7 +291,7 @@ public class List<T>
 }
 ```
 
-#### <a id="AnonymousType">匿名类型</a>  <a href="#top">置顶</a>  
+#### <a id="AnonymousType">匿名类型</a> <a href="#top">置顶 :arrow_up:</a>  
 
 `匿名类型提供了一种方便的方法，可用来将一组只读属性封装到单个对象中，而无需首先显式定义一个类型。 类型名由编译器生成，并且不能在源代码级使用。 每个属性的类型由编译器推断。`
 
@@ -306,3 +308,73 @@ public class List<T>
     };
 
 ```
+#### <a id="Structure" >结构体</a> <a href="#top">置顶 :arrow_up:</a>  
+`结构的目的:有时候需要一个小的数据结构,此时类提供的功能多于我们需要的功能,由于性能原因,最后使用结构.`:smirk:  
+* 结构体是值类型 存储在栈中
+* 结构体不支持继承 每一个结构体都派生自`System.ValueType` 然后`ValueType`派生自`System.Object`
+* 大多数时候结构体里面的字段全部声明为public
+* new申请空间和类不同,结构体使用new运算符不分配堆中的内存。只是调研构造函数传递参数初始化值,不需要等待垃圾回收
+* 当把结构体当参数传递时,最后使用按引用传递 使用关键字ref,不然默认是按值传递,造成性能损失
+* 结构可带有 `方法`、`字段`、`索引`、`属性`、`运算符方法`和`事件`。:white_check_mark:
+* 结构可定义构造函数，但不能定义析构函数。但是，您不能为结构定义默认的构造函数。默认的构造函数是自动定义的，且不能被改变。
+-----
+```C#
+using System;
+using System.Text;
+using System.Collections.Generic;
+
+namespace DotnetConsole
+{
+    using static System.Console;
+    class MyStrcut
+    {
+        //字段
+        public static int Count=0;
+        public string _strcutName;
+
+
+        //属性
+        public string StrcutName{
+            get{return _strcutName;}
+            set{_strcutName=value;}
+        }
+        public Decimal X{get;set;}
+
+        public Decimal Y{get;set;}
+
+        //构造函数
+        public  MyStrcut(Decimal x,Decimal y){
+           Count++;
+           this.X=x;
+           this.Y=y;
+        }
+        //索引器
+        int[]  ArrayList_int;
+
+        public int this[int index]{
+            get{
+                return ArrayList_int[index];
+            }
+            set{
+                this.ArrayList_int[index]=value;
+            }
+        }
+        //方法
+        public String getStringOfPoint()=> $"({X},{Y})";
+
+
+
+        //运算符方法
+        public static bool operator == (MyStrcut one,MyStrcut two) =>one.X.Equals(two.X)&&one.Y.Equals(two.Y);
+ 
+        public static bool operator != (MyStrcut one,MyStrcut two) =>!(one.X.Equals(two.X)&&one.Y.Equals(two.Y));
+
+        //事件
+        public event EventHandler PointChange;
+    }
+}
+
+
+
+```
+
