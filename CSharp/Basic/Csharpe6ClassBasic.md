@@ -2,6 +2,8 @@ C# 类
 -----
 *  <a href="#ClassStructDifference">类和结构的区别</a>
 
+*  <a href="#AnonymousType">匿名类型</a>  
+
 
 
 ---
@@ -45,7 +47,9 @@ public class Color
 }
 ```
 #### <a id="shuxing">属性</a>
-* `新特性`:`表达式属性---public String userName=>"JxKicker";`
+* `新特性`:`表达式属性---public String _userName=>"JxKicker";`
+* `只读属性`: `可以使用readonly修饰符字段`
+* `也可以使用只读属性`:`public String Id{get;};`
 ```C#
     public int _id;
 
@@ -208,13 +212,11 @@ public class List<T>
     // Fields
     T[] items;
     int count;
-
     // Constructor
     public List(int capacity = defaultCapacity) 
     {
         items = new T[capacity];
     }
-
     // Properties
     public int Count => count; 
 
@@ -232,7 +234,6 @@ public class List<T>
             }
         }
     }
-
     // 索引器
     public T this[int index] 
     {
@@ -286,4 +287,22 @@ public class List<T>
     public static bool operator !=(List<T> a, List<T> b) => 
         !Equals(a, b);
 }
+```
+
+#### <a id="AnonymousType">匿名类型</a>
+
+`匿名类型提供了一种方便的方法，可用来将一组只读属性封装到单个对象中，而无需首先显式定义一个类型。 类型名由编译器生成，并且不能在源代码级使用。 每个属性的类型由编译器推断。`
+
+* 匿名类型通常用在查询表达式的 select 子句中[Linq中]
+* 定义一个匿名类型时，需要用到 var 关键字和对象初始化语法。
+* 内部成员不需要类型声明 编译器自动推断
+* 匿名类型同样继承Object它只是没有名字常用于数据传输和交换
+----
+```C#
+    var car = new {
+        Productor="BenTian",
+        ProductTime=Convert.ToDateTime("2017/5/6"),
+        User="Kicker"
+    };
+
 ```
