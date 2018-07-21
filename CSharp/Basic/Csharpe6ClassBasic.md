@@ -6,7 +6,11 @@
 
 - [x] <a href="#Structure">结构体</a>  
 
+- [x] <a href="#CallByValueAndByReference">按值调用和按引用调用</a>
 
+- [x] <a href="#AccessModifier">修饰符</a>
+
+- [x] <a href="#ExtensionMethod">扩展方法</a>
 
 ---
 #### <a id="ClassStructDifference">类和结构的区别</a>  <a href="#top">置顶 :arrow_up:</a>  
@@ -373,8 +377,111 @@ namespace DotnetConsole
         public event EventHandler PointChange;
     }
 }
-
-
-
 ```
+#### <a id="CallByValueAndByReference">按值调用和按引用调用 </a> <a href="#top">置顶 :arrow_up:</a>  
+`按值调用如果是值类型那么传递给方法的是复制品,如果按照引用调用传递给方法的是引用即如同指针一样的东东`  
+
+----
+* :whale2: **`ref`**: 通过引用传递变量
+
+   ``` C#
+        public static void Swap(ref int  a,ref int b){
+            int c=a;
+            a=b;
+            b=c;
+        }
+        //Test
+        int a=10;
+        int b=20;
+        Swap(ref a,ref b);
+        WriteLine($"a:{a},b:{b}");
+        
+        //输出结果: a:20,b:10
+   ``` 
+    * 要求必须事先初始化 `int c,d;` ` Swap(ref c,ref d);` c和d没有初始化那么会报错 语法错误 无法编译通过
+    
+* :sailboat: **`out`**:同样按照引用传递,不要求变量一定初始化,只需要定义了就行,可以用于返回一些值
+    ```C#
+        public static void Sum(int  a,int b,out int sum){
+             sum=a+b;
+        }
+        int a=10;
+        int b=20;        
+        int sum;
+        Sum(a,b,out sum);
+        WriteLine($"sum:{sum}");
+        //输出 sum:30
+    ```
+    * 注意：语法ref,out 在方法中要写上修饰,还要在调用方法的时候在参数前面修饰
+    * 注意：ref,out修饰符放在类型前面  例如 ref int a;
+    * 注意:ref,out 常常用于值类型,引用类型不需要
+----
+#### <a id="AccessModifier">修饰符 </a> <a href="#top">置顶 :arrow_up:</a>  
+`访问修饰符何以修饰类,结构体,还有类成员,甚至在C#6.0之后属性的get,set也可以使用访问修饰发修饰`
+
+----
+##### 访问修饰符
+- [public](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/public)  `公共访问是允许的最高访问级别。 对访问公共成员没有限制`  public int x;
+
+- [private](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/private) `私有访问是允许的最低访问级别。 私有成员只有在声明它们的类和结构体中才是可访问的`
+
+- [internal](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/internal) `只有在同一程序集的文件中，内部类型或成员才可访问，即不再同一个dll中的`
+
+- [protected](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/protected)	`只有在通过派生类类型进行访问时，基类的受保护成员在派生类中才是可访问的。`
+
+##### :minibus: [修饰符](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/modifiers)
+
+- [abstract](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/abstract) `指示某个类只能是其他类的基类。抽象类`
+
+- [static](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/static) `声明属于类型本身而不是特定对象的成员。 静态方法/静态类`
+
+- [sealed](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/sealed) `指定无法继承类。 密封类`
+
+- [virtual](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/virtual) `在派生类中声明其实现可由重写成员更改的方法或访问器。 虚方法`
+
+- [volatile](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/volatile) `指示字段可在程序中由操作系统、硬件或并发执行线程等项修改。`
+
+- [readonly](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/readonly) `声明一个字段，该字段只能赋值为该声明的一部分或者在同一个类的构造函数中。可以用只读属性实现`
+
+- [async](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/async) `指示修改后的方法、lambda 表达式或匿名方法是异步的。`
+
+- [partial](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/partial-type) `在同一程序集中定义分部类、结构和方法。`
+
+- [unsafe](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/unsafe) `生命不安全的上下文`
+
+- [const](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/const) `常量,用于值类型,不可修改`
+
+-----
+#### <a id="ExtensionMethod" > :herb: 扩展方法</a> <a href="#top">置顶 :arrow_up:</a>  
+`有许多扩展类的方式例如加上接口,继承 扩展方法是给对象添加功能的另一个选项,在不使用继承时,也可以使用这个选项,当一个类是密封的时候！`
+
+-----
+* `注意`,`扩展方法必须是静态的[static],它是类的一部分,但实际上没有放在类的源代码中`
+* `注意`,`C#一切的代码都要放到类中 对于放扩展方法的类的命名方式 扩展类名称+Extension`
+* `注意`,`容纳扩展方法的类也必须是静态的类`
+* `注意`,`扩展方法也可以用于扩展接口,那么实现该接口的所有类就有了公共功能了`
+
+##### 扩展string方法 统计单词个数
+```C#
+using System;
+namespace DotnetConsole
+{
+    using static System.Console;
+    public static class StringExtension
+    {
+        //this 关键字 和 第一个参数 来扩展字符串,这个关键字定义了要扩展的类型
+        public static int GetWordCount(this string s)=>s.Split().Length;
+
+    }
+
+}
+```
+##### **`this 关键字 和 第一个参数定义了要扩展的类型`**
+
+
+
+
+
+
+
 
