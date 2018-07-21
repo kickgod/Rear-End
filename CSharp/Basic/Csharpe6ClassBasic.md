@@ -1,6 +1,6 @@
-C# 类
+<a id="top">C# 类</a>
 -----
-*  <a href="#ClassStructDifference" id="top">类和结构的区别</a> 
+*  <a href="#ClassStructDifference" >类和结构的区别</a> 
 
 *  <a href="#AnonymousType">匿名类型</a>  
 
