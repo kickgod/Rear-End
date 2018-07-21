@@ -10,3 +10,4 @@
  
  * [C# 6.0类的基本结构](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md)
 
+ * [C# 6.0类继承和接口](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassInheritance.md)
