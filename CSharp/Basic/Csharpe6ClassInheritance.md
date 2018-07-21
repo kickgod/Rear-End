@@ -6,6 +6,8 @@
 
 - [ ] <a href="#Polymorphism" >多态性</a>
 
+   - [x] <a href="#HiddenMethod">`隐藏方法`</a>
+
 - [ ] <a href="#ClassInhrite" >类的继承</a>
 
 #### C#终极父类
@@ -131,3 +133,34 @@ namespace DotnetConsole
 ```
 #### <a id="Polymorphism">多态性</a> <a href="#top" >`置顶` :arrow_up:</a>  
 `动态的定义调用的方法,而不是编译期间定义,编译器会创建一个虚拟方法表,其中列出可以在运行期间调用的方法,它根据运行期间的类型调用方法`
+
+##### <a href="#HiddenMethod">:one: 隐藏方法</a>  <a href="#top" >`置顶` :arrow_up:</a>  
+`原因:如果签名相同的方法在基类和派生类中都进行了声明,但该方法没有分别声明virtual和override,派生类方法就会隐藏类方法`
+`子类覆盖了父类的方法 隐藏方法应该尽量避免,使用虚方法解决这个问题`
+```C#
+    Father
+    ....
+    private int sonCount=10;
+
+    public int getSon(){
+        return sonCount;
+    }  
+    Son
+    public int getSon(){
+        return 0;
+    }   
+    Mian函数
+    WriteLine($"Father：SonCount:{f.getSon()}");
+    WriteLine($"Son:SonCount:{s.getSon()}");
+    //输出结果
+    Father：SonCount:10
+    Son:SonCount:0
+```
+----
+在子类中可以使用base调用父类的方法
+```C#
+    public int getSon(){
+        return base.getSon();
+    }    
+```
+    
