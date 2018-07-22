@@ -1,5 +1,11 @@
-:sailboat: 托管和非托管资源
+:sailboat: <a id="top">托管和非托管资源</a> 
 ----
+
+- [x] <a href="#StrongAndWeakReference">强引用和弱引用</a>
+
+
+
+
 > `理解C# 内部原理的必知知识要点,C#是一门不需要担心具体的内存管理,垃圾回收器会自动处理所有的内存清除工作`
 * `1.了解gc[垃圾回收机制]如何工作`
 * `2.知道什么是大小对象堆,以及什么数据类型存储在堆栈上市非常有益的`
@@ -16,9 +22,50 @@
 * 对于引用类型 例如: 对象 分配在托管堆中由垃圾回收器管理,使用new运算符为它分配内存
 
 ```C#
+
    Person one =new Person("JxKicker");
+   
    //one 实际上是一个引用,类似于一个指针,他是分配在栈上面,然后指向堆中的对象所在位置
   
 ```
 
-#### [垃圾回收](https://docs.microsoft.com/zh-cn/dotnet/standard/garbage-collection/index)
+#### [垃圾回收](https://docs.microsoft.com/zh-cn/dotnet/standard/garbage-collection/index) <a href="#top">置顶 :arrow_up:</a>  
+`托管堆的工作方式非常类似于栈,对象会在内存中一个挨一个地放置,这个就很容易使用指向下一个空闲存储单元的堆指针来确定下一个对象的位置.`
+
+* 在垃圾回收器运行时,它会从堆中删除不再引用的所有对象,垃圾回收器,在引用的根表中找到所有的对象,接着在引用的对象树种查找。在完成删除操作后，堆立即把对象分散开  
+
+* 回收内存后进行`压缩操作`,将分散的对象内存空间变成连续的
+
+* 一般垃圾回收器在.net运行时确定需要进行垃圾回收时运行,可以调用System.GC.Collect() 方法强制在某个地方运行,但是不建议这样使用
+
+* 新创建的对象会放到托管堆的一个地方,这个地方被称为第0代,当垃圾回收过程启动一次后,清理之后的对象会被压缩,压缩后第0代移动到下一部分,被称为第1代,此时第
+0代为空 以此再次启动垃圾回收过程,移动到第二代,第三代....
+
+* 在.NET中,垃圾回收提高性能的一个方式,大对象放到大对象堆上面,一般大约85000个字为大对象，就会放到这个特殊的堆上面,因为压缩大对象堆的代价是昂贵的
+
+* 垃圾回收的平衡，确定什么时候进行垃圾回收机制,例如一个线程使用过多的内存,导致其他线程也垃圾回收那么可能会浪费性能。垃圾回收会平衡线程,大小堆确定
+回收的时机
+-----
+`为了利用包含大量内存的硬件,垃圾回收过程添加了` **`GCSetting.LatencyMode`** 属性 `LatencyMode` `是一个枚举值,去确定垃圾回收的运行模式`
+
+|GCLatencyMode 枚举成员|说明|
+|:----:|:----|
+|Batch |禁止并发设置,把垃圾回收设置为最大吞吐量,这回重写配置设置|
+|Interactive|工作站的默认行为,它使用垃圾回收并发设置,平衡吞吐量和响应|
+|LowLatency|保守的垃圾回收,只有系统存在内存压力时,才进行完整的回收.只是应用于特定较短时间,执行特顶的操作|
+|SustainedLowLatency|[持续低延迟] 只有系统内存存在压力时,才进行完整的内存回收|
+|NoGCRegion|C# 4.6.0 新增成员,只读属性，可以在代码中调用[GC.TryStartNoGCRegion()](https://msdn.microsoft.com/zh-cn/magazine/dn906204) 停止垃圾回收,使用EndNoGCRegion开启垃圾回收|
+
+```C#
+   System.GC.Collect();
+   System.Runtime.GCSettings.LatencyMode=GCLatencyMode.Batch;  
+
+   System.GC.TryStartNoGCRegion(1000); //停止垃圾回收器 设置可用的,GC试图访问的内存大小
+
+   for(int i=0;i<1000;i++){
+       Son li=new Son("sds"+i);
+   }
+   System.GC.EndNoGCRegion(); //开启垃圾回收器    
+
+```
+#### <a id="StrongAndWeakReference">强引用和弱引用</a> <a href="#top">置顶 :arrow_up:</a>  
