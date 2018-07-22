@@ -3,8 +3,9 @@
 
 - [x] <a href="#StrongAndWeakReference">强引用和弱引用</a>
 
+- [x] <a href="#ResourceDealWithSelf">处理非托管的资源</a>
 
-
+- [x] <a href="#UnsafeCode">不安全的代码</a>
 
 > `理解C# 内部原理的必知知识要点,C#是一门不需要担心具体的内存管理,垃圾回收器会自动处理所有的内存清除工作`
 * `1.了解gc[垃圾回收机制]如何工作`
@@ -46,7 +47,7 @@
 * 垃圾回收的平衡，确定什么时候进行垃圾回收机制,例如一个线程使用过多的内存,导致其他线程也垃圾回收那么可能会浪费性能。垃圾回收会平衡线程,大小堆确定
 回收的时机
 -----
-`为了利用包含大量内存的硬件,垃圾回收过程添加了` **`GCSetting.LatencyMode`** 属性 `LatencyMode` `是一个枚举值,去确定垃圾回收的运行模式`
+`为了利用包含大量内存的硬件,垃圾回收过程添加了` [`GCSettings`](https://msdn.microsoft.com/zh-cn/library/system.runtime.gcsettings(v=vs.110).aspx)类  **`GCSetting.LatencyMode`** 属性 `LatencyMode` `是一个枚举值,去确定垃圾回收的运行模式`
 
 |GCLatencyMode 枚举成员|说明|
 |:----:|:----|
@@ -57,10 +58,10 @@
 |NoGCRegion|C# 4.6.0 新增成员,只读属性，可以在代码中调用[GC.TryStartNoGCRegion()](https://msdn.microsoft.com/zh-cn/magazine/dn906204) 停止垃圾回收,使用EndNoGCRegion开启垃圾回收|
 
 ```C#
-   System.GC.Collect();
-   System.Runtime.GCSettings.LatencyMode=GCLatencyMode.Batch;  
+   System.GC.Collect();  //进行垃圾回收
+   System.Runtime.GCSettings.LatencyMode=GCLatencyMode.Batch;   //设置垃圾回收运行模式
 
-   System.GC.TryStartNoGCRegion(1000); //停止垃圾回收器 设置可用的,GC试图访问的内存大小
+   System.GC.TryStartNoGCRegion(1000); //停止垃圾回收器 设置可用的,GC试图访问的内存大小 字节为单位 太少会报错
 
    for(int i=0;i<1000;i++){
        Son li=new Son("sds"+i);
@@ -69,3 +70,98 @@
 
 ```
 #### <a id="StrongAndWeakReference">强引用和弱引用</a> <a href="#top">置顶 :arrow_up:</a>  
+`垃圾回收器不能会后任在引用的对象的内存----这是一个强引用`,`在应用程序代码内实例化一个类或结构,只有有代码引用它,就会形成强引用`
+
+```C#
+  var myCache =new MyCache();
+  myCache.add(myClassVariable);
+```
+* `这个情况下,如果myCache 没有释放那么 myClassVariable就一直存在,哪怕是myClassVariable 已经被用完了,没有作用了.`
+* `所以在用完了myClassVariable 后应该清空 设置 myClassVariable=null;`
+* `有时候忘了设置为null垃圾回收器就无法回收内存了,这个时候使用WeakReference 可以避免这种情况`
+* `使用事件很容易错过引用的清理，这个时候应该使用弱引用`
+------
+##### 弱引用
+`弱引用因为允许创建和使用对象,但是垃圾回收器碰巧在运行,就会回收对象释放内存,由于潜在的BUG和性能问题,一般不会这样做,但是在特定的情况下
+使用弱引用是很合理的.弱引用对小对象也没有意义,因为弱引用有自己的开销,这个开销比小对象更大。`
+
+```C#
+  static void Main(string[] args)
+  {
+      var PersonWeakReference=new WeakReference(new Person("JiangYiXue",54,"123456",true));
+      if(PersonWeakReference.IsAlive){
+          WriteLine("Person 的弱引用还在");
+          Person strongPerson=PersonWeakReference.Target as Person;
+          if(strongPerson!=null){
+              WriteLine(strongPerson.ToString());
+              strongPerson=null;
+          }
+
+      }    
+  }
+```
+#### <a id="ResourceDealWithSelf">处理非托管的资源</a> <a href="#top">置顶 :arrow_up:</a>  
+`垃圾回收器不管非托管资源的释放问题,所以这需要我们自己来处理,这里有连个机制来是否非托管的资源`
+
+* 声明一个析构函数(或终结器 C#析构函数 在.NET底层就是终结器),作为类的一个成员
+* 在类中实现`System.IDisposible` 接口
+
+----
+`在垃圾回收前也可以调用析构函数,析构函数并非释放非托管资源,执行一般清理操作的地方,因为啊,有垃圾回收器了,析构函数即使调用,也不会按照调用顺序执行没有析构函数的对象一次就可以删除,但是有析构函数要运行一次垃圾回收 然后再运行一次析构函数两次处理才能销毁。`
+
+##### C#推荐使用`System.IDisposible` 接口代替析构函数。IDisposible接口定义了一种模具,提供用于释放非托管的资源的机制
+`这避免产生析构函数固有的与垃圾回收器相关的问题`
+* IDisposible 接口声明了一个Dispose() 方法不带参数,返回void 
+----
+##### try-cathc-finally 释放资源
+`使用try-cathc-finally可以防止因为各种情况而不能释放资源的各种问题`
+```C#
+   var theResource=null;
+   try{
+      theResource = new Resource();
+   }catch(Exception ex){
+        //etc
+   }
+   finally{
+      theResource.Dispose();
+   }
+```
+##### using 自动释放资源
+```C#
+
+  using(var theResource= new Resource()){
+       //etc      
+  }
+  
+```
+* using 关键字在C#中有多个用法,using声明用于导入名称空间。using语句处理实现IDisposible接口的对象,并在作用域的末尾调用Dispose方法
+* C#中有许多类有Close和Dispose方法.如果常常要关闭资源,就实现这个两个方法.此时Close方法只是调用了Dispose方法。
+##### 实现的 IDisposible接口不一定要实现终结器,终结器会带来额外的开销,它的执行顺序无法被保证
+##### 实现了终结器,就应该实现IDisposible 接口,这样本机资源可以早些是否,而不仅是在GC找出被占用的资源时才释放资源.
+
+#### <a id="UnsafeCode">不安全的代码</a> <a href="#top">置顶 :arrow_up:</a>  
+`C#支持指针,可以用指针访问内存这个用法和C语言一样,但是原则上这是不安全代码 需要加以管理,使用unsafe关键字标记不安全代码`:x:
+
+-----
+```C#
+    //修饰方法
+    unsafe int GetSomeNumber(){
+      int *pWidth,pHeight;
+      double *pResult;
+      //etc
+      
+      double in=&pResult; 
+    }
+    //修饰类
+    unsafe class Deal{
+     
+    }
+    //修饰代码块
+    unsafe{
+    
+    }
+     
+```
+* 编译器拒绝不安全代码,如果有不安全代码需要配置project.json文件 或者其他项目配置文件,将文件中的allowUnsafe设置为true.:large_blue_circle:
+* sizeof() 运算符 确定大小指针返回预先定义的类型大小 比如自定义的类就无法使用
+#### 我们不用指针,要用去C语言去用....所以关于指针的一切 不管
