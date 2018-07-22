@@ -222,7 +222,7 @@ class MyClass
 {  
     static void Main()   
     {  
-        #if DEBUG  
+        #if DEBUG   
             Console.WriteLine("DEBUG is defined");  
         #else  
             Console.WriteLine("DEBUG is not defined");  
