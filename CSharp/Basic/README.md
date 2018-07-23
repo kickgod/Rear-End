@@ -6,10 +6,12 @@
 #### C# 语言基础  `核心C#`
  * [C# 6.0新特性](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CSharpSixNewcharacteristic.md)
  
- * [C# 6.0基础部分](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBefore.md)
+ * [C# 6.0 基础部分](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBefore.md)
  
- * [C# 6.0类的基本结构](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md)
+ * [C# 6.0 类的基本结构](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md)
 
- * [C# 6.0类继承和接口](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassInheritance.md)
+ * [C# 6.0 类继承和接口](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassInheritance.md)
  
- * [C# 6.0托管非托管资源和垃圾回收](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CsharpeMemoryManger.md#StrongAndWeakReference)
+ * [C# 6.0 托管非托管资源和垃圾回收](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CsharpeMemoryManger.md#StrongAndWeakReference)
+
+* [C# 6.0 泛型](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Generic01.md)
