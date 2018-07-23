@@ -11,6 +11,9 @@
 
 - [x] <a href="#GenericInnerface" > 泛型接口</a> :blue_book:
 
+- [x] <a href="#GenericStruct" > 泛型结构</a> :sob:
+
+- [x] <a href="#GenericFunction" > 泛型方法</a> :sweat_drops:
 
 ----
 - [x] `有了泛型可以创建独立于被包含类型的类和方法,我们不必给不同的类型变成功能相同的许多方法和类,只创建一个方法或类;`
@@ -188,3 +191,163 @@ namespace DotnetConsole
 
 #### <a id="GenericInnerface">泛型接口</a> <a href="#top">置顶  :fountain:</a>
 `使用泛型可以定义接口，接口中的泛型方法可以带泛型参数`
+```C#
+  public interface IComparable<in T>{
+     int CompareTo(T other);
+  }
+```
+`C#4.0之前泛型接口是不变的,.NET4.0通过协变抗变,和泛型委托添加了一个重要的扩展,协变和抗变指对参数和返回值的类型进行转换,例如,可以给Father类参数的方法中传递Son吗？下面用实例说明这些扩展的优点。`
+
+* `泛型接口的协变`:`如果泛型类型用out关键字标注,那么泛型接口就是协变的,泛型类型T必须是返回值`
+* `泛型接口的抗变`:`如果泛型类型用in关键字标注,那么泛型接口就是抗变的,泛型类型T只是接受参数,不是返回值`
+
+
+#### <a id="GenericStruct">泛型结构</a> <a href="#top">置顶  :fountain:</a>
+`结构体也可以是泛型的,和泛型类相似,这里介绍一个泛型结构体` **`Nullable<T>`**  `int? 和数据库中的int是可以为null的，为了更好的映射数据库的字段提供这个类型，C#中的int不可以为null`
+```C#
+#region 程序集 System.Runtime, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+// C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\System.Runtime.dll
+#endregion
+
+namespace System
+{
+    //
+    // 摘要:
+    //     Represents a value type that can be assigned null.
+    //
+    // 类型参数:
+    //   T:
+    //     The underlying value type of the System.Nullable`1 generic type.
+    public struct Nullable<T> where T : struct
+    {
+        //
+        // 摘要:
+        //     Initializes a new instance of the System.Nullable`1 structure to the specified
+        //     value.
+        //
+        // 参数:
+        //   value:
+        //     A value type.
+        public Nullable(T value);
+
+        //
+        // 摘要:
+        //     Gets a value indicating whether the current System.Nullable`1 object has a valid
+        //     value of its underlying type.
+        //
+        // 返回结果:
+        //     true if the current System.Nullable`1 object has a value; false if the current
+        //     System.Nullable`1 object has no value.
+        public bool HasValue { get; }
+        //
+        // 摘要:
+        //     Gets the value of the current System.Nullable`1 object if it has been assigned
+        //     a valid underlying value.
+        //
+        // 返回结果:
+        //     The value of the current System.Nullable`1 object if the System.Nullable`1.HasValue
+        //     property is true. An exception is thrown if the System.Nullable`1.HasValue property
+        //     is false.
+        //
+        // 异常:
+        //   T:System.InvalidOperationException:
+        //     The System.Nullable`1.HasValue property is false.
+        public T Value { get; }
+
+        //
+        // 摘要:
+        //     Indicates whether the current System.Nullable`1 object is equal to a specified
+        //     object.
+        //
+        // 参数:
+        //   other:
+        //     An object.
+        //
+        // 返回结果:
+        //     true if the other parameter is equal to the current System.Nullable`1 object;
+        //     otherwise, false. This table describes how equality is defined for the compared
+        //     values: Return Value Description true The System.Nullable`1.HasValue property
+        //     is false, and the other parameter is null. That is, two null values are equal
+        //     by definition. -or- The System.Nullable`1.HasValue property is true, and the
+        //     value returned by the System.Nullable`1.Value property is equal to the other
+        //     parameter. false The System.Nullable`1.HasValue property for the current System.Nullable`1
+        //     structure is true, and the other parameter is null. -or- The System.Nullable`1.HasValue
+        //     property for the current System.Nullable`1 structure is false, and the other
+        //     parameter is not null. -or- The System.Nullable`1.HasValue property for the current
+        //     System.Nullable`1 structure is true, and the value returned by the System.Nullable`1.Value
+        //     property is not equal to the other parameter.
+        public override bool Equals(object other);
+        //
+        // 摘要:
+        //     Retrieves the hash code of the object returned by the System.Nullable`1.Value
+        //     property.
+        //
+        // 返回结果:
+        //     The hash code of the object returned by the System.Nullable`1.Value property
+        //     if the System.Nullable`1.HasValue property is true, or zero if the System.Nullable`1.HasValue
+        //     property is false.
+        public override int GetHashCode();
+        //
+        // 摘要:
+        //     Retrieves the value of the current System.Nullable`1 object, or the object&#39;s
+        //     default value.
+        //
+        // 返回结果:
+        //     The value of the System.Nullable`1.Value property if the System.Nullable`1.HasValue
+        //     property is true; otherwise, the default value of the current System.Nullable`1
+        //     object. The type of the default value is the type argument of the current System.Nullable`1
+        //     object, and the value of the default value consists solely of binary zeroes.
+        public T GetValueOrDefault();
+        //
+        // 摘要:
+        //     Retrieves the value of the current System.Nullable`1 object, or the specified
+        //     default value.
+        //
+        // 参数:
+        //   defaultValue:
+        //     A value to return if the System.Nullable`1.HasValue property is false.
+        //
+        // 返回结果:
+        //     The value of the System.Nullable`1.Value property if the System.Nullable`1.HasValue
+        //     property is true; otherwise, the defaultValue parameter.
+        public T GetValueOrDefault(T defaultValue);
+        //
+        // 摘要:
+        //     Returns the text representation of the value of the current System.Nullable`1
+        //     object.
+        //
+        // 返回结果:
+        //     The text representation of the value of the current System.Nullable`1 object
+        //     if the System.Nullable`1.HasValue property is true, or an empty string (&quot;&quot;)
+        //     if the System.Nullable`1.HasValue property is false.
+        public override string ToString();
+
+        public static implicit operator T? (T value);
+        public static explicit operator T(T? value);
+    }
+}
+```
+
+#### <a id="GenericFunction">泛型方法</a> <a href="#top">置顶  :fountain:</a>
+* `泛型不能直接使用乘除加减方法需要转换到动态类型,跳过静态检查`
+```C#
+     public T Sum<T>(T one, T two)
+     where T : struct, IComparable
+     {
+         dynamic v1 = one;
+         dynamic v2 = two;
+         return (T)(v1+v2);
+     }
+     
+      //求和
+      public static T Sum<T>(params T[] one)
+      where T:struct,IComparable
+      {
+          dynamic sum=default(T);
+          foreach(var val in one){
+              dynamic v1 = val;
+              sum=sum+v1;
+          }
+          return (T)(sum);
+      }
+```
