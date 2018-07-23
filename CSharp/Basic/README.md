@@ -4,7 +4,7 @@
 
 ----
 #### C# 语言基础  `核心C#`
- * [C# 6.0新特性](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CSharpSixNewcharacteristic.md)
+ * [C# 6.0 新特性](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CSharpSixNewcharacteristic.md)
  
  * [C# 6.0 基础部分](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBefore.md)
  
