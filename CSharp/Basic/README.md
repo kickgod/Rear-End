@@ -15,3 +15,5 @@
  * [C# 6.0 托管非托管资源和垃圾回收](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CsharpeMemoryManger.md#StrongAndWeakReference)
 
 * [C# 6.0 泛型](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Generic01.md)
+
+* [C# 6.0 数组元组](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ArrayTuple.md)
