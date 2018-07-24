@@ -274,5 +274,5 @@ Array是一个抽象类,所以不能使用构造函数创建数组需要使用�
     
     var UserInfo=GetInfoByUserID("2016110418");
     var UserInfo2=GetInfoByUserID("201611041");
-    UserInfo.Equals(UserInfo2,(IEqualityComparer)new TupleComparer());
+    UserInfo.Equals(UserInfo2,(IEqualityComparer)new TupleComparer()); //这里报错--错误不明中
 ```
