@@ -18,6 +18,11 @@
 :fast_forward:[`C#类型转换`](https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/conversion-tables),`基本上分为显示和隐式转换
 一般小类型变成大类型要好些`:rewind:
 
+- [x] <a href="#SampleChange"> `普通转换`</a> :white_check_mark:
+
+- [x] <a href="#ChangeDefineByUser"> `用户自定义类型强制转换`</a> :white_check_mark:
+
+- [x] <a href="#QiangzhuanmanyTimes"> `多重类型强制转换`</a> :white_check_mark:
 
 #### <a id="NullOprator">1.1&nbsp;&nbsp; :sailboat: 空合并运算符</a> <a href="#top"> `置顶` :arrow_up:</a>
 **`??`**:`运算符称作 空合并运算符。 如果此运算符的左操作数不为 null，则此运算符将返回左操作数；否则返回右操作数。`
@@ -105,15 +110,12 @@ namespace DotnetConsole
           this.Sex=Sex;
           this.UserId=Id;
       }
-
-
       public static Boolean operator ==(Person one,Person two){
           return one.Equals(two);
       }
       public static Boolean operator !=(Person one,Person two){
           return !one.Equals(two);
       }
-
       public String UserName{get;set;}
     
       public int Age{get;set;}
@@ -125,11 +127,9 @@ namespace DotnetConsole
       public override String ToString(){
          return $"Name: {this.UserName} Age:{this.Age} 用户ID:{this.UserId} ";
       }
-
       public virtual int Wang(int a){
           return a*a;
       }
-
       public override Boolean Equals(object obj){
           Person one=obj as Person;
           if(one==null){
@@ -144,10 +144,8 @@ namespace DotnetConsole
                     return false;
                 }
           }
-
       }
   }
-
 }
 ```
 `结构体重载`
@@ -165,46 +163,160 @@ namespace DotnetConsole
          public double x;
          public double y;
          public double z;
-
          public Vector(double x,double y,double z){
              this.x=x;
              this.y=y;
              this.z=z;
          }    
-
         public static Vector operator + (Vector left,Vector right){
             Vector nv=new Vector(left.x+right.x,left.y+right.y,left.z+right.z);
             return nv;
         }
-
         public static Vector operator - (Vector left,Vector right){
             Vector nv=new Vector(left.x-right.x,left.y-right.y,left.z-right.z);
             return nv;
         }
-
         public override String ToString(){
             return $"(x,y,z):({x},{y},{z})";
         }
     }
 }
-
       Vector v1=new Vector(1,2,3.0);
       Vector v2=new Vector(4,1,2);
       Vector v3=v1+v2;
       Vector v4=v1-v2;
-
       WriteLine(v3); //(x,y,z):(5,3,5)
       WriteLine(v4); //(x,y,z):(-3,1,1)
           
 ```
+##### [可以重载的运算符](https://docs.microsoft.com/zh-cn/dotnet/csharp/programming-guide/statements-expressions-operators/overloadable-operators)
 
+|运算符|可重载性|
+|:----|:------|
+|+、-、!、~、++、--、true、false|	`这些一元运算符可以进行重载。`|
+|+, -, \*, /, %, &, |, ^, <<, >> |	`这些二元运算符可以进行重载。`|
+|==, !=, <, >, <=, >=	|比较运算符可以进行重载（但是请参阅此表后面的备注）。|
+|&&, \|\|	|条件逻辑运算符无法进行重载，但是它们使用 & 和 |（可以进行重载）来计算。|
+|[]	|数组索引运算符无法进行重载，但是可以定义索引器。|
+|(T)x	|强制转换运算符无法进行重载，但是可以定义新转换运算符（请参阅 explicit 和 implicit）。|
+|+=, -=, \*=, /=, %=, &=, |=, ^=, <<=, >>= |	赋值运算符无法进行重载，但是 +=（举例）使用 +（可以进行重载）来计算。|
+|=、.、?:、??、->、=>、f(x)、as、checked、unchecked、default、delegate、is、new、sizeof、typeof|	这些运算符无法进行重载。|
 
+----
 
+#### <a id="SampleChange">2.1&nbsp;&nbsp; 	:closed_umbrella: 普通转换</a> <a href="#top"> `置顶` :arrow_up:</a>
 
+* `1.辅助类`:`Convert 提供多种转换方式 用于值类型` 
+* `2.运算符`:`as 运算符转换不成功不报错,直接返回null 但是只能用于引用类型`
+```C#
+  //1. 普通转换
+  int i =3;
+  long j=i;  //隐式转换
+  short s=(short)i;  //显示强制类型转换
+  
+  //辅助类帮助转换 值类型
+  DateTime no=Convert.ToDateTime("2018/5/6"); 
+  
+  //辅助运算符帮助转换 引用类型
+  Student st=new Student("Wang",12,"2016110418",true);
+  Person on=st as Person;
+  Console.WriteLine(on.ToString());
+```
+#### <a id="ChangeDefineByUser">2.1&nbsp;&nbsp; :closed_umbrella: 用户自定义类型强制转换</a> <a href="#top"> `置顶` :arrow_up:</a>
+`用户自定义类型转换比如讲二维坐标转换为三维坐标，各个类之间的转换接口,这里面有两个关键字`
+ 
+ * `实现用户自定义隐式转换--implicit` :`关键字用于声明隐式的用户定义类型转换运算符`
 
+ ```C#
+ class Digit
+{
+    public Digit(double d) { val = d; }
+    public double val;
+    // 实现
+    public static implicit operator double(Digit d)
+    {
+        return d.val;
+    }
+    public static implicit operator Digit(double d)
+    {
+        return new Digit(d);
+    }
+}
+class Program
+{
+    static void Main(string[] args)
+    {
+        Digit dig = new Digit(7);
+        double num = dig;
+        Digit dig2 = 12;
+        Console.WriteLine("num = {0} dig2 = {1}", num, dig2.val);
+        Console.ReadLine();
+    }
+}
+```
+* `实现用户自定义显式转换--explicit` :`关键字用于声明隐式的用户定义类型转换运算符`
+```C#
+class Celsius
+{
+    public Celsius(float temp)
+    {
+        degrees = temp;
+    }
+    public static explicit operator Fahrenheit(Celsius c)
+    {
+        return new Fahrenheit((9.0f / 5.0f) * c.degrees + 32);
+    }
+    public float Degrees
+    {
+        get { return degrees; }
+    }
+    private float degrees;
+}
 
+class Fahrenheit
+{
+    public Fahrenheit(float temp)
+    {
+        degrees = temp;
+    }
+    public static explicit operator Celsius(Fahrenheit fahr)
+    {
+        return new Celsius((5.0f / 9.0f) * (fahr.degrees - 32));
+    }
+    public float Degrees
+    {
+        get { return degrees; }
+    }
+    private float degrees;
+}
 
+class MainClass
+{
+    static void Main()
+    {
+        Fahrenheit fahr = new Fahrenheit(100.0f);
+        
+        Console.Write("{0} Fahrenheit", fahr.Degrees);
+        Celsius c = (Celsius)fahr;
 
+        Console.Write(" = {0} Celsius", c.Degrees);
+        
+        Fahrenheit fahr2 = (Fahrenheit)c;
+        
+        Console.WriteLine(" = {0} Fahrenheit", fahr2.Degrees);
+    }
+}
+```
+##### 基类不能转换成派生类,及时要转换需要使用 explicit 或者  implicit
+##### 派生类可以转换为基类,因为这个基类有的，派生类都有
 
+#### <a id="QiangzhuanmanyTimes">2.1&nbsp;&nbsp; :closed_umbrella: 多重类型强制转换</a> <a href="#top"> `置顶` :arrow_up:</a>
+`如果要进行要求的数据类型转换时没有游泳的直接强制转换方式,C#编译器就会寻找一种转换方式,把几种强制转换合并起来例如:`
 
-
+```C#
+ var balance=new Currency(10,50);
+ long amount=(long)(float)balance;
+ double amountD=(double)(float)balance; 
+ //有时候如果不写明转换路径 就会发生编译器自动寻找转换路径,导致信息缺陷
+ //balance 只定义了转换为float
+```
