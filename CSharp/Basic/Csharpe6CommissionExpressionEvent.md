@@ -11,10 +11,17 @@
 - [x] <a href="#delegateProduct">`声明委托 `</a>:sailboat:
 - [x] <a href="#UserdelegateProduct">`使用委托 `</a>:sailboat:
 - [x] <a href="#SystemDefinedelegateProduct">`系统预定义委托 `</a>:sailboat:
+- [x] <a href="#MulticastCommission">`多播委托 `</a> :sailboat:
+- [x] <a href="#AnonymousFunction">`匿名方法`</a> :sailboat:
 -----
-
+#### [`Lambda 表达式`](https://docs.microsoft.com/zh-cn/dotnet/csharp/lambda-expressions)
+:fast_forward:`Lambda 表达式是作为对象处理的代码块（表达式或语句块）。 它可作为参数传递给方法，也可通过方法调用返回。 Lambda 表达式广泛用于：`:rewind:
+* 将要执行的代码传递给异步方法，例如 Run(Action)。
+* 编写 LINQ 查询表达式。
+* 创建[表达式树](https://docs.microsoft.com/zh-cn/dotnet/csharp/expression-trees-building)。
+* `Lambda 表达式使用 lambda 声明运算符 => `
 #### <a id="delegateProduct">1.1&nbsp;&nbsp;  `声明委托` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
-`要点`:`声明关键字 :delegate` </br>
+`要点`:`声明关键字 :delegate 编译器在你使用 delegate 关键字时生成的代码会映射到调用 Delegate 和 MulticastDelegate 类的成员的方法调用。` </br>
 `要点`:`写出返回类型,参数类型与个数` </br>
 ```C#
   
@@ -36,8 +43,9 @@
 `要点`:`委托可以引用任何的静态或者实例方法,只要与委托的方法签名匹配` </br>
 ```C#
     int x=40;
-    DelegateGetString worker=new DelegateGetString(x.ToString);
-    WriteLine($"委托执行: {worker()}");
+    DelegateGetString worker=new DelegateGetString(x.ToString); 
+    //DelegateGetString worker=x.ToString; //也可以
+    WriteLine($"委托执行: {worker()}"); //理解这里为什么 输出的 结果还是40
     
     IntMethodInvoker inv=new IntMethodInvoker(val=>WriteLine($"input:{val}"));
     inv(10);
@@ -67,7 +75,7 @@
 `系统定义了两个委托类型` **`Action` `Func`**
 
 #####  **`Action`**
-`只有动作没有返回值,返回值为void,只处理不返回 参数抗变 总共可以定义八个参数`
+`只有动作没有返回值,返回值为void,只处理不返回 参数抗变  委托的变体可包含多达 16 个参数`
 * `Action<in T1>(T1 val)`
 * `Action<in T1,in T2>(T1 val1,T2,,val2)`
 * `Action<in T1,in T2,in T3>(T1 val1,T2,,val2,T3 val3)`
@@ -100,3 +108,95 @@
         
         FunctionUsing( (Double val)=> {return val.ToString();});
 ```
+#### <a id="MulticastCommission">1.4&nbsp;&nbsp;  `多播委托` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`前面每个委托都只包含一个方法,所以调用委托多少次与调用方法的次数相同.如果要调用多个方法,就需要多次显示调用这个委托,但是委托可以包含多个方法.这种委托被称为多播委托,如果调用多播委托,就可以按照顺序调用多个方法`,**`为此委托的签名就必须返回void,否则就只能的到最后一个方法的结果`**
+
+##### 多播委托可以识别运算符 `+` `+=` 还识别运算符 `-`和`-=`
+`为了显示存储多个方法所以实例化一个委托数组`
+```C#
+    static void Main(string[] args)
+    {
+        Action<Double> Multicast=Arth;
+        Multicast+=GetResult;
+        Multicast+=SetValue;
+        Multicast.Invoke(20);
+
+        Action<Double> Multi1=Arth;
+        Action<Double> Multi2=GetResult;
+
+        Action<Double> Multi3=Multi1+Multi2;
+        Multi3.Invoke(30);
+
+        Multi3-=Arth;
+        Multi3.Invoke(30);
+        /*
+        Arth Function： 20
+        GetResult Function： 40
+        SetValue Function： 400
+        Arth Function： 30
+        GetResult Function： 50
+        GetResult Function： 50
+        */
+    }
+
+    public static void Arth(Double val){
+        Console.WriteLine($"Arth Function： {val}");
+    }   
+
+    public static void GetResult(Double val){
+        Console.WriteLine($"GetResult Function： {val+20}");
+    }    
+
+
+    public static void SetValue(Double val){
+        Console.WriteLine($"SetValue Function： {val*val}");
+    }    
+}
+```
+##### 多播委托的问题
+* `多播委托不适合按照顺序执行的多个方法一起执行`
+* `通过一个委托调用多个方法还可以导致一个更加严重的问题.多播委托包含一个逐个调用的委托集合,但是当一个委托抛出异常,整个迭代执行就会停止`
+
+#### <a id="AnonymousFunction">1.5&nbsp;&nbsp;  `匿名方法` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`C#一切代码都包含在类里面,这里未免有些麻烦,如何定义脱离类的方法,这里就要用到匿名方法 和 lambda表达式,这里介绍匿名类型`
+
+* 使用 `delegate(参数)` 声明 可以用返回值
+* `C# 3.0` 之后开始 使用`lambda表达式`
+```C#
+    Func<Double,Double> Multicast=delegate(double val){
+            Console.WriteLine($"匿名方法有返回值: {val}");
+            return val*10;
+    };
+    Action<Double> action=delegate(double val){
+            Console.WriteLine($"匿名方法无返回参数: {val*10}");
+    };
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
