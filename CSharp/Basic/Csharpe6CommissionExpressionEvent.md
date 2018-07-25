@@ -30,6 +30,12 @@
 #### [`事件`](https://docs.microsoft.com/zh-cn/dotnet/csharp/events-overview)
 :fast_forward:`和委托类似，事件是后期绑定机制。 实际上，事件是建立在对委托的语言支持之上的。事件是对象用于（向系统中的所有相关组件）广播已发生事情的一种方式。 任何其他组件都可以订阅事件，并在事件引发时得到通知。例如:鼠标移动、按钮点击和类似的交互通过订阅事件，还可在两个对象（事件源和事件接收器）之间创建耦合。 需要确保当不再对事件感兴趣时，事件接收器将从事件源取消订阅。`:rewind:
 
+- [x] <a href="#EventIntroduce">`事件概念`</a> :sailboat:
+* `事件是基于委托的,为委托提供一种发布/订阅机制`
+* `作为约定事件一般带有两个参数,其中第一个参数是一个对象,包含事件的发送者,第二参数提供了事件的相关信息,第二个参数随着事件的不同而改变`
+* `.NET 1.0为不同事件定义了数百个委托`
+
+
 #### <a id="delegateProduct">1.1&nbsp;&nbsp;  `声明委托` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `要点`:`声明关键字 :delegate 编译器在你使用 delegate 关键字时生成的代码会映射到调用 Delegate 和 MulticastDelegate 类的成员的方法调用。` </br>
 `要点`:`写出返回类型,参数类型与个数` </br>
@@ -50,7 +56,8 @@
 #### <a id="UserdelegateProduct">1.2&nbsp;&nbsp;  `使用委托` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `要点`:`委托的构造函数总是接受一个方法` </br>
 `要点`:`委托调用方法的方式`:`委托对象名(参数)`,`委托对象名.invoke(参数)` </br>
-`要点`:`委托可以引用任何的静态或者实例方法,只要与委托的方法签名匹配` </br>
+`要点`:`委托可以引用任何的静态或者实例方法,只要与委托的方法签名匹配`  ** 但是所引用的任何方法的执行环境都在方法所属环境中 **</br>
+
 ```C#
     int x=40;
     DelegateGetString worker=new DelegateGetString(x.ToString); 
@@ -285,17 +292,159 @@ public class Example
 
 * `如果跳转语句的目标在块外部，则 lambda 表达式不能包含位于 lambda 函数内部的 goto 语句、 break 语句或 continue 语句。 同样，如果目标在块内部，则在 lambda 函数块外部使用跳转语句也是错误的。`
 
+#### <a id="EventIntroduce">3.1&nbsp;&nbsp;  `事件概念` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
+* `事件是基于委托的,为委托提供一种发布/订阅机制`
+* `作为约定事件一般带有两个参数,其中第一个参数是一个对象,包含事件的发送者,第二参数提供了事件的相关信息,第二个参数随着事件的不同而改变`
+* `.NET 1.0为不同事件定义了数百个委托 但是有了EventHandler<T> 就不需要这些委托了`
+```C#
+    自定义委托事件
+    public delegate void ProcessEvent(object sender,EventArgs e);
 
+    public event ProcessEvent info;
+```
+* `EventHandler<TEventArgs> 委托 定义了一个处理程序,它返回void 接受两个参数 第一个参数必须是Object类型,第二个参数是T类型 但是必须派生自基类EventArgs; 可以由用户自己定义 说明事件的类型,存储事件信息,是一个类,是类就可以有方法,有字段有属性`
 
+```C#
+    public delegate void EventHandler<TEventArgs>(object sender,TEventAgrs e)
+    where TEventAgrs:EventArgs;
+```
+* `定义使用 event 关键字的事件：`
 
+#### `读者-书店-新书 事件模拟`
 
+**`定义事件类型和信息:`**
+```C#
+using System;
+using System.Text;
 
+namespace DotnetConsole
+{
+    /** 定义事件类型: 通知事件 出现了新书 */
+    public class NewBookEventArgs:EventArgs
+    {
+        //新书的信息 记录:新书的名称,索引号 
+        public string NewBookName{get;set;}
+        public string NewBookId{get;set;}
 
+        //说明一下 这是新书通知的事件    
+        public readonly String bookType = "NewBook";    
 
+        public NewBookEventArgs(String BookName,String BookId){
+            this.NewBookName=BookName;
+            this.NewBookId=BookId;
+        }
+    }
+}
+```
+**`定义书店:`**
 
+```C#
+using System;
+using System.Text;
 
+namespace DotnetConsole
+{
+    //这里是书店 发送新书的信息
+    public class BookStore
+    {   
 
+        public  String BookStoreNmae;
+
+        public BookStore(String name){
+            this.BookStoreNmae=name;
+            Console.WriteLine($"{name} 开店啦");
+             Console.WriteLine();
+        }
+
+        // 定义一个新书到了的事件 
+        public event EventHandler<NewBookEventArgs> NewBookReach; 
+
+        public void getNewBook(string name,string id){
+            Console.WriteLine("-----------------------------------------------------------------------------");
+            Console.WriteLine("新书通知:");
+            Console.WriteLine($"{DateTime.Now.ToLongDateString()} 新书到店 新书名称:{name},索引号:{id}");
+            Console.WriteLine("-----------------------------------------------------------------------------");
+            Console.WriteLine();
+            // 判断一下 有没有人注册了这个事件,如果没有的话 就不执行了
+            NewBookReach?.Invoke(this,new NewBookEventArgs(name,id));
+        }
+        
+    }
+}
+```
+**`定义读者:`**
+
+```C#
+using System;
+using System.Text;
+namespace DotnetConsole
+{
+    //定义 读者 
+    public class Reader
+    {
+        //读者信息
+        public string ReaderName{get;set;}
+        public string ReaderID{get;set;}
+        public int ReaderAge{get;set;}
+        public double ReaderAccount{get;set;}
+
+        public Reader(String name,string id,int age,double money){
+            this.ReaderName=name;
+            this.ReaderAge=age;
+            this.ReaderID=id;
+            this.ReaderAccount=money;
+        }
+        // 新书的通知 用于订阅新书通知
+        public void NewBookNotice(object sender,NewBookEventArgs e){
+            BookStore sto=sender as BookStore;
+            Console.WriteLine($"--{this.ReaderName}--读者收到短信");
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine($"|亲爱的{this.ReaderName}读者 {sto.BookStoreNmae} 有新书啦! ");
+            Console.WriteLine("|书名                     索引号       ");
+            Console.WriteLine($"|{e.NewBookName}         {e.NewBookId}");
+            Console.WriteLine("---------------------------------------------------------------");
+            Console.WriteLine();
+        }
+
+    }
+}
+```
+**`开店运营:`**
+```C#
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Collections;
+
+namespace DotnetConsole
+{
+    using static System.Console;
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // 开始运营这个书店
+            BookStore store=new BookStore("天王盖地虎OJBK书店");
+            // 进驻读者
+            Reader JxReader=new Reader("蒋星","20180112119",18,9999.5);
+            //读者订阅新书进店通知
+            store.NewBookReach +=JxReader.NewBookNotice;  //订阅事件 关注新书通知
+
+            store.getNewBook("C# 高级教程  全新版","20180562-33101");
+
+            Reader LZMReader=new Reader("李志明","20180112119",18,9999.5);
+            store.NewBookReach+=LZMReader.NewBookNotice; //李志明也选择 关注新书
+
+            store.getNewBook("JavaScript 高级教程","20180562-33101");
+        }
+    }
+}
+
+```
+* `.NET 事件委托的标准签名是`:`void OnEventRaised(object sender, EventArgs args);`
+* `弱事件,一个事件引用非常的类包括订阅者,发布订阅通知类,事件本事,所有会形成强引用,导致垃圾回收机制不嫩恶搞很好的清空内存,所以可以考虑使用弱事件`
+* `但是这个不讲 因为我没看过.....`
 
 
 
