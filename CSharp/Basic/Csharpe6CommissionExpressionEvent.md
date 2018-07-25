@@ -20,6 +20,16 @@
 * 编写 LINQ 查询表达式。
 * 创建[表达式树](https://docs.microsoft.com/zh-cn/dotnet/csharp/expression-trees-building)。
 * `Lambda 表达式使用 lambda 声明运算符 => `
+* `Lambda 表达式使用类型推理`
+
+
+- [x] <a href="#lambdaparameter">`lambda 参数 `</a> :sailboat:
+- [x] <a href="#asyncLmabda"> `异步 lambda`</a> :sailboat:
+- [x] <a href="#patattiontoLmabda"> `注意事项 `</a> :sailboat:
+
+#### [`事件`](https://docs.microsoft.com/zh-cn/dotnet/csharp/events-overview)
+:fast_forward:`和委托类似，事件是后期绑定机制。 实际上，事件是建立在对委托的语言支持之上的。事件是对象用于（向系统中的所有相关组件）广播已发生事情的一种方式。 任何其他组件都可以订阅事件，并在事件引发时得到通知。例如:鼠标移动、按钮点击和类似的交互通过订阅事件，还可在两个对象（事件源和事件接收器）之间创建耦合。 需要确保当不再对事件感兴趣时，事件接收器将从事件源取消订阅。`:rewind:
+
 #### <a id="delegateProduct">1.1&nbsp;&nbsp;  `声明委托` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `要点`:`声明关键字 :delegate 编译器在你使用 delegate 关键字时生成的代码会映射到调用 Delegate 和 MulticastDelegate 类的成员的方法调用。` </br>
 `要点`:`写出返回类型,参数类型与个数` </br>
@@ -171,19 +181,109 @@
             Console.WriteLine($"匿名方法无返回参数: {val*10}");
     };
 ```
+#### <a id="lambdaparameter">2.1&nbsp;&nbsp;  `lambda 参数` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
+##### 无参数lambda表达式
+`无参数的lambda表达式必须要加括号做分割作用`
+```C#
+    public delegate void ShowInfomation();
+    static void Main(string[] args)
+    {
+         ShowInfomation info= ()=> WriteLine("没有参数的表达式"); 
+    }
+    info();
+```
+##### () {} 大括号
+* 无参数的lambda表达式必须加上() 
+* 如果参数有参数类型说明必须加()
+* 参数个数大于1时必须加上()
+* 如果返回使用了return 必须加上{}包裹代码
+* 如果代码超过一行使用 {}包裹代码
+```C#
+ ShowInfomation info= ()=> WriteLine("没有参数的表达式");  //没有返回值
+ 
+ Func<Double,Double,Double> fsum=(valt,vals)=> vals+valt;
+ 
+ Func<Double,Double,Double> fsums=(Double valt,Double vals)=> vals+valt; //自动推断出返回值 和返回类型
+ 
+ Func<Double,Double,Double> fsum=(valt,vals)=>{
+    vals+=10;
+    valt=vals+valt;
+    return vals+valt;
+ }; 
+```
+##### 返回值
+`lambda 如果处理数据极其简单的话可以不加return 语句实现返回`
+```C#
+  Func<Person,String> function = val=> val.ToString();
+ 
+ // 编译器自动把 val.ToString() 的结果作为返回值
+ // 如果加上 return 就必须加上大括号,因为这样语句不止一条
+```
+##### 一个或者多个参数的时候
+* `一个参数的时候 可以加括号,也可以不加括号`
+* `如果有参数类型说明的话必须加上括号,lambda表达式可以不需要参数说明,编译器会更具委托类型自动推断出参数的类型`
 
+**`Func<Person,String> function =(Person val)=>val.ToString();`**
+```C#
+    Func<Person,String> function = val=>val.ToString();  
+    useFun(new Person("WangliJun",18,"2016110418",false), val=> val.ToString());
+    
+    public static string useFun(Person son,Func<Person,String> function)
+    {
+           return function.Invoke(son);
+    }
+```
 
+`将lambda表达式作为参数`
+```C#
+    static void Main(string[] args)
+    {
+        ShowValue(x=>x*x);
+    }
+    private static void ShowValue(Func<int,int> op)
+    {
+        for (int ctr = 1; ctr <= 5; ctr++)
+            Console.WriteLine("{0} x {0} = {1}",ctr,op(ctr));
+    }
+```
+#### <a id="asyncLmabda">2.2&nbsp;&nbsp;  `异步 lambda` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+通过使用 [async](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/async) 和 [await](https://docs.microsoft.com/zh-cn/dotnet/csharp/language-reference/keywords/await) 关键字，可以轻松创建包含异步处理的 Lambda 表达式和语句。 例如，本示例调用异步执行的 ShowSquares 方法
+```C#
+using System;
+using System.Threading.Tasks;
 
+public class Example
+{
+   public static void Main()
+   {
+      Begin().Wait();
+   }
 
+   private static async Task Begin()
+   {
+      for (int ctr = 2; ctr <= 5; ctr++) {
+         var result = await ShowSquares(ctr);
+         Console.WriteLine("{0} * {0} = {1}", ctr, result);
+      }
+   }
 
+   private static async Task<int>  ShowSquares(int number)
+   {
+         return await Task.Factory.StartNew( x => (int)x * (int)x, number);
+   } 
+}
+```
+#### <a id="patattiontoLmabda">2.3&nbsp;&nbsp;  `注意事项` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+* `捕获的变量将不会被作为垃圾回收，直至引用变量的委托符合垃圾回收的条件。`
 
+* `在外部方法中看不到 lambda 表达式内引入的变量。`
 
+* `Lambda 表达式无法从封闭方法中直接捕获 in、ref 或 out 参数。`
 
+* `Lambda 表达式中的返回语句不会导致封闭方法返回。`
 
-
-
-
+* `如果跳转语句的目标在块外部，则 lambda 表达式不能包含位于 lambda 函数内部的 goto 语句、 break 语句或 continue 语句。 同样，如果目标在块内部，则在 lambda 函数块外部使用跳转语句也是错误的。`
 
 
 
