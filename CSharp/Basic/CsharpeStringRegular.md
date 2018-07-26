@@ -22,15 +22,16 @@
 
 - [x] <a href="#StanderedFormattableString">`标准字符串方法格式字符串`</a>
 
-- [x] <a href="#StanderedSample">`正则表达式小例子`</a>
+
 
 ### [正则表达式](https://docs.microsoft.com/zh-cn/search/index?search=%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96&scope=.NET)
 `正则表达式作为小型技术领域的一部分,有这难以置信的作用,被非常多的语言支持,已经成为不可缺失的一部分 System.Text.RegularExpressions提供了C#语言对于正则表达式支持的许多类.完成各项功能`
 
-
-
 - [`菜鸟教程正则表达式`](http://www.runoob.com/regexp/regexp-tutorial.html)
 
+- [x] <a href="#StanderedSample">`正则表达式小例子`</a>
+
+- [x] <a href="#PipeiGroupCapture">`匹配 组合捕获`</a>
 
 ------
 #### <a id="StringClass">1.1&nbsp;&nbsp;  `System.String` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
@@ -202,7 +203,7 @@ xx 是称为“精度说明符”的可选整数。 精度说明符的范围从 
       // Displays 12345
       Console.WriteLine(value.ToString("D8"));
       // Displays 00012345
-
+      //错误用法: $"位置索引:{val.ToString("D3")} 匹配值: {match.Value}"  $里面不支持这个
       value = -12345;
       Console.WriteLine(value.ToString("D"));
       // Displays -12345
@@ -264,5 +265,181 @@ xx 是称为“精度说明符”的可选整数。 精度说明符的范围从 
 
 * [`标准日期和时间格式字符串`](https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/standard-date-and-time-format-strings)
 
-#### <a id="StanderedSample">2.2&nbsp;&nbsp;  `正则表达式小例子` </a> :closed_umbrella: <a href="#top"> `置顶` 
+#### <a id="StanderedSample">2.2&nbsp;&nbsp;  `正则表达式小例子` </a> :closed_umbrella: <a href="#top"> `置顶`  </a>
  
+正则表达式命名空间: [`using System.Text.RegularExpressions`](https://msdn.microsoft.com/zh-cn/library/system.text.regularexpressions(v=vs.110).aspx)
+##### 匹配以p开头以ed结尾的单词
+```C#
+        static void Main(string[] args)
+        {
+            const String input=@"ped On April 18, 2002, he participated in the same song and walked into Pudong, 
+            Shanghai,
+            and sang the song ""Five 
+            hundred years to the sky"" [11]. On October 18th, he participated in the opening ceremony of 
+            the 11th China Golden Rooster and Hundred Flowers Film Festival and sang the song ""Five hund
+            red years to the sky"" [12]. In the same year, he also partipated in the opening ceremony and 
+            closing ceremony of the Hunan Golden Eagle Festival TV Awards Gala [13]. In 2003, he participated in th
+            e third anniversary of CCTV's ""Same Song"". On September 25th, he participated in the opening ceremony of
+             the first International Dongba Culture and Art Festival in Lijiang, China,
+              and sang the song ""Nasi Girl"". On October 26th, he participated in the opening ceremony of the 18th
+              World Hakkas, and sang the song
+             ""The Solid Man"", and co-song the song ""My Chinese Heart"" with Sun Nan, Tian Zhen, Wu Hao and so on. [14]
+              On November
+              1st, paicipaed in the opening ceremony of the 12th China Golden Rooster and Hundred Flowers Film Festival.";    
+            // 匹配模式
+            const string pattern= @"\bp[a-zA-Z]*ed\b";
+            // MatchCollection 匹配结果集 
+            
+            var rel=mathces.Count==0? "失败":"成功";
+            WriteLine($"  匹配结果:{rel}");
+            
+            MatchCollection mathces=Regex.Matches(input,pattern,RegexOptions.IgnoreCase|RegexOptions.ExplicitCapture);
+            // 每一个匹配结果 Value 匹配到的结果 Index表示 匹配结果在 文本中的位置索引
+            foreach(Match nextMatch in mathces){
+                WriteLine($"匹配值: {nextMatch.Value} 位置索引:{nextMatch.Index}");
+            }    
+        }
+        
+        /*匹配值: ped 位置索引:0
+          匹配值: participated 位置索引:26
+          匹配值: participated 位置索引:180
+          匹配值: partipated 位置索引:394
+          匹配值: participated 位置索引:532
+          匹配值: participated 位置索引:629
+          匹配值: participated 位置索引:824
+          匹配值: paicipaed 位置索引:1056*/
+```
+
+##### Regex.Matches(text,pattern,RegexOptions.value| RegexOptions.value2) 方法
+* `第一个参数: 待匹配文本`
+* `第二个参数: 匹配模式,正则表达式`
+* `第三个参数`:`匹配选项: RegexOptions 枚举类,选择是否忽略大小写,是否多行匹配,修改收集匹配的方式,方法是确保把显示置顶的匹配作为有效的搜索结果`
+
+|RegexOptions 枚举值|说明|
+|:----|:-----|
+|ECMAScript|	为表达式启用符合 ECMAScript 的行为。 可以使用此值仅在结合 IgnoreCase, ，Multiline, ，和 Compiled 值。 该值与其他任何值一起使用均将导致异常。|
+|ExplicitCapture| 指定唯一有效的捕获是显式命名或编号的 (?<name>…) 形式的组。 这使未命名的圆括号可以充当非捕获组，并且不会使表达式的语法 (?:...) 显得笨拙。|
+|IgnoreCase|	指定不区分大小写的匹配| 
+|Multiline|多行模式。 更改 ^ 和 $ 的含义，使它们分别在任意一行的行首和行尾匹配，而不仅仅在整个字符串的开头和结尾匹配。|
+|Singleline|指定单行模式。 更改点 （.） 的含义 使其匹配 （而不是除 \n 之外的所有字符） 的每个字符。|
+|	RightToLeft|	指定搜索从右向左而不是从左向右进行。 |
+
+##### FindValue 方法 查找是否匹配
+```C#
+      public static bool FindValue(String text,String Pattern,Boolean isIgnoreCase){
+          try{
+            if(isIgnoreCase){
+                MatchCollection mathces=Regex.Matches(text,Pattern,RegexOptions.IgnoreCase|RegexOptions.Multiline);
+                return mathces.Count> 0;
+            }else{
+                MatchCollection mathces=Regex.Matches(text,Pattern,RegexOptions.Multiline);
+                 return mathces.Count> 0;
+            }  
+          }catch(Exception ex){
+              throw ex;
+          }
+      }   
+```
+#### <a id="PipeiGroupCapture">2.2&nbsp;&nbsp;  `匹配 组合捕获` </a> :closed_umbrella: <a href="#top"> `置顶` </a>
+`匹配URl 链接`
+```C#
+       const String input="  https://www.sicnu.normal.sd.asd:8080 https://www.sicnu.normal.sd.asd:808880 http://www.baidu.com ttps://www.sicnu.normal.sd.asd:8080";
+
+        String pattern=@"\b(http[s]?)(\:\/\/)(([\w]+\.)+[\w]+)([\s:]([\d]{2,5})?)?\b";
+        var regular=new Regex(pattern);
+        bool isOK=regular.IsMatch(input);
+        WriteLine($"是否匹配到了:{isOK}");
+        MatchCollection Matches=regular.Matches(input);
+        foreach(Match match in Matches){
+             WriteLine("位置索引:"+match.Index.ToString("D3") +$" 匹配值: {match.Value}");
+            foreach(Group g in match.Groups){
+                if(g.Success){
+                    WriteLine($"Group index: {g.Index},value: {g.Value}");
+                }
+            }
+            WriteLine();
+        }   
+ /* 结果:
+        是否匹配到了:True
+        位置索引:002 匹配值: https://www.sicnu.normal.sd.asd:8080
+        Group index: 2,value: https://www.sicnu.normal.sd.asd:8080
+        Group index: 2,value: https
+        Group index: 7,value: ://
+        Group index: 10,value: www.sicnu.normal.sd.asd
+        Group index: 27,value: sd.
+        Group index: 33,value: :8080
+        Group index: 34,value: 8080
+
+        位置索引:039 匹配值: https://www.sicnu.normal.sd.asd:
+        Group index: 39,value: https://www.sicnu.normal.sd.asd:
+        Group index: 39,value: https
+        Group index: 44,value: ://
+        Group index: 47,value: www.sicnu.normal.sd.asd
+        Group index: 64,value: sd.
+        Group index: 70,value: :
+
+        位置索引:078 匹配值: http://www.baidu.com
+        Group index: 78,value: http://www.baidu.com
+        Group index: 78,value: http
+        Group index: 82,value: ://
+        Group index: 85,value: www.baidu.com
+        Group index: 89,value: baidu.
+        Group index: 98,value:
+    */
+``` 
+##### RegexOptions.ExplicitCapture的影响 可以加快匹配速度 通过减少分组
+```C#
+        const String input="  https://www.sicnu.normal.sd.asd:8080 https://www.sicnu.normal.sd.asd:808880 http://www.baidu.com ttps://www.sicnu.normal.sd.asd:8080";
+
+        String pattern=@"\b(http[s]?)(\:\/\/)(([\w]+\.)+[\w]+)([\s:]([\d]{2,5})?)?\b";
+        var regular=new Regex(pattern,RegexOptions.ExplicitCapture);
+        //  Regex构造函数
+        //  Regex() 
+        //  Regex(String pattern)
+        //  Regex(String pattern, RegexOptions)	 新实例初始化 Regex 为指定的正则表达式，用修改模式的选项。
+        bool isOK=regular.IsMatch(input);
+        WriteLine($"是否匹配到了:{isOK}");
+        MatchCollection Matches=regular.Matches(input);
+        foreach(Match match in Matches){
+             WriteLine("位置索引:"+match.Index.ToString("D3") +$" 匹配值: {match.Value}");
+            foreach(Group g in match.Groups){
+                if(g.Success){
+                    WriteLine($"Group index: {g.Index},value: {g.Value}");
+                }
+            }
+            WriteLine();
+        }  
+        /*
+        是否匹配到了:True
+        位置索引:002 匹配值: https://www.sicnu.normal.sd.asd:8080
+        Group index: 2,value: https://www.sicnu.normal.sd.asd:8080
+
+        位置索引:039 匹配值: https://www.sicnu.normal.sd.asd:
+        Group index: 39,value: https://www.sicnu.normal.sd.asd:
+
+        位置索引:078 匹配值: http://www.baidu.com
+        Group index: 78,value: http://www.baidu.com
+        
+        */
+```
+##### 替换Replace
+```C#
+        const String input="  https://www.sicnu.normal.sd.asd:8080 https://www.sicnu.normal.sd.asd:808880 http://www.baidu.com ttps://www.sicnu.normal.sd.asd:8080";
+
+        String pattern=@"\b(http[s]?)(\:\/\/)(([\w]+\.)+[\w]+)([\s:]([0-9]{2,4}))?\b";
+        var regular=new Regex(pattern,RegexOptions.ExplicitCapture);
+        bool isOK=regular.IsMatch(input);
+        WriteLine($"是否匹配到了:{isOK}");
+        String replaceResult=regular.Replace(input,"匹配到的合格的URL网址");
+        WriteLine(replaceResult);
+        
+        // 输出:是否匹配到了:True
+                匹配到的合格的URL网址 匹配到的合格的URL网址:808880 匹配到的合格的URL网址 ttps://www.sicnu.normal.sd.asd:8080
+```
+
+##### [Regex](https://msdn.microsoft.com/zh-cn/library/system.text.regularexpressions.regex(v=vs.110).aspx) 有许多的方法 
+*  Match
+*  Matchs
+*  Replace
+* 	IsMatch
+*  Split
