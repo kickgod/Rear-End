@@ -22,3 +22,6 @@
 
 * [C# 6.0 委托,匿名方法,lambda,事件](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6CommissionExpressionEvent.md)
 :white_check_mark:
+
+* [C# 6.0 字符串,格式化,正则表达式](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CsharpeStringRegular.md)
+:white_check_mark:
