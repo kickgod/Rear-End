@@ -7,7 +7,9 @@
  - [x] :whale2: <a href="#CollectionList">`列表`</a>
    * <a href="#list_T_">  `1. List<T>` </a>
    * <a href="#Quene_T_"> `2. Quene<T>`</a>
-   * <a href="#Stack_T_"> `3. Stack<T>`</a>  
+   * <a href="#Stack_T_"> `3. Stack<T>`</a>
+   * <a href="https://msdn.microsoft.com/zh-cn/library/ahf4c754(v=vs.110).aspx"> `4. LinkedListNode<T>`</a>
+   * <a href="#SortedList_TKey_TValue_"> `5. SortedList<TKey, TValue>`</a>
 ----
 #### 命令空间
 ```C#
@@ -145,6 +147,39 @@
        元素:6
    ```
 * 排序
+ ```C#
+      namespace DotnetConsole.classlib
+      {
+          public class Racer:IComparable<Racer>
+          {
+              public int  Id{get;}
+              public string FirstNmae{get;set;}
+              public string LastName{get;set;}
+              public string Country{get;set;}
+              public int Wins{get;set;}
+
+              public string GetName=> $"{this.FirstNmae} {this.LastName}";
+
+              public override string ToString(){
+                  return $"{this.Id} Name:{this.FirstNmae} {this.LastName} Country:{Country} Wins Time:{Wins}";
+              }
+
+              public  int CompareTo(Racer obj)
+              {
+                  return this.Id.CompareTo(obj.Id);
+              }
+
+              public Racer(int id,string fname,string lname,string cou,int win){
+                  this.Id=id;
+                  this.FirstNmae=fname;
+                  this.LastName=lname;
+                  this.Country=cou;
+                  this.Wins=win;
+              }
+          }
+      }
+ ```
+ 
  
  ```C#
        List<Racer> rs=new List<Racer>{
@@ -176,7 +211,7 @@
          选手: 3 Name:G X Country:Indian  Wins Time:2
        */
  ```
- ##### 列表 :[`Queue<T>`](https://msdn.microsoft.com/zh-cn/library/7977ey2c(v=vs.110).aspx) <a id="Queue_T_" ></a>
+ ##### 列表 :[`Queue<T>`](https://msdn.microsoft.com/zh-cn/library/7977ey2c(v=vs.110).aspx) <a id="Quene_T_" ></a>
 `队列`：`先进先出的队列`
 <br/>
 `备注:`:`此类作为循环数组实现泛型队列中。 对象存储在 Queue<T> 另一端插入和删除来自其他。 队列和堆栈是有用时需要临时存储信息;也就是说，您可能想要检索其值后放弃某个元素。 使用 Queue<T> 需要访问存储在集合中的相同顺序的信息。 使用 Stack<T> 如果您需要按相反的顺序访问的信息。 使用 ConcurrentQueue<T> 或 ConcurrentStack<T> 如果您需要同时从多个线程访问集合。`
@@ -205,5 +240,60 @@
    * `Pop()`:`移除并返回位于顶部的对象 Stack<T>。`
    * `TrimExcess()`:`如果元素数小于当前容量的 90%，将容量设置为 Queue<T> 中的实际元素数。`
    * `CopyTo(T[], Int32)`：`从指定数组索引开始将 Queue<T> 元素复制到现有一维 Array 中。`
- 
- 
+ ##### 有序列表 [`SortedList<TKey, TValue>`](https://msdn.microsoft.com/zh-cn/library/ms132319(v=vs.110).aspx) <a href="#SortedList_TKey_TValue_"></a>
+`这个类按照键给元素排序,这个集合的值和键都可以使用任何类型, 里面存储的是 KeyValuePair<TKey,KValue>`
+
+```C#
+    public class Racer:IComparable<Racer>
+    {
+        public int  Id{get;}
+        public string FirstNmae{get;set;}
+        public string LastName{get;set;}
+        public string Country{get;set;}
+        public int Wins{get;set;}
+
+        public string GetName=> $"{this.FirstNmae} {this.LastName}";
+
+        public override string ToString(){
+            return $"ID: {this.Id} Name:{this.FirstNmae} {this.LastName} Country:{Country} Wins Time:{Wins}";
+        }
+
+        public  int CompareTo(Racer obj)
+        {
+            return this.Id.CompareTo(obj.Id);
+        }
+
+        public Racer(int id,string fname,string lname,string cou,int win){
+            this.Id=id;
+            this.FirstNmae=fname;
+            this.LastName=lname;
+            this.Country=cou;
+            this.Wins=win;
+        }
+    }
+    
+       static void Main(string[] args)
+        {
+           //初始化集合
+           List<Racer> rs=new List<Racer>{
+                new Racer(1,"J","X","China  ",20),
+                new Racer(2,"C","L","America",3),
+                new Racer(3,"G","X","Indian ",2),
+                new Racer(4,"Z","B","China  ",5)
+           };
+
+           SortedList<String,Racer> idnameset=new SortedList<String,Racer>();
+           idnameset.Add("America",rs[1]);
+           idnameset.Add("Indian ",rs[2]);
+           idnameset.Add("China  ",rs[0]);
+
+           foreach(KeyValuePair<String,Racer> val in idnameset){
+               WriteLine($"{val.Key}  {val.Value.ToString()}");
+           } 
+        }
+       /*
+        America  2 Name:C L Country:America Wins Time:3
+        China    1 Name:J X Country:China   Wins Time:20
+        Indian   3 Name:G X Country:Indian  Wins Time:2
+       */
+```
