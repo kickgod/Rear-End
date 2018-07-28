@@ -303,17 +303,6 @@
 `字典是一种复杂的数据结构,这种数据结构允许按照某个键来访问元素,字典也陈伟映射或散列表,字典的特性是根据建快速查找值，也可以自由添加和
 删除元素,这有点像List<T> 类,但没有内存中移动后续元素的性能开销,.NET提供了好多个字典类,常用的是Dictionary<TKey,TValue>`
 
-##### Dictionary<TKey,TValue> <a id="Dictionary_TKey_TValue_"></a>
-* `C# 6.0 提供了字典初始化器`
- ```C#
-      Dictionary<int,string> dict=new Dictionary<int,string>(){
-          [1]="lizhiming",
-          [2]="Wangjia",
-          [7]="tianzihao"
-      };
-      Console.WriteLine($"key:{1} value:{dict[1]}");
-      // key:1 value:lizhiming
- ```
 * 键类型的问题
    * `用作字典中的建的类型必须重写Object 的GetHasCode() 方法自要 字典类需要确定元素的位置,它就要调用GetHashCode() 方法 返回值为
    int 由字典用于计算在对应位置放置元素的索引.字典的容量是一个素数`  
@@ -325,3 +314,41 @@
    * `GetHashCode()`:`散列代码最好在对象的生存期中不发生变化`
    * `GetHashCode`:`执行速度快,计算开销不大`
    * `GetHashCode`:`散列代码值应平均分布在int可以存储的整个数字范围上`  
+   * `GetHashCode`:`必须实现IEquatable<T>.Equals()方法 判断两个key是否相同`
+   
+##### Dictionary<TKey,TValue> <a id="Dictionary_TKey_TValue_"></a>
+* `C# 6.0 提供了字典初始化器`
+ ```C#
+      Dictionary<int,string> dict=new Dictionary<int,string>(){
+          [1]="lizhiming",
+          [2]="Wangjia",
+          [7]="tianzihao"
+      };
+      Console.WriteLine($"key:{1} value:{dict[1]}");
+      // key:1 value:lizhiming
+ ```
+* 常用熟悉
+   *	`Comparer`:	`获取用于确定字典中的键是否相等的 IEqualityComparer<T>。`
+   *	`Count`:	`获取包含在 Dictionary<TKey, TValue> 中的键/值对的数目。`
+   *	`Item[TKey]`:	`获取或设置与指定的键关联的值。`
+   * `Keys`:`获得一个包含 Dictionary<TKey, TValue> 中的键的集合。`
+   *	`Values`:	`获得一个包含 Dictionary<TKey, TValue> 中的值的集合。`
+* 常用方法
+   * `Add(TKey, TValue)`：`将指定的键和值添加到字典中。`
+   * `Clear()`:`将所有键和值从 Dictionary<TKey, TValue> 中移除。`
+   * `Remove(TKey)`:`将带有指定键的值从 Dictionary<TKey, TValue> 中移除。`
+   * `ContainsKey(TKey)`:`确定是否 Dictionary<TKey, TValue> 包含指定键。`
+   * `ContainsValue(TValue)`:`确定 Dictionary<TKey, TValue> 是否包含特定值。`
+   * `Equals(Object)`:`确定指定的对象是否等于当前对象`
+   * `TryGetValue(TKey, TValue)`:`找到返回ture否则返回false`
+   
+     ```C#
+         public bool TryGetValue(
+          TKey key,
+          out TValue value
+         )
+     ```
+   
+   
+   
+   
