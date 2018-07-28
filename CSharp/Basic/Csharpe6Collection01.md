@@ -105,11 +105,12 @@
         //输出:存在满足条件的元素  
    ```
    
-   * `Find 方法`
+   * `Find 方法` 
    
    ```C#
    
       //FindIndex(Predicate<T>)	搜索与指定谓词所定义的条件相匹配的元素，并返回整个 List<T> 中第一个匹配
+      //FindLast(Predicate<T>)  搜索与指定谓词所定义的条件相匹配的元素，并返回整个 List<T> 中的最后一个匹配元素。
         元素的从零开始的索引。
         List<int> intList=new List<int>(5);
         intList.AddRange(new int[]{1,2,3,4,5,6});
@@ -117,3 +118,59 @@
         Console.WriteLine($"索引:{first} 元素:{intList[first]}");
         //索引:3 元素:4
    ```
+   
+   * `FindAll方法 返回满足条件的集合`
+   <br/>
+   
+   ```C#
+      /*
+      public List<T> FindAll(
+         Predicate<T> match
+      )
+      */
+      
+       List<int> intList=new List<int>(5);
+       intList.AddRange(new int[]{1,2,3,4,5,6});
+
+       List<int> vallist=intList.FindAll(ValueTuple=> ValueTuple>=4);
+       foreach(var vals in vallist){
+           Console.WriteLine($"元素:{vals}");    
+       }
+       
+       //输出:
+       元素:4
+       元素:5
+       元素:6
+   ```
+* 排序
+ 
+ ```C#
+       List<Racer> rs=new List<Racer>{
+            new Racer(1,"J","X","China  ",20),
+            new Racer(2,"C","L","America",3),
+            new Racer(3,"G","X","Indian ",2),
+            new Racer(4,"Z","B","China  ",5)
+       };
+
+       foreach(var owner in rs){
+           Console.WriteLine($"选手: {owner.ToString()}");
+       }
+       // 按照赢的次数排序 
+       rs.Sort((val1,val2)=>val2.Wins.CompareTo(val1.Wins));
+       Console.WriteLine("排序后:---------------------------------------------");
+
+       foreach(var owner in rs){
+           Console.WriteLine($"选手: {owner.ToString()}");
+       } 
+       /*
+         选手: 1 Name:J X Country:China   Wins Time:20
+         选手: 2 Name:C L Country:America Wins Time:3
+         选手: 3 Name:G X Country:Indian  Wins Time:2
+         选手: 4 Name:Z B Country:China   Wins Time:5
+         排序后:---------------------------------------------
+         选手: 1 Name:J X Country:China   Wins Time:20
+         选手: 4 Name:Z B Country:China   Wins Time:5
+         选手: 2 Name:C L Country:America Wins Time:3
+         选手: 3 Name:G X Country:Indian  Wins Time:2
+       */
+ ```
