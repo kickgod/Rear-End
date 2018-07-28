@@ -5,7 +5,9 @@
  - [x] :whale2: <a href="#CollectionInterface">`集合接口和类型`</a>
   
  - [x] :whale2: <a href="#CollectionList">`列表`</a>
-  
+   * <a href="#list_T_">  `1. List<T>` </a>
+   * <a href="#Quene_T_"> `2. Quene<T>`</a>
+   * <a href="#Stack_T_"> `3. Stack<T>`</a>  
 ----
 #### 命令空间
 ```C#
@@ -37,7 +39,7 @@
 ----- 
 #### <a id="CollectionList">1.1&nbsp;&nbsp;  `列表` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `.NET Framwork 为控台列表提供了 泛型类List<T> 这个类声明如下`
-##### 列表 :[`List<T>`](https://msdn.microsoft.com/zh-cn/library/6sh2ey19(v=vs.110).aspx)
+##### 列表 :[`List<T>`](https://msdn.microsoft.com/zh-cn/library/6sh2ey19(v=vs.110).aspx) <a id="list_T_" ></a>
 ```C#
   [SerializableAttribute]
   public class List<T> : IList<T>, ICollection<T>, IEnumerable<T>, 
@@ -174,3 +176,34 @@
          选手: 3 Name:G X Country:Indian  Wins Time:2
        */
  ```
+ ##### 列表 :[`Queue<T>`](https://msdn.microsoft.com/zh-cn/library/7977ey2c(v=vs.110).aspx) <a id="Queue_T_" ></a>
+`队列`：`先进先出的队列`
+<br/>
+`备注:`:`此类作为循环数组实现泛型队列中。 对象存储在 Queue<T> 另一端插入和删除来自其他。 队列和堆栈是有用时需要临时存储信息;也就是说，您可能想要检索其值后放弃某个元素。 使用 Queue<T> 需要访问存储在集合中的相同顺序的信息。 使用 Stack<T> 如果您需要按相反的顺序访问的信息。 使用 ConcurrentQueue<T> 或 ConcurrentStack<T> 如果您需要同时从多个线程访问集合。`
+ 
+ * 常用属性
+   * `Count`:`队列中元素的个数`
+ * 常见方法
+   * `Clear()`：`清楚所有元素`
+   * `Contains(T)`：`确定某元素是否在 Queue<T> 中。`
+   * `Peek()`:`返回位于 Queue<T> 开始处的对象但不将其移除。`
+   * `Enqueue(T)`:`将对象添加到 Queue<T> 的结尾处。`
+   * `Dequeue()`:`移除并返回位于 Queue<T> 开始处的对象。`
+   * `TrimExcess()`:`如果元素数小于当前容量的 90%，将容量设置为 Queue<T> 中的实际元素数。`
+   * `CopyTo(T[], Int32)`：`从指定数组索引开始将 Queue<T> 元素复制到现有一维 Array 中。`
+   
+ ##### 列表 :[`Stack<T>`](https://msdn.microsoft.com/zh-cn/library/3278tedw(v=vs.110).aspx) <a id="Stack_T_" ></a>  
+ `Stack<T> 不解释,重要的数据结构`
+ 
+  * 常用属性
+   * `Count`:`队列中元素的个数`
+ * 常见方法
+   * `Clear()`：`清楚所有元素`
+   * `Contains(T)`：`确定某元素是否在 Queue<T> 中。`
+   * `Peek()`:`返回的对象顶部的 Stack<T> 而不删除它。`
+   * `Push(T)`:`推入栈中。`
+   * `Pop()`:`移除并返回位于顶部的对象 Stack<T>。`
+   * `TrimExcess()`:`如果元素数小于当前容量的 90%，将容量设置为 Queue<T> 中的实际元素数。`
+   * `CopyTo(T[], Int32)`：`从指定数组索引开始将 Queue<T> 元素复制到现有一维 Array 中。`
+ 
+ 
