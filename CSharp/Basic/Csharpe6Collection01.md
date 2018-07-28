@@ -2,14 +2,16 @@
 ------
 `一门语言缺什么都不应该缺集合,没有集合就缺失了很多灵活性,集合允许元素的个数是动态的,List<T> 是最常用的与数组相等的集合类,其他的类型的集合还有,队列,栈,链表,字典和集还有一些特殊的集合,集合必然是泛型的,这个不用说`
 
- - [x] :whale2: <a href="#CollectionInterface">`集合接口和类型`</a>
+- [x] :whale2: <a href="#CollectionInterface">`集合接口和类型`</a>
   
- - [x] :whale2: <a href="#CollectionList">`列表`</a>
+- [x] :whale2: <a href="#CollectionList">`列表`</a>
    * <a href="#list_T_">  `1. List<T>` </a>
    * <a href="#Quene_T_"> `2. Quene<T>`</a>
    * <a href="#Stack_T_"> `3. Stack<T>`</a>
    * <a href="https://msdn.microsoft.com/zh-cn/library/ahf4c754(v=vs.110).aspx"> `4. LinkedListNode<T>`</a>
    * <a href="#SortedList_TKey_TValue_"> `5. SortedList<TKey, TValue>`</a>
+- [x] :whale2: <a href="#DiretionStruct">`字典`</a>
+   * <a href="#Dictionary_TKey_TValue_"> `1. Dictionary<TKey,TValue>`</a>
 ----
 #### 命令空间
 ```C#
@@ -240,7 +242,7 @@
    * `Pop()`:`移除并返回位于顶部的对象 Stack<T>。`
    * `TrimExcess()`:`如果元素数小于当前容量的 90%，将容量设置为 Queue<T> 中的实际元素数。`
    * `CopyTo(T[], Int32)`：`从指定数组索引开始将 Queue<T> 元素复制到现有一维 Array 中。`
- ##### 有序列表 [`SortedList<TKey, TValue>`](https://msdn.microsoft.com/zh-cn/library/ms132319(v=vs.110).aspx) <a href="#SortedList_TKey_TValue_"></a>
+ ##### 有序列表 [`SortedList<TKey, TValue>`](https://msdn.microsoft.com/zh-cn/library/ms132319(v=vs.110).aspx) <a id="SortedList_TKey_TValue_"></a>
 `这个类按照键给元素排序,这个集合的值和键都可以使用任何类型, 里面存储的是 KeyValuePair<TKey,KValue>`
 
 ```C#
@@ -297,3 +299,29 @@
         Indian   3 Name:G X Country:Indian  Wins Time:2
        */
 ```
+#### <a id="DiretionStruct">1.1&nbsp;&nbsp;  `字典` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`字典是一种复杂的数据结构,这种数据结构允许按照某个键来访问元素,字典也陈伟映射或散列表,字典的特性是根据建快速查找值，也可以自由添加和
+删除元素,这有点像List<T> 类,但没有内存中移动后续元素的性能开销,.NET提供了好多个字典类,常用的是Dictionary<TKey,TValue>`
+
+##### Dictionary<TKey,TValue> <a id="Dictionary_TKey_TValue_"></a>
+* `C# 6.0 提供了字典初始化器`
+ ```C#
+      Dictionary<int,string> dict=new Dictionary<int,string>(){
+          [1]="lizhiming",
+          [2]="Wangjia",
+          [7]="tianzihao"
+      };
+      Console.WriteLine($"key:{1} value:{dict[1]}");
+      // key:1 value:lizhiming
+ ```
+* 键类型的问题
+   * `用作字典中的建的类型必须重写Object 的GetHasCode() 方法自要 字典类需要确定元素的位置,它就要调用GetHashCode() 方法 返回值为
+   int 由字典用于计算在对应位置放置元素的索引.字典的容量是一个素数`  
+   * `GetHashCode()`:`相同的对象总应该返回相同的值`
+   * `GetHashCode()`:`不同的对象总应该返回不同的值`
+   * `GetHashCode()`:`它不能抛出异常`
+   * `GetHashCode()`:`它应至少使用一个实例字段`
+   * `GetHashCode()`:`它应该至少使用一个实例手段`
+   * `GetHashCode()`:`散列代码最好在对象的生存期中不发生变化`
+   * `GetHashCode`:`执行速度快,计算开销不大`
+   * `GetHashCode`:`散列代码值应平均分布在int可以存储的整个数字范围上`  
