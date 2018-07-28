@@ -2,7 +2,9 @@
 ------
 `一门语言缺什么都不应该缺集合,没有集合就缺失了很多灵活性,集合允许元素的个数是动态的,List<T> 是最常用的与数组相等的集合类,其他的类型的集合还有,队列,栈,链表,字典和集还有一些特殊的集合,集合必然是泛型的,这个不用说`
 
-  - [x] <a href="#CollectionInterface">`集合接口和类型`</a>
+ - [x] :whale2: <a href="#CollectionInterface">`集合接口和类型`</a>
+  
+ - [x] :whale2: <a href="#CollectionList">`列表`</a>
   
 ----
 #### 命令空间
@@ -33,3 +35,85 @@
 |[`IEqualityComparer<T>`]()|`接口IEqualityComparer<T> 由一个比较器实现,该比较器可以用于字典中的键,使用这个接口,可以对对象进行相等性排序`|
 
 ----- 
+#### <a id="CollectionList">1.1&nbsp;&nbsp;  `列表` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`.NET Framwork 为控台列表提供了 泛型类List<T> 这个类声明如下`
+##### 列表 :[`List<T>`](https://msdn.microsoft.com/zh-cn/library/6sh2ey19(v=vs.110).aspx)
+```C#
+  [SerializableAttribute]
+  public class List<T> : IList<T>, ICollection<T>, IEnumerable<T>, 
+    IEnumerable, IList, ICollection, IReadOnlyList<T>, IReadOnlyCollection<T>
+    
+  //Predicate<T> 是一个委托
+    public delegate bool Predicate<in T>(
+        T obj
+    )
+```
+* 常用属性
+  * `Capacity`:	`获取或设置该内部数据结构在不调整大小的情况下能够容纳的元素总数`
+  * `Count`:`获取 List<T> 中包含的元素数。`
+  * `Item[Int32]`:`获取或设置指定索引处的元素`
+```C#
+    static void Main(string[] args)
+    {
+        List<int> intList=new List<int>(5);
+        intList.AddRange(new int[]{1,2,3,4,5,6});
+
+        Console.WriteLine("索引1位置元素:"+intList[1]);
+        Console.WriteLine("元素数量:"+ intList.Count);
+        Console.WriteLine("当前最大容量:"+intList.Capacity);            
+    }
+    /*
+      索引1位置元素:2
+      元素数量:6
+      当前最大容量:10
+     */
+```
+* 常用方法
+   * 	`Add(T)`:	`将对象添加到 List<T> 的结尾处。`
+   *  `AddRange(IEnumerable<T>)`:`将指定集合的元素添加到 List<T> 的末尾。`
+   *  `BinarySearch(T)`:`使用默认的比较器在整个已排序的 List<T> 中搜索元素，并返回该元素从零开始的索引。`
+   *  `BinarySearch(T, IComparer<T>)`:`使用指定的比较器在整个已排序的 List<T> 中搜索元素，并返回该元素从零开始的索引。`
+   *  `BinarySearch(Int32, Int32, T, IComparer<T>)`:`使用指定的比较器在已排序 List<T> 的某个元素范围中搜索元素，并返回该元素从零开始的索引。`
+   *  `Contains(T)`: `确定某元素是否在 List<T> 中。`
+   *  `Exists(Predicate<T>)`:`确定 List<T> 是否包含与指定谓词定义的条件匹配的元素。`
+   *  `Remove(T)`:`从 List<T> 中移除特定对象的第一个匹配项。`
+   *  `RemoveAll(Predicate<T>)`:`移除与指定的谓词所定义的条件相匹配的所有元素。`    
+   *  `RemoveAt(Int32)`:`移除 List<T> 的指定索引处的元素。`
+   *  `RemoveRange(Int32, Int32)`:`从 List<T> 中移除一定范围的元素。`
+   *  `Insert(Int32, T)`:`将元素插入 List<T> 的指定索引处。`
+   *  `IndexOf(T)`:`搜索指定的对象，并返回整个 List<T> 中第一个匹配项的从零开始的索引。`
+   *  `GetEnumerator()`:`返回循环访问 List<T> 的枚举数。`
+   *  `ForEach(Action<T>)`:`对 List<T> 的每个元素执行指定操作。`
+   *  `Equals(Object)`:`确定指定的对象是否等于当前对象。（继承自 Object。）`
+   *  `Clear()`:`从 List<T> 中移除所有元素。`
+   *  `Sort()`:`	使用默认比较器对整个 List<T> 中的元素进行排序。`
+   *  `Sort(IComparer<T>)`:`使用指定的比较器对整个 List<T> 中的元素进行排序。`
+   *  `Reverse()`:`将整个 List<T> 中元素的顺序反转。`
+   *  `TrimExcess()`:`将容量设置为 List<T> 中元素的实际数目（如果该数目小于某个阈值）`
+* 元素搜索
+   *   `元素是否存在使用 Exists()方法`
+   
+   ```C#
+   
+      //Exists(Predicate<T>)	确定 List<T> 是否包含与指定谓词定义的条件匹配的元素。
+        List<int> intList=new List<int>(5);
+        intList.AddRange(new int[]{1,2,3,4,5,6});
+        bool ishave=intList.Exists(val=>val>2);
+        if(ishave){
+             WriteLine("存在满足条件的元素");   
+        }
+        //输出:存在满足条件的元素  
+   ```
+   
+   * `Find 方法`
+   
+   ```C#
+   
+      //FindIndex(Predicate<T>)	搜索与指定谓词所定义的条件相匹配的元素，并返回整个 List<T> 中第一个匹配
+        元素的从零开始的索引。
+        List<int> intList=new List<int>(5);
+        intList.AddRange(new int[]{1,2,3,4,5,6});
+        int first=intList.FindIndex(ValueTuple=> ValueTuple>=4);
+        Console.WriteLine($"索引:{first} 元素:{intList[first]}");
+        //索引:3 元素:4
+   ```
