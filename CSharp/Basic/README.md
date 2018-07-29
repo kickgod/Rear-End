@@ -9,7 +9,12 @@
  * [C# 6.0 基础部分](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBefore.md)
  
  * [C# 6.0 类的基本结构](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md)
-
+    * [`类和结构的区别`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md#ClassStructDifference)
+    * [`匿名类型`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md#AnonymousType)
+    * [`结构体`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md#Structure)
+    * [`按值调用和按引用调用`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md#CallByValueAndByReference)
+    * [`修饰符`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md#ClassStructDifference)
+    * [`扩展方法`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBasic.md#ExtensionMethod)
  * [C# 6.0 类继承和接口](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassInheritance.md)
  
  * [C# 6.0 托管非托管资源和垃圾回收](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CsharpeMemoryManger.md#StrongAndWeakReference)
@@ -19,12 +24,6 @@
 * [C# 6.0 数组元组](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ArrayTuple.md) :white_check_mark:
 
 * [C# 6.0 运算符和类型转换](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6OperatorConversion.md)
-  * `类和结构的区别`
-  * `匿名类型`
-  * `结构体`
-  * `按值调用和按引用调用`
-  * `修饰符`
-  * `扩展方法`
 
 * [C# 6.0 委托,匿名方法,lambda,事件](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6CommissionExpressionEvent.md)
 :white_check_mark:
