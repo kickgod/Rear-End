@@ -6,7 +6,9 @@
 - [x] :whale2: <a href="#">`初期准备`</a>
    * <a href="#LearingNeed">  `1. 知识需要` </a>
    * <a href="#DataPrepared"> `2. 程序数据准备`</a>
+
 - [x] :whale2: <a href="#SampleExcetion">`Linq小例子-初体验`</a>
+
 - [x] :whale2: <a href="#LinqIntroduce">`Linq 查询概述`</a>
 
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
@@ -164,3 +166,49 @@
 * **`重要`**: `Linq查询 必须以from子句开头,以select或group结束,在这两个子句中间可以使用where,orderby,join,let和from子句`
 
 * **`重要`**:`query只指定了Linq查询,该查询不是通过这个赋值语句执行的,只是在使用foreach迭代访问查询时,该查询才执行`
+
+* `编译器会转换Linq查询,以调用方法而不是Linq查询,Linq查询为IEnumerable<T>接口提供了各种扩展方法,以便用户在实现了该接口的任意集合上使用Linq查询,扩展方法再静态类中声明。其中第一个参数定义了它扩展的类型,定义LINQ扩展方法的一个类是System.Linq命名空间中的Enumerable.只需要导入这个名称空间`
+
+```C#
+  var query_=ClassGrades.Where(val=>val>=60).OrderByDescending(ValueTuple=>ValueTuple).Select(val=>val);
+
+  foreach(var grade in query_){
+      WriteLine($"及格成绩:{grade}");
+  }
+  WriteLine($"及格学生平均成绩:{ClassGrades.Where(val=>val>=60).OrderByDescending(ValueTuple=>ValueTuple).Select(val=>val).Average()}");
+   
+  /*输出:
+        及格成绩:99.5
+        及格成绩:95.6
+        及格成绩:86
+        及格成绩:85.5
+        及格成绩:85.2
+        及格成绩:77
+        及格成绩:76.5
+        及格成绩:75.8
+        及格成绩:69.5
+        及格学生平均成绩:83.4    
+    */
+```
+```C#
+           var chinaRacer=rs.Where(user=>user.Country=="China  ").Select(user=>new {
+                user.GetName,
+                user.Id,
+                user.Wins,
+                user.Country
+           });
+            foreach(var user in chinaRacer){
+                WriteLine($"Country{user.Country} Id: {user.Id}  Name:{user.GetName} Win Times:{user.Wins}");
+            }
+      /*
+        CountryChina   Id: 1  Name:J X Win Times:20
+        CountryChina   Id: 4  Name:Z B Win Times:5
+        CountryChina   Id: 5  Name:J T Win Times:10
+        CountryChina   Id: 6  Name:X X Win Times:20
+        CountryChina   Id: 9  Name:Q B Win Times:5
+        CountryChina   Id: 10  Name:N T Win Times:10      
+       */      
+            
+```            
+
+
