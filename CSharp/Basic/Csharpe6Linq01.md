@@ -6,13 +6,15 @@
 - [x] :whale2: <a href="#">`初期准备`</a>
    * <a href="#LearingNeed">  `1. 知识需要` </a>
    * <a href="#DataPrepared"> `2. 程序数据准备`</a>
-- [x] :whale2: <a href="#">`初期准备`</a>
-#### 学习Linq的需要: <a id="LearingNeed"></a> 
+- [x] :whale2: <a href="#SampleExcetion">`Linq小例子-初体验`</a>
+- [x] :whale2: <a href="#LinqIntroduce">`Linq 查询概述`</a>
+
+##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
 * `C# 类对象接口等等镜头 集合学习前面的需要全部`
 * `SQL语句精通`
 * `没有也可以学 只是学起来要痛苦一点`
-#### 数据准备 <a id="DataPrepared"></a> 
+##### 数据准备 <a id="DataPrepared"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `测试数据`:`赛车类`
 ```C#
     using System;
@@ -106,3 +108,59 @@
 
         }   
 ```
+#### <a id="SampleExcetion">2.1&nbsp;&nbsp;  `Linq小例子-初体验` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+
+*  查询所有及格了的分数排序 求得及格学生的平均分
+```C#
+    float[] ClassGrades=new float[]{69.5F,99.5F,75.8F,95.6F,85.5F,77F,86F,59F,52F,85.2F,76.5F};
+    // 查询所有及格了的分数排序 求得及格学生的平均分
+    var query =from val in ClassGrades
+               where val>=60 
+               orderby val descending   //降序排列
+               select val;
+    foreach(var grade in query){
+        WriteLine($"及格成绩:{grade}");
+    }
+    WriteLine($"及格学生平均成绩:{query.Average()}");
+    /*输出:
+        及格成绩:99.5
+        及格成绩:95.6
+        及格成绩:86
+        及格成绩:85.5
+        及格成绩:85.2
+        及格成绩:77
+        及格成绩:76.5
+        及格成绩:75.8
+        及格成绩:69.5
+        及格学生平均成绩:83.4    
+    */
+```
+* 查询中国的赛车手 名称,编号,赢的场次  
+```C#
+     //查询中国的赛车手 名称,编号,赢的场次  生成新类型 注意空格
+     var query=from user in rs
+                    where user.Country=="China  "
+                    select new {
+                        user.GetName,
+                        user.Id,
+                        user.Wins,
+                        user.Country
+                    };
+      foreach(var user in query){
+          WriteLine($"Country{user.Country} Id: {user.Id}  Name:{user.GetName} Win Times:{user.Wins}");
+      }
+      /* 输出:
+          Id: 1  Name:J X Win Times:20
+          Id: 4  Name:Z B Win Times:5
+          Id: 5  Name:J T Win Times:10
+          Id: 6  Name:X X Win Times:20
+          Id: 9  Name:Q B Win Times:5
+          Id: 10  Name:N T Win Times:10
+       */
+```
+#### <a id="LinqIntroduce">3.1&nbsp;&nbsp;  `Linq 查询概述` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`Linq是一门对象查询语言,子句from，where,select,orderby,descending... 都是Linq查询预定义的关键字`
+
+* **`重要`**: `Linq查询 必须以from子句开头,以select或group结束,在这两个子句中间可以使用where,orderby,join,let和from子句`
+
+* **`重要`**:`query只指定了Linq查询,该查询不是通过这个赋值语句执行的,只是在使用foreach迭代访问查询时,该查询才执行`
