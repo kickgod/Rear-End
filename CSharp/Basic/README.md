@@ -25,3 +25,6 @@
 
 * [C# 6.0 字符串,格式化,正则表达式](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CsharpeStringRegular.md)
 :white_check_mark:
+
+* [C# 6.0 标准集合,常用集合](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Collection01.md)
+:white_check_mark:
