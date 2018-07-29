@@ -12,6 +12,9 @@
    * <a href="#SortedList_TKey_TValue_"> `5. SortedList<TKey, TValue>`</a>
 - [x] :whale2: <a href="#DiretionStruct">`字典`</a>
    * <a href="#Dictionary_TKey_TValue_"> `1. Dictionary<TKey,TValue>`</a>
+   * <a href="#Lookup_TKey_TValue_"> `2. Lookup<TKey,TElement>`</a>
+   * <a href="#SortedDirectionary_TKey_TValue_">`3. SortedDictionary<TKey,TElement>`</a>
+- [x] :whale2: <a href="#SetStruct">`集`</a>  
 ----
 #### 命令空间
 ```C#
@@ -316,7 +319,8 @@
    * `GetHashCode`:`散列代码值应平均分布在int可以存储的整个数字范围上`  
    * `GetHashCode`:`必须实现IEquatable<T>.Equals()方法 判断两个key是否相同`
    
-##### Dictionary<TKey,TValue> <a id="Dictionary_TKey_TValue_"></a>
+##### 字典:[`Dictionary<TKey,TValue>`](https://msdn.microsoft.com/zh-cn/library/xfhwa508(v=vs.110).aspx) <a id="Dictionary_TKey_TValue_"></a> 
+<a href="#top"> `置顶` :arrow_up:</a>
 * `C# 6.0 提供了字典初始化器`
  ```C#
       Dictionary<int,string> dict=new Dictionary<int,string>(){
@@ -348,7 +352,76 @@
           out TValue value
          )
      ```
-   
-   
-   
-   
+##### 字典:[`Lookup<TKey,TElement>`](https://msdn.microsoft.com/zh-cn/library/bb460184(v=vs.110).aspx) <a id="Lookup_TKey_TValue_"></a>
+<a href="#top"> `置顶` :arrow_up:</a>
+ * `命名空间`：`System.Linq`
+ * `表示键的集合，其中每个键映射到一个或多个值。`  
+ * `没有公共构造函数创建的新实例 Lookup<TKey, TElement>。 此外， Lookup<TKey, TElement> 对象是不可变，也就是说，无法添加或移除元素或键从 Lookup<TKey, TElement> 对象后已创建。`
+ * `一个 Lookup<TKey, TElement> 类似于 Dictionary<TKey, TValue>。 其差异是︰ Dictionary<TKey, TValue> 将键映射到单个值，而 Lookup<TKey, TElement> 将键映射到值的集合。您可以创建的实例 Lookup<TKey, TElement> 通过调用 ToLookup<TSource, TKey> 上实现的对象 IEnumerable<T>。`
+ * `所有实现了IEnumerable接口的对象都可以调用 toLookup方法`
+ 
+ ```C#
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Collections;
+using DotnetConsole.classlib;
+using System.Linq;
+namespace DotnetConsole
+{
+    using static System.Console;
+    class Program
+    {
+        static void Main(string[] args)
+        {
+           //初始化集合
+           List<Racer> rs=new List<Racer>{
+                new Racer(1,"J","X","China  ",20),
+                new Racer(2,"C","L","America",3),
+                new Racer(3,"G","X","Indian ",2),
+                new Racer(4,"Z","B","China  ",5),
+                new Racer(5,"J","T","China  ",10)
+           };
+
+           var lookupracers=rs.ToLookup(rval=>rval.Country);
+           foreach(Racer r in lookupracers["China  "]){
+               Console.WriteLine(r.ToString()); 
+           }
+        }
+    }
+}
+
+/*********************输出: *************************/
+/*
+  ID: 1 Name:J X Country:China   Wins Time:20
+  ID: 4 Name:Z B Country:China   Wins Time:5
+  ID: 5 Name:J T Country:China   Wins Time:10
+*****************************************************/
+```
+##### 有序字典:[`SortedDictionary<TKey,TElement>`](https://msdn.microsoft.com/zh-cn/library/f7fta44c(v=vs.110).aspx) <a id="SortedDirectionary_TKey_TValue_"></a>
+<a href="#top"> `置顶` :arrow_up:</a>
+* `有序字典是一个二叉搜索树，按照键来排序,键类型必须实现IComparable<T> 接口，如果键不能排序则还可以创建一个实现了IComparer<T> 比较器,将比较器用作
+有序字典的构造函数的一个参数`
+* `SortedDictionary个SortedList类似只不过SortedList是一个基于数组的列表 SortedDictionary类实现为一个字典`
+* `SortedList  占有内容比SortedDictionary 少`
+* `SortedDictionary 插入删除操作更快`
+* `在排好序的数据中填充集合时,若不需要修改容量 SortedList 更快`
+
+#### <a id="SetStruct">1.1&nbsp;&nbsp;  `集` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`包含不重复元素的集合被称为 集。.NET 包含两个集HashSet<T> 和 SortedSet<T> 他们都实现了ISet<T> 接口,HashSet<T> 集包含不重复元素的无序序列
+SortedSet包含不重复元素的有序序列`
+* `ISet 提供的方法可以创建合集,交集,或者给出一个集是另一个集的超集或者子集的信息`
+  * `IsSupersetOf(IEnumerable<T>)`:`确定当前集是否为指定集合的超集。`
+  * `Overlaps(IEnumerable<T>)`:`确定当前集是否与指定的集合重叠。`
+  * `ExceptWith(IEnumerable<T>)`:`从当前集内移除指定集合中的所有元素。`
+  * `IntersectWith(IEnumerable<T>)`:`修改当前集，使该集仅包含也存在在指定集合中的元素。`
+  * `SetEquals(IEnumerable<T>)`:`确定当前集与指定的集合是否包含相同的元素。`
+  * `SymmetricExceptWith(IEnumerable<T>)`:`修改当前集，使该集仅包含存在于当前集或指定集合中的元素（但不同时存在于两者中）。`
+  * `UnionWith(IEnumerable<T>)`:`修改当前集，使该集包含存在于当前集、指定集合或两者中的所有元素。`
+  * `IsProperSupersetOf(IEnumerable<T>)`:`确定当前集是否为指定集合的真（严格）超集。`
+  * `IsSubsetOf(IEnumerable<T>)`:`确定一个集是否为指定集合的子集。`
+
+
+
+
