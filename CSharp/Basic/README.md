@@ -28,3 +28,6 @@
 
 * [C# 6.0 标准集合,常用集合](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Collection01.md)
 :white_check_mark:
+
+* [C# 6.0 的特殊集合 这里只讲两种类型](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Collection02.md)
+
