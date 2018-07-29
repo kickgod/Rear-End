@@ -11,6 +11,9 @@
 
 - [x] :whale2: <a href="#LinqIntroduce">`Linq 查询概述`</a>
 
+- [x] :whale2: <a href="#LinqInstandered">`Linq 操作符`</a>
+   * <a href="#tiaojianshaixuan" >`条件筛选`</a>
+      
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
 * `C# 类对象接口等等镜头 集合学习前面的需要全部`
@@ -209,6 +212,67 @@
         CountryChina   Id: 10  Name:N T Win Times:10      
        */      
             
-```            
+```      
+##### 得到查询结果
+如果查询结果多次用到,那么没使用一次就进行一次查询,那么当数据量大的时候就太吃亏了,``
 
 
+#### <a id="LinqInstandered">3.1&nbsp;&nbsp;  `Linq 操作符` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+
+##### <a id="tiaojianshaixuan" >条件筛选</a>
+
+|`标准查询操作符`|`说明`|
+|:----|:------|
+|Where|基于元素的谓词查找,例如lambda表达式定义的谓词,来返回布尔值|
+|OfType<TResult> |根据类型筛选元素,只返回TResult类型的元素|
+  
+  
+
+* 操作符说明
+```C#
+    Where<TSource>(Func<TSource, Boolean>)  // 基于谓词筛选值序列
+    Where<TSource>(Func<TSource, Int32, Boolean>) //将在谓词函数的逻辑中使用每个元素的索引。可以基于索引查找
+    OfType<TResult>()  //筛选的元素 IEnumerable 根据指定的类型。
+```
+* 基于谓词对象的属性筛选
+
+```C#
+    //筛选赢过五次及其以上的中国选手
+    var racers=from val in rs
+               where val.Wins>=5 && val.Country.Trim()=="China"
+               select val;
+    foreach(var r in racers){
+        WriteLine(r.ToString());    
+    }       
+    
+    foreach(var r in rs.Where(val=>val.Wins>=5&&val.Country.Trim()=="China").Select(val=>val)){
+        WriteLine(r.ToString());    
+    }      
+```
+
+* 基于索引的查找
+```C#
+    // 查找索引为奇数的选手 Where 重载的Func方法中 Func<TSource, Int32, Boolean> 第二个参数可以传递索引
+    foreach(var r in rs.Where((val,index)=>index%2==0).Select(val=>val)){
+        WriteLine(r.ToString());    
+    }   
+```
+* 基于类型筛选
+
+```C#
+    //筛选整形
+    object[] data={"one",1,2,50,69.32F,new Car("TInay","Q",Convert.ToDateTime("2013/10/8"))};
+    foreach(var val in data.OfType<int>()){
+        Console.WriteLine(val);
+    }
+```
+##### <a id="tiaojianshaixuan" >条件筛选</a>
+
+|`标准查询操作符`|`说明`|
+|:----|:------|
+|Select     |投射操作符用于把对象转换为新的对象 |
+|SelectMany |投射操作符用于把对象转换为新的对象,定义了根据选择函数选择结果值的映射                 |
+
+```C#
+  	SelectMany<TSource, TResult>(Func<TSource, IEnumerable<TResult>>)
+```
