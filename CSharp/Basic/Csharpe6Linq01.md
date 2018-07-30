@@ -13,6 +13,7 @@
 
 - [x] :whale2: <a href="#LinqInstandered">`Linq 操作符`</a>
    * <a href="#tiaojianshaixuan" >`条件筛选`</a>
+   * <a href="#fromSeletMany" >`复合from`</a>
       
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
@@ -266,13 +267,13 @@
         Console.WriteLine(val);
     }
 ```
-##### <a id="tiaojianshaixuan" >条件筛选</a>
+##### <a id="fromSeletMany" >`复合from`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
-|`标准查询操作符`|`说明`|
+|`标准查询操作符`|`说明`| 
 |:----|:------|
 |Select     |投射操作符用于把对象转换为新的对象 |
 |SelectMany |投射操作符用于把对象转换为新的对象,定义了根据选择函数选择结果值的映射                 |
 
 ```C#
-  	SelectMany<TSource, TResult>(Func<TSource, IEnumerable<TResult>>)
+  SelectMany<TSource, TResult>(Func<TSource, IEnumerable<TResult>>)
 ```
