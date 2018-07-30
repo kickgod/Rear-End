@@ -12,8 +12,10 @@
 - [x] :whale2: <a href="#LinqIntroduce">`Linq 查询概述`</a>
 
 - [x] :whale2: <a href="#LinqInstandered">`Linq 操作符`</a>
-   * <a href="#tiaojianshaixuan" >`条件筛选`</a>
-   * <a href="#fromSeletMany" >`复合from`</a>
+   * <a href="#tiaojianshaixuan" >`条件筛选 where`</a>
+   * <a href="#fromSeletMany" >`复合 from`</a>
+   * <a href="#OrderbyWhat">`排序 orderby`</a> 
+   * <a href="#GroupFenZu">`分组 Group`</a>
       
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
@@ -84,6 +86,101 @@
         }
     }
 ```
+* `学生类`
+```C#
+using System;
+using System.Text;
+
+namespace DotnetConsole
+{
+   public class Person{
+      public Person(String Name,int Age,String Id,Boolean Sex){
+          this.UserName=Name;
+          this.Age=Age;
+          this.Sex=Sex;
+          this.UserId=Id;
+      }
+
+	public override int GetHashCode() {
+		int prime = 31;
+		int result = 1;
+		result = prime * result + Age;
+		result = prime * result + Sex.GetHashCode();
+		result = prime * result + ((UserId == null) ? 0 : UserId.GetHashCode());
+		result = prime * result + ((UserName == null) ? 0 : UserName.GetHashCode());
+		return result;
+	}
+
+      public String UserName{get;set;}
+    
+      public int Age{get;set;}
+
+      public String UserId{get;set;}
+
+      public Boolean Sex{get;set;}=true;
+      
+      public override String ToString(){
+         return $"Name: {this.UserName} Age:{this.Age} 用户ID:{this.UserId} ";
+      }
+
+      public virtual int Wang(int a){
+          return a*a;
+      }
+
+      public override Boolean Equals(object obj){
+          Person one=obj as Person;
+          if(one==null){
+              return false;
+          }else{
+                if(this.UserName==one.UserName&&
+                this.Age==one.Age&&
+                this.Sex==one.Sex&&
+                this.UserId==one.UserId){
+                    return true;
+                }else{
+                    return false;
+                }
+          }
+
+      }
+  }
+
+}
+// 继承父类
+using System;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace DotnetConsole
+{
+   class Student:Person{
+      public Student(String Name,int Age,String Id,Boolean Sex,int[] Grades)
+        :base(Name,Age, Id,Sex){
+          Grade=new List<int>(Grades);
+      }
+      public List<int> Grade;
+
+      public override Boolean Equals(object obj){
+          Student one=obj as Student;
+          if(one==null){
+              return false;
+          }
+          for(int i=0;i<one.Grade.Count;i++){
+            if(this.Grade[i]!=one.Grade[i]){
+              return false;
+            }
+          }
+          return base.Equals(obj);
+      }
+
+      	public override int GetHashCode() {
+          return base.GetHashCode();
+        }
+  }
+
+}
+```
 * `主函数 数据`
 ```C#
           static void Main(string[] args)
@@ -111,6 +208,15 @@
                 new GCRacer(9,"Q","B","China  ",5,Carlist[2]),
                 new GCRacer(10,"N","T","China  ",10,Carlist[3])                
            };
+           
+           List<Student> stu= new List<Student>(){
+                new Student("Wanglimi",15,"2014001",false,new int[]{61,60,90,75,80,72}),
+                new Student("shanghai",14,"2014002",true,new int[]{99,87,90,85,97,82}),
+                new Student("tianguan",16,"2014003",false,new int[]{61,60,90,75,83,92}),
+                new Student("Yangliwe",15,"2014004",false,new int[]{88,93,95,95,90,62}),
+                new Student("Caoniman",15,"2014005",true,new int[]{71,80,70,75,82,75}),
+                new Student("Jiangfen",15,"2014006",true,new int[]{60,62,50,55,42,75})
+            };
 
         }   
 ```
@@ -179,7 +285,8 @@
   foreach(var grade in query_){
       WriteLine($"及格成绩:{grade}");
   }
-  WriteLine($"及格学生平均成绩:{ClassGrades.Where(val=>val>=60).OrderByDescending(ValueTuple=>ValueTuple).Select(val=>val).Average()}");
+  WriteLine($"及格学生平均成绩:{ClassGrades.Where(val=>val>=60).OrderByDescending(ValueTuple=>ValueTuple)
+                                          .Select(val=>val).Average()}");
    
   /*输出:
         及格成绩:99.5
@@ -215,8 +322,10 @@
             
 ```      
 ##### 得到查询结果
-如果查询结果多次用到,那么没使用一次就进行一次查询,那么当数据量大的时候就太吃亏了,``
-
+`如果查询结果多次用到,那么没使用一次就进行一次查询,那么当数据量大的时候就太吃亏了,于是我们尝试一次查询,多次使用,将第一次查询的结果固定下来`
+* `ToArray()`:`执行查询保存查询结果为一个数组`
+* `ToList()`:`执行查询保存查询结果为一个列表`
+* ....等等方法
 
 #### <a id="LinqInstandered">3.1&nbsp;&nbsp;  `Linq 操作符` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
@@ -274,6 +383,120 @@
 |Select     |投射操作符用于把对象转换为新的对象 |
 |SelectMany |投射操作符用于把对象转换为新的对象,定义了根据选择函数选择结果值的映射                 |
 
+`适合类型,一个对象的一个对象是一个数组或者一个集合,例如一个教师有几十个学生,在一群教师中寻找教师 这个教师所带学生有人得到过省级以上的奖项的,或者
+查询一个学生,这个学生期末成绩六科,查找学生中科目中又不及格的学生`
+
 ```C#
   SelectMany<TSource, TResult>(Func<TSource, IEnumerable<TResult>>)
+  
+  SelectMany<TSource, TResult>(Func<TSource, Int32, IEnumerable<TResult>>)
+  
+  SelectMany<TSource, TCollection, TResult>(Func<TSource, IEnumerable<TCollection>>,
+  Func<TSource, TCollection, TResult>)
+  
+  SelectMany<TSource, TCollection, TResult>(Func<TSource, Int32, IEnumerable<TCollection>>,
+  Func<TSource, TCollection, TResult>)
 ```
+* 查找成绩不及格的学生
+```C#
+  var query=stus.SelectMany(val=>val.Grade,(val,grade)=>new { Student_=val,Grades_=grade })
+            .Where(no=>no.Grades_<60)
+            .Select(val=>val.Student_);                    
+  foreach(var val in query){
+      Console.WriteLine(val.ToString());
+  }
+  /*
+    Name: Jiangfen Age:15 用户ID:2014006
+    Name: Jiangfen Age:15 用户ID:2014006
+    Name: Jiangfen Age:15 用户ID:2014006
+    Name: Qitianji Age:15 用户ID:2014007
+    Name: Qitianji Age:15 用户ID:2014007
+  */
+```
+`可见使用selectMany可以达到这个效果,可是此不想sql一样是子查询所以会连带多余数据,比如一个学生有多门不及格的时候,就会把这个学生重复几次,谓词我们需要
+消除重复数据,使用distinct 方法`**`但是:集合元素必须实现Equals 和GetHashCode 方法`**
+
+##### <a id="OrderbyWhat" href="https://docs.microsoft.com/zh-cn/dotnet/framework/data/adonet/ef/language-reference/query-expression-syntax-examples-ordering" >`排序`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|OrderBy     |按根据某个键按升序对序列的元素进行排序 |
+|OrderByDescending |降序排列              |
+|ThenBy |二次排序              |
+|ThenByDescending|二次排序降序|
+|Reverse|逆序排序|
+
+* 方法声明
+```C#
+    OrderBy<TSource, TKey>(Func<TSource, TKey>);
+    //按根据某个键按升序对序列的元素进行排序。
+    OrderBy<TSource, TKey>(Func<TSource, TKey>, IComparer<TKey>);
+    //按使用指定的比较器按升序对序列的元素进行排序
+    OrderBy<TSource, TKey>(Func<TSource, TKey>, IComparer<TKey>)
+    //按使用指定的比较器按升序对序列的元素进行排序
+    OrderByDescending<TSource, TKey>(Func<TSource, TKey>)
+    //按根据某个键按降序对序列的元素进行排序
+    OrderByDescending<TSource, TKey>(Func<TSource, TKey>, IComparer<TKey>)
+    //使用指定的比较器按降序对序列的元素排序。
+    Reverse<TSource>()
+    //反转序列中元素的顺序。
+    ThenBy(Func<TSource, TKey>)
+    //二次排序
+
+```
+```C#
+
+    var query=stus.OrderByDescending(val=>val.Age).ThenByDescending(val=>val.UserId).Select(val=>val); 
+    foreach(var val in query.Distinct()){
+        Console.WriteLine(val.ToString());
+    }
+    //输出
+    /*
+      Name: Yangliwe Age:18 用户ID:2014004
+      Name: Caoniman Age:17 用户ID:2014005
+      Name: tianguan Age:16 用户ID:2014003
+      Name: Qitianji Age:15 用户ID:2014007
+      Name: Wanglimi Age:15 用户ID:2014001
+      Name: shanghai Age:14 用户ID:2014002
+      Name: Jiangfen Age:13 用户ID:2014006
+    */
+```
+##### <a id="GroupFenZu" href="https://docs.microsoft.com/zh-cn/dotnet/framework/data/adonet/ef/language-reference/query-expression-syntax-examples-grouping" >`分组 Group`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`如果要根据一个关键字分组,可以使用Group子句:` `Group 对象 by 对象.属性 into GroupName` `然后就可以对GroupName使用聚合函数`
+
+```C#
+        var query=from val in stus
+                  group val by val.Sex into SexGroup
+                  orderby SexGroup.Count() descending,SexGroup.Key
+                  where SexGroup.Count() >0
+                  select new {
+                       SexName=SexGroup.Key?"男":"女",
+                       Count=SexGroup.Count() 
+                  };
+        /*
+        var query=stus.GroupBy(val=>val.Sex).Where(g=>g.Count()>0).Select(g=>new {
+           SexName=g.Key?"男":"女",
+           Count=g.Count()
+        })        
+        */          
+
+        foreach(var val in query.Distinct()){
+            Console.WriteLine( $"类别: {val.SexName} 数量:{val.Count}" );
+        }
+        /*
+          类别: 男 数量:4
+          类别: 女 数量:3 */
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
