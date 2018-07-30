@@ -24,6 +24,7 @@
    * <a href="#SetOperation">`集合操作 Union,Intersect,Except..`</a>
    * <a href="#elementXulie">`限定符 Any,All,Contains`</a>
    * <a href="#PartitionOperation" >`分区 Take() Skip()`</a> 
+   * <a href="#polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,Aggregate`</a> 
    
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
@@ -769,3 +770,61 @@ namespace DotnetConsole
 |Skip|指定跳过元素的的个数|
 |TakeWhile|提取条件为真的元素|
 |SkipWhile|跳过条件为真的元素|
+
+* 给国家列表进行分页 
+* `Skip(page_index*page_size).Take(page_size) 就可以调到第index页去  index从0开始`
+
+```C#
+    List<Country> countrys= new List<Country>(){
+	new Country("China","A-C12QX12456",1989),
+	new Country("America","V-Q99QX52457",1959),
+	new Country("Japan","V-E19CF82357",1961),
+	new Country("Indian","V-E19CF82357",1961),
+	new Country("Intali","W-C16DF77786",1972),
+
+	new Country("Canadna","O-G62QX36445",1973),
+	new Country("English","A-N42XX15798",1982),
+	new Country("Germany","Q-Q42XX58198",1981),
+	new Country("Norway","C-Q42XX58198",1980),
+	new Country("Vietnam","K-K41XX58198",1980),
+
+	new Country("Myanmar","L-K46XX58198",1980),
+	new Country("Thailand","F-G42XX58198",1980),
+	new Country("Laos","W-C42XX58198",1980)
+    };
+
+    int PageSize=5;
+    for(int page=0;page<=countrys.Count/PageSize;page++){
+		
+	var con=countrys.Skip(page*PageSize).Take(PageSize);    
+	WriteLine($"页号:{page+1}----------------------------------------------------------");
+	int id=0;
+	foreach (var item in con)
+	{
+	    WriteLine($"序号 {id++} 加入时间:{item.CountryStartTime} 编号{item.CountryId} 国名:{item.CountryName}");   
+	}
+	 WriteLine($"----------------------------------------------------------");
+	 WriteLine();
+    }
+```
+#####  <a id="polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`类似于SQL的聚合函数,应该没有什么讲的`
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|Aggregate|一个累加器函数|
+
+/*
+  Aggregate<TSource>(Func<TSource, TSource, TSource>)
+  //对一个序列应用累加器函数
+  Aggregate<TSource, TAccumulate>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>)
+  //对一个序列应用累加器函数。 将指定的种子值用作累加器初始值。
+  Aggregate<TSource, TAccumulate, TResult>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>, Func<TAccumulate, TResult>)	
+  //已重载。对一个序列应用累加器函数。 将指定的种子值用作累加器的初始值，并使用指定的函数选择结果值。
+*/
+
+```C#
+    string sentence = "the quick brown fox jumps over the lazy dog";
+    string[] words = sentence.Split(' ');
+    string reversed = words.Aggregate((workingSentence, next) =>next + " - " + workingSentence);
+    Console.WriteLine(reversed);
+```
