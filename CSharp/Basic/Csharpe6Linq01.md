@@ -16,6 +16,10 @@
    * <a href="#fromSeletMany" >`复合 from`</a>
    * <a href="#OrderbyWhat">`排序 orderby`</a> 
    * <a href="#GroupFenZu">`分组 Group`</a>
+   * <a href="#QianTaoGroupFenZu">`嵌套 linq`</a>
+   * <a href="#letLinqVariable">`let 定义Linq中的变量`</a>
+   * <a href="#InnerConnection" >`内连接 join`</a> 
+   * <a href="#InnerConnection" >`左外链接 join DefaultIfEmpty `</a> 
       
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
@@ -464,36 +468,142 @@ namespace DotnetConsole
 ##### <a id="GroupFenZu" href="https://docs.microsoft.com/zh-cn/dotnet/framework/data/adonet/ef/language-reference/query-expression-syntax-examples-grouping" >`分组 Group`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `如果要根据一个关键字分组,可以使用Group子句:` `Group 对象 by 对象.属性 into GroupName` `然后就可以对GroupName使用聚合函数`
 
-```C#
-        var query=from val in stus
-                  group val by val.Sex into SexGroup
-                  orderby SexGroup.Count() descending,SexGroup.Key
-                  where SexGroup.Count() >0
-                  select new {
-                       SexName=SexGroup.Key?"男":"女",
-                       Count=SexGroup.Count() 
-                  };
-        /*
-        var query=stus.GroupBy(val=>val.Sex).Where(g=>g.Count()>0).Select(g=>new {
-           SexName=g.Key?"男":"女",
-           Count=g.Count()
-        })        
-        */          
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|GroupBy |组合操作符, GroupBy组合有公共键的元素|
+|ToLookup|ToLookup通过创建一个一对多的字典来组合元素|
 
-        foreach(var val in query.Distinct()){
-            Console.WriteLine( $"类别: {val.SexName} 数量:{val.Count}" );
-        }
-        /*
-          类别: 男 数量:4
-          类别: 女 数量:3 */
+```C#
+ var query=from val in stus
+	  group val by val.Sex into SexGroup
+	  orderby SexGroup.Count() descending,SexGroup.Key
+	  where SexGroup.Count() >0
+	  select new {
+	       SexName=SexGroup.Key?"男":"女",
+	       Count=SexGroup.Count() 
+	  };
+ /* 通过扩展方法
+  var query=stus.GroupBy(val=>val.Sex).Where(g=>g.Count()>0).Select(g=>new {
+      SexName=g.Key?"男":"女",
+      Count=g.Count()
+  })        
+ */   
+ 
+ 
+ /* 通过 ToLookup
+   var query=stus.ToLookup(val=>val.Sex).Where(g=>g.Count()>0).Select(g=>new {
+      SexName=g.Key?"男":"女",
+      Count=g.Count()
+   });
+   foreach(var val in query.Distinct()){
+   	Console.WriteLine( $"类别: {val.SexName} 数量:{val.Count}" );
+   }
+ */
+
+ foreach(var val in query.Distinct()){
+    Console.WriteLine( $"类别: {val.SexName} 数量:{val.Count}" );
+ }
+ /*
+  类别: 男 数量:4
+  类别: 女 数量:3 */
+```
+##### <a id="QianTaoGroupFenZu" >`嵌套 linq`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`嵌套分组`
+```C#
+    var query=from val in stus 
+	      where val.Age>13
+	      select new {
+		  Name=val.UserName,
+		  Jige=from g in  val.Grade
+		       group g by g>60 into Ggrade
+		       select new {
+			   jige_mark=Ggrade.Key,
+			   jige_count=Ggrade.Count()
+		       }     
+	      };
+    foreach(var val in query.Distinct()){
+	Console.WriteLine( $"姓名: {val.Name}" );
+	foreach(var jige in val.Jige){
+	     var status=jige.jige_mark?"及格":"不及格";
+	     Console.WriteLine($"{status}：{jige.jige_count} ");   
+	}
+    }
 ```
 
 
 
+##### <a id="letLinqVariable" >`let 定义Linq中的变量`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`在Linq表达式中可以使用let定义变量,这样可以多次引用,在扩展方法中可以使用select(new { //etc }) 创建匿名类型保存变量.`
 
+```C#
+    var query=from val in stus 
+	      group val by val.Age into g
+	      let Count=g.Count()
+	      orderby g.Count() descending
+	      select new {
+		  Stu_Age=g.Key,
+		  Stu_Count=Count
+	      };
 
+    foreach(var val in query.Distinct()){
+	Console.WriteLine( $"类别: {val.Stu_Age} 数量:{val.Stu_Count}" );
+    }
+```
+##### <a id="InnerConnection" >`内连接`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`使用join子句,可以根据特定的条件合并两个数据源,但之前要获得两个要连接的列表`
 
+```C#
+    List<Country> countrys= new List<Country>(){
+	new Country("China","A-C12QX12456",1989),
+	new Country("America","V-Q99QX52457",1959),
+	new Country("Indian","I-B72QQ78239",1971),
+	new Country("Japan","V-E19CF82357",1961),
+	new Country("Intali","W-C16DF77786",1972),
+	new Country("Canadna","O-G62QX36445",1973),
+	new Country("English","A-N42XX15798",1982),
+    };
 
+    var reuslt=(from racer in 
+		  from r in rs
+		  where r.Wins>=3
+		  select new{
+		      racer_Name=r.GetName,
+		      racer_Country=r.Country.Trim(),
+		      Racer_Id=r.Id
+		  }
+		 join coun in                             
+		    from c in countrys
+		    select new {
+			Country_name=c.CountryName.Trim(),
+			Country_start_year=c.CountryStartTime,
+			Country_id=c.CountryId
+		    }
+		on racer.racer_Country equals coun.Country_name
+		orderby racer.Racer_Id descending
+		select new {
+		      Id=racer.Racer_Id,
+		      Name=racer.racer_Name,
+		      Country=racer.racer_Country,
+		      CountryId=coun.Country_id,
+		      CountryStartYear=coun.Country_start_year
+
+		}).ToList();    
+    foreach(var val in reuslt){
+	 WriteLine($"选手编号:{val.Id} 名称:{val.Name} 国家编号:{val.CountryId} 所属国家 {val.Country} 
+	 加入运动时间:{val.CountryStartYear}");
+    }  
+    /*
+      选手编号:10 名称:N T 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+      选手编号:9 名称:Q B 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+      选手编号:7 名称:D L 国家编号:V-Q99QX52457 所属国家 America 加入运动时间:1959
+      选手编号:6 名称:X X 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+      选手编号:5 名称:J T 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+      选手编号:4 名称:Z B 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+      选手编号:2 名称:C L 国家编号:V-Q99QX52457 所属国家 America 加入运动时间:1959
+      选手编号:1 名称:J X 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+    */    
+    
+```
 
 
 
