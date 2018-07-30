@@ -801,11 +801,36 @@ namespace DotnetConsole
 	int id=0;
 	foreach (var item in con)
 	{
-	    WriteLine($"序号 {id++} 加入时间:{item.CountryStartTime} 编号{item.CountryId} 国名:{item.CountryName}");   
+	    WriteLine($"序号 {id++} 加入时间:{item.CountryStartTime} 编号{item.CountryId} 
+	    国名:{item.CountryName}");   
 	}
 	 WriteLine($"----------------------------------------------------------");
 	 WriteLine();
     }
+    /*
+	页号:1----------------------------------------------------------
+	序号 0 加入时间:1989 编号A-C12QX12456 国名:China
+	序号 1 加入时间:1959 编号V-Q99QX52457 国名:America
+	序号 2 加入时间:1961 编号V-E19CF82357 国名:Japan
+	序号 3 加入时间:1961 编号V-E19CF82357 国名:Indian
+	序号 4 加入时间:1972 编号W-C16DF77786 国名:Intali
+	----------------------------------------------------------
+
+	页号:2----------------------------------------------------------
+	序号 0 加入时间:1973 编号O-G62QX36445 国名:Canadna
+	序号 1 加入时间:1982 编号A-N42XX15798 国名:English
+	序号 2 加入时间:1981 编号Q-Q42XX58198 国名:Germany
+	序号 3 加入时间:1980 编号C-Q42XX58198 国名:Norway
+	序号 4 加入时间:1980 编号K-K41XX58198 国名:Vietnam
+	----------------------------------------------------------
+
+	页号:3----------------------------------------------------------
+	序号 0 加入时间:1980 编号L-K46XX58198 国名:Myanmar
+	序号 1 加入时间:1980 编号F-G42XX58198 国名:Thailand
+	序号 2 加入时间:1980 编号W-C42XX58198 国名:Laos
+	----------------------------------------------------------    
+    */
+    
 ```
 #####  <a id="polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `类似于SQL的聚合函数,应该没有什么讲的`
@@ -813,15 +838,14 @@ namespace DotnetConsole
 |:----|:------|
 |Aggregate|一个累加器函数|
 
-/*
+```C#
   Aggregate<TSource>(Func<TSource, TSource, TSource>)
   //对一个序列应用累加器函数
   Aggregate<TSource, TAccumulate>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>)
   //对一个序列应用累加器函数。 将指定的种子值用作累加器初始值。
   Aggregate<TSource, TAccumulate, TResult>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>, Func<TAccumulate, TResult>)	
   //已重载。对一个序列应用累加器函数。 将指定的种子值用作累加器的初始值，并使用指定的函数选择结果值。
-*/
-
+```
 ```C#
     string sentence = "the quick brown fox jumps over the lazy dog";
     string[] words = sentence.Split(' ');
