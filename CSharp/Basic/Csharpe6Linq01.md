@@ -3,7 +3,7 @@
 `LINQ（Language Integrated Query）语言集成查询` 是一组用于c#和Visual Basic语言的扩展。它允许编写C#或者Visual Basic代码以操作内存数据的方式，查
 询数据库。`对象查询语言`
 
-- [x] :whale2: <a href="#">`初期准备`</a>
+- [x] :whale2: <a href="#LearingNeed">`初期准备`</a>
    * <a href="#LearingNeed">  `1. 知识需要` </a>
    * <a href="#DataPrepared"> `2. 程序数据准备`</a>
 
@@ -19,11 +19,15 @@
    * <a href="#QianTaoGroupFenZu">`嵌套 linq`</a>
    * <a href="#letLinqVariable">`let 定义Linq中的变量`</a>
    * <a href="#InnerConnection" >`内连接 join`</a> 
-   * <a href="#InnerConnection" >`左外链接 join DefaultIfEmpty `</a> 
-      
+   * <a href="#LeftOutterConnection" >`左外链接 join DefaultIfEmpty `</a> 
+   * <a href="#GroupConnection">`组连接 join new`</a>
+   * <a href="#SetOperation">`集合操作 Union,Intersect,Except..`</a>
+   * <a href="#elementXulie">`限定符 Any,All,Contains`</a>
+   * <a href="#PartitionOperation" >`分区 Take() Skip()`</a> 
+   
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
-* `C# 类对象接口等等镜头 集合学习前面的需要全部`
+* `C# 类对象接口等等扩展方法,匿名类型,泛型,lambda表达式 集合学习前面的需要全部`
 * `SQL语句精通`
 * `没有也可以学 只是学起来要痛苦一点`
 ##### 数据准备 <a id="DataPrepared"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
@@ -551,6 +555,12 @@ namespace DotnetConsole
 ```
 ##### <a id="InnerConnection" >`内连接`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `使用join子句,可以根据特定的条件合并两个数据源,但之前要获得两个要连接的列表`
+* **`注意`**:`join ...on  .. equals ...  中间是用equals 用作链接 而不是 等号 =`
+
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|Join |链接操作符,按照属性进行链接,根据键选择器函数链接两个集合|
+|GroupJoin|可以链接两个集合,组合其结果|
 
 ```C#
     List<Country> countrys= new List<Country>(){
@@ -578,7 +588,7 @@ namespace DotnetConsole
 			Country_start_year=c.CountryStartTime,
 			Country_id=c.CountryId
 		    }
-		on racer.racer_Country equals coun.Country_name
+		on racer.racer_Country equals coun.Country_name   //注意是 equals
 		orderby racer.Racer_Id descending
 		select new {
 		      Id=racer.Racer_Id,
@@ -604,9 +614,158 @@ namespace DotnetConsole
     */    
     
 ```
+##### <a id="LeftOutterConnection" >`左外链接 join DefaultIfEmpty `</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+* 关键是搞懂一点:`on r.Country equals t.CountryName into` **`rt`** `这个rt是什么 它是一个判断值,判断右边是否有与左边相匹配的,而tt实质上
+不是t 而是 t?null 如果t不为null那么 tt=t否则 `
+```C#
+    // 如果有一个选手的国家没有收录呢? 这才是问题关键 我们假设没有收录小印度
+    List<Country> countrys= new List<Country>(){
+	new Country("China","A-C12QX12456",1989),
+	new Country("America","V-Q99QX52457",1959),
+	new Country("Japan","V-E19CF82357",1961),
+	new Country("Intali","W-C16DF77786",1972),
+	new Country("Canadna","O-G62QX36445",1973),
+	new Country("English","A-N42XX15798",1982),
+    };
+    //实现左链接
+
+    var reuslt=(from r in rs
+	       join t in                           
+	       countrys   
+	       on r.Country equals t.CountryName into rt
+	       from tt in rt.DefaultIfEmpty()     //tt 指代的是新的对象 如果Country 存在 tt就是 t否则 tt==null 
+	       orderby r.Id                       //如果tt=null不处理 不去判断数据是否为null  或报错
+	       select new{			  // 此时 tt实质上为 tt==t??null;
+		    Id=r.Id,
+		    Name=r.GetName,
+		    CName=r.Country,
+		    CId= tt ==null ?"暂未收录此国家信息":tt.CountryId,
+		    CJoinYear=tt ==null ?"0000":tt.CountryStartTime.ToString()    
+	       }).ToList();
+
+    foreach(var val in reuslt){
+	WriteLine($"选手编号:{val.Id} 名称:{val.Name} 国家编号:{val.CId} 所属国家 
+	{val.CName} 加入运动时间:{val.CJoinYear}");
+    }   
+```
+
+##### <a id="GroupConnection" >`组连接 join new`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`例如上面的左链接和内连接  一般 都是一个属性对一个属性,如果当需要两个属性都相等呢,比如外国人的 firstname和 lastname，这当然可以如下面所示`
+`当然也有其他方法例如两个字符串链接起来`
+
+* `组联接等效于左外部联接，它返回第一个（左侧）数据源的每个元素（即使其他数据源中没有关联元素）。`
+
+```C#
+  from v in foregines1  
+     join r in users on
+     new {
+         FirstName=v.FirstName,
+	 LastName=v.LastName
+     }
+     equals
+     new
+     {
+         FirstName=r.FirstName,
+	 LastName=r.LastName
+     }
+     into resulttemps  //结果会放到 resulttemps变量中
+     
+```
+##### <a id="SetOperation" >`集合操作`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
 
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|Distinct() |返回序列中通过使用指定的非重复元素,去掉重复元素 只需要一个集合就可以操作|
+|Union()|可以链接两个集合,组合其结果|
+|Intersect()|返回两个集合都有的元素|
+|Except()|返回只出现在其中一个集合中的元素|
+|Zip()|把两个集合合并为一个|
 
+```C#
+  Distinct<TSource>()
+  //通过使用的默认相等比较器对值进行比较从序列返回非重复元素
+  Distinct<TSource>(IEqualityComparer<TSource>)
+  //返回序列中通过使用指定的非重复元素
+  Union<TSource>(IEnumerable<TSource>)
+  // 通过使用默认的相等比较器生成的两个序列的并集。
+  Union<TSource>(IEnumerable<TSource>, IEqualityComparer<TSource>)
+  // 使用指定的生成两个序列的并集
+```
+* Union :`将两个集合组合在一起,去掉重复元素`
+```C#
+    List<Student> stu_Union= new List<Student>(){
+	new Student("tianguan",16,"2014003",false,new int[]{61,60,90,75,83,92}),
+	new Student("Tianwang",18,"2014008",false,new int[]{88,93,95,95,90,62})
+    };
 
+    var reuslt=stu_Union.Union(stus).OrderBy(vals=>vals.UserName);
 
+    foreach(var val in reuslt){
+	Console.WriteLine(val.ToString());
+    }   
+/* 输出: 
+   Name: Caoniman Age:17 用户ID:2014005
+   Name: Jiangfen Age:13 用户ID:2014006
+   Name: Qitianji Age:15 用户ID:2014007
+   Name: shanghai Age:14 用户ID:2014002
+   Name: tianguan Age:16 用户ID:2014003
+   Name: Tianwang Age:18 用户ID:2014008
+   Name: Wanglimi Age:15 用户ID:2014001
+   Name: Yangliwe Age:18 用户ID:2014004
+*/    
+```
+* Intersect():`返回两个集合公有的元素组合成一个集合`
+```C#
+    List<Student> stu_Interset= new List<Student>(){
+	new Student("tianguan",16,"2014003",false,new int[]{61,60,90,75,83,92}),
+	new Student("Yangliwe",18,"2014004",false,new int[]{88,93,95,95,90,62}),
+	new Student("DiYuWlin",17,"2014014",false,new int[]{88,93,95,95,90,72})
+    };
+    var reuslt=stus.Intersect(stu_Interset).OrderBy(vals=>vals.UserName);
 
+    foreach(var val in reuslt){
+	Console.WriteLine(val.ToString());
+    }   
+```
+##### <a id="elementXulie" >`Any,All,Contains`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`如果元素序列满足指定的条件,限定符操作符就返回布尔值`
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|Any(Func)|确定集合中是否有满足谓词函数的元素 |
+|All(Func)|确定所有集合是否满足条件|
+|Contains|检查某个集合是否在集合中|
+
+```C#
+   Any<TSource>(Func<TSource, Boolean>)
+   //确定是否序列中的任何元素都满足条件。
+   Any<TSource>()
+   //确定序列是否包含任何元素。
+   All<TSource>(Func<TSource, Boolean>)
+   //确定是否对序列中的所有元素都满足条件。
+   Contains<TSource>(TSource)   
+   //确定序列是否包含指定的元素使用的默认相等比较器。
+```
+```C#
+    int[] vals={58,60,90,55,96,73,56,84,95,100};
+    Boolean has=vals.Any(val=>val>90);
+    Boolean allhas=vals.All(val=>val>=60);
+    Boolean has100=vals.Contains(100);
+    WriteLine($"是否有大于90分的成绩: {has}");
+    WriteLine($"是否所有科目都及格了: {allhas}");
+    WriteLine($"是否有一百分的科目啊: {has100}");
+    /* 输出:
+      是否有大于90分的成绩: True
+      是否所有科目都及格了: False
+      是否有一百分的科目啊: True        
+    */
+```
+#####  <a id="PartitionOperation" >`分区`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`扩展方法Skip和Take等的分区操作可用于分页,例如在第一个页面只显示及格选项`
+
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|Take|分区操作,必须指定要从集合中提取的元素的个数 |
+|Skip|指定跳过元素的的个数|
+|TakeWhile|提取条件为真的元素|
+|SkipWhile|跳过条件为真的元素|
