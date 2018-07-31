@@ -25,7 +25,16 @@
    * <a href="#elementXulie">`限定符 Any,All,Contains`</a>
    * <a href="#PartitionOperation" >`分区 Take() Skip()`</a> 
    * <a href="#polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,Aggregate`</a> 
+   * <a href="#ChangeToCollection" >`转换ToList(),ToLookup...`</a> 
+   * <a href="#GetRange" >`生成操作符Range,`</a> 
    
+- [x] :whale2: <a href="#AsynAwaitLinq">`并行 Linq`</a>
+- [x] :whale2: <a href="#CancelSearch" >`取消查询..`</a> 
+
+
+
+`System.Linq 名称空间中包含的类ParallelEnumerable分解查询的工作,使其分布在多个线程上,尽管Enumerable类给IEnumerable<T> 定义了扩展方法,但ParallelEnumerable类大多数的扩展方法是ParallelQuery<TSource>类的扩展`
+
 ##### 学习Linq的需要: <a id="LearingNeed"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `C# 集合精通 非常的熟悉`
 * `C# 类对象接口等等扩展方法,匿名类型,泛型,lambda表达式 集合学习前面的需要全部`
@@ -857,3 +866,119 @@ namespace DotnetConsole
     
     //输出:dog -- lazy -- the -- over -- jumps -- fox -- brown -- quick -- the
 ```
+#####  <a id="ChangeToCollection" >`3.14 转换ToList(),ToLookup....`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`使用转换操作符会立即执行查询，把查询结果放到数组,列表和字典中`
+
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|ToArray()|立即执行查询把查询结果保存为数组返回|
+|AsEnumerable()|立即执行查询把查询结果保存为枚举列表返回|
+|ToList()|立即执行查询把查询结果保存为集合列表返回|
+|ToDictionary()|立即执行,将结果变成字典返回|
+|Cast<TResult>|转换集合|
+|ToLookup()|转换为字典|	
+
+* ToList
+```C#
+	var query=(from user in rs.Cast<GCRacer>()
+					where user.Country.Trim()=="China"
+					select new {
+						user.GetName,
+						user.Id,
+						user.Wins,
+						user.Country
+					}).ToList();
+	foreach(var user in query){
+		WriteLine($"Country{user.Country} Id: {user.Id}  Name:{user.GetName} Win Times:{user.Wins}");
+	}
+```
+* ToLookup
+```C#
+	var query=(from user in rs.Cast<GCRacer>()   //类型转换
+					where user.Country.Trim()=="China"
+					select new {
+						user.GetName,
+						user.Id,
+						user.Wins,
+						user.Country
+					}).ToLookup(key=>key.Id,value=>new {
+						Name=value.GetName,
+						WinTimes= value.Wins,
+						Country=value.Country
+					});
+	foreach(var user in query){
+		var key=user.Key; 
+		Write("编号: {0:D3} ",key);
+		foreach(var  c in user){
+			WriteLine($"国家 {c.Country} 名称:{c.Name} 获胜次数: {c.WinTimes} ");    
+		}
+	}
+/*
+	编号: 001 国家 China   名称:J X 获胜次数: 20
+	编号: 004 国家 China   名称:Z B 获胜次数: 5
+	编号: 005 国家 China   名称:J T 获胜次数: 10
+	编号: 006 国家 China   名称:X X 获胜次数: 20
+	编号: 009 国家 China   名称:Q B 获胜次数: 5
+	编号: 010 国家 China   名称:N T 获胜次数: 10
+*/	
+```
+#####  <a id="GetRange" >`3.15 生成操作符Range..`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+
+|`标准查询操作符`|`说明`| 
+|:----|:------|
+|Empty|生成一个空的集合|
+|Range|返回一系列的数字组成的数字|
+|Repeat|返回一个始终重复一个值的集合|
+
+```C#
+	var values=Enumerable.Range(1,20);
+	foreach(var item in values){
+		Console.Write(item+" ");
+	} //1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+	
+	var valuerep=Enumerable.Repeat(10,5);
+	foreach(var item in valuerep){
+		Console.Write(item+" ");
+	} //10 10 10 10 10
+```
+
+####  <a id="AsynAwaitLinq" >`并行 Linq..`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`对集合调用	AsParallel<TSource>(),启用查询的并行化.`
+
+```C#
+	List<Country> countrys= new List<Country>(){
+		new Country("China","A-C12QX12456",1989),
+		new Country("America","V-Q99QX52457",1959),
+		new Country("Japan","V-E19CF82357",1961),
+		new Country("Indian","V-E19CF82357",1961),
+		new Country("Intali","W-C16DF77786",1972),
+
+		new Country("Canadna","O-G62QX36445",1973),
+		new Country("English","A-N42XX15798",1982),
+		new Country("Germany","Q-Q42XX58198",1981),
+		new Country("Norway","C-Q42XX58198",1980),
+		new Country("Vietnam","K-K41XX58198",1980),
+
+		new Country("Myanmar","L-K46XX58198",1980),
+		new Country("Thailand","F-G42XX58198",1980),
+		new Country("Laos","W-C42XX58198",1980)
+	};
+	var valuerep=countrys.AsParallel().Where(val=>val.CountryStartTime>=1980);
+	foreach(var item in valuerep){
+		WriteLine($"加入时间:{item.CountryStartTime} 编号{item.CountryId} 国名:{item.CountryName}");   
+	}
+```
+##### <a id="CancelSearch" >`取消查询..`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+* `CancellationTokenSource  被用来做消息传递机制 的令牌`
+* `命名空间`:`System.Threading`
+
+```C#
+		var cts= new CancellationTokenSource();
+		var valuerep=countrys.AsParallel().WithCancellation(cts.Token)
+		.Where(val=>val.CountryStartTime>=1980).Select(val=>val);
+		//将查询包装在一个线程中  运行 然后在另一个线程中调用  cts.Cancel方法 就可停止查询
+```
+
+
+
+
