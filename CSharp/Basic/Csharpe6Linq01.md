@@ -834,6 +834,7 @@ namespace DotnetConsole
 ```
 #####  <a id="polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `类似于SQL的聚合函数,应该没有什么讲的`
+
 |`标准查询操作符`|`说明`| 
 |:----|:------|
 |Aggregate|一个累加器函数|
@@ -843,12 +844,16 @@ namespace DotnetConsole
   //对一个序列应用累加器函数
   Aggregate<TSource, TAccumulate>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>)
   //对一个序列应用累加器函数。 将指定的种子值用作累加器初始值。
-  Aggregate<TSource, TAccumulate, TResult>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>, Func<TAccumulate, TResult>)	
+  Aggregate<TSource, TAccumulate, TResult>(TAccumulate, Func<TAccumulate, TSource, TAccumulate>, 
+  Func<TAccumulate, TResult>)	
   //已重载。对一个序列应用累加器函数。 将指定的种子值用作累加器的初始值，并使用指定的函数选择结果值。
 ```
 ```C#
     string sentence = "the quick brown fox jumps over the lazy dog";
     string[] words = sentence.Split(' ');
-    string reversed = words.Aggregate((workingSentence, next) =>next + " - " + workingSentence);
+            string reversed = words.Aggregate((workingSentence, next) =>
+                                                next + " -- " + workingSentence);
     Console.WriteLine(reversed);
+    
+    //输出:dog -- lazy -- the -- over -- jumps -- fox -- brown -- quick -- the
 ```
