@@ -1,10 +1,16 @@
 <a id="top" href="#">:running:</a> 异常错误处理 :bird:
 -----
 `工作流可以使用 TryCatch 活动处理工作流执行期间引发的异常。 可以对这些异常进行处理，或者使用 Rethrow 活动重新引发异常。 Finally 节中的活动在 Try 节或 Catches 节完成时执行。 由工作流承载WorkflowApplication实例还可以使用OnUnhandledException事件处理程序来处理未由处理的异常TryCatch活动。`
-- [x] :mountain_bicyclist:	<a href="#ExceptionResultFrom">`异常原因`</a>
-- [x] :mountain_bicyclist:	<a href="#ExceptionClassLibrary">`异常类`</a>
+
+- [x] :mountain_bicyclist:	<a href="#ExceptionResultFrom">**`异常原因`**</a>
+- [x] :mountain_bicyclist:	<a href="#ExceptionClassLibrary">**`异常类`**</a>
+- [x] :mountain_bicyclist:	<a href="#CatchException">**`捕获类`**</a>
+- [x] :mountain_bicyclist:	<a href="#ClassException">**`Exception类`**</a>
+- [x] :mountain_bicyclist:	<a href="#ExceptionWhen">**`异常过滤器`**</a>
+- [x] :mountain_bicyclist:	<a href="#ThrowException">**`抛出异常`**</a>
+- [x] :mountain_bicyclist:	<a href="#DefineByUserException">**`用户自定义异常`**</a>
    
-#### 数据准备 <a id="ExceptionResultFrom"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+##### 数据准备 <a id="ExceptionResultFrom"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `在工作流中，异常可能通过下列方式生成：`
     * TransactionScope 中的事务超时。
 
@@ -49,3 +55,81 @@
   * `ArithmeticException类的派生类：`
   * `DivideByZeroException类：表示整数货十进制运算中试图除以零而引发的异常。`
   * `NotFiniteNumberException类：表示浮点数运算中出现无穷打或者非负值时所引发的异常。`
+##### 捕获类 <a id="CatchException"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+* 子类在前 基类在后
+* Finally 一定执行
+```C#
+  try{
+       int[] i={1,5,6,9,2,12};
+       WriteLine(i[20]);
+
+   }catch(IndexOutOfRangeException ex){
+       WriteLine(ex.Message);
+   }catch(Exception e){
+       WriteLine(e.Message);
+   }finally{
+       WriteLine("释放资源");    
+   }
+```
+##### [Exception类](https://msdn.microsoft.com/zh-cn/library/system.exception(v=vs.110).aspx) <a id="ClassException"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+* 构造函数
+
+|名称|	说明|
+|:----|:----|
+|Exception()|	初始化 Exception 类的新实例。|
+|Exception(SerializationInfo, StreamingContext)	 |用序列化数据初始化 Exception 类的新实例。|
+|Exception(String)	|用指定的错误消息初始化 Exception 类的新实例。|
+|Exception(String, Exception)	 |使用指定的错误消息和对作为此异常原因的内部异常的引用来初始化 Exception 类的新实例。|
+* 属性
+
+|名称|	说明|
+|:----|:----|
+|[`Data`](https://msdn.microsoft.com/zh-cn/library/system.exception.data(v=vs.110).aspx)|获取提供有关异常的其他用户定义信息的键/值对集合。|
+|HelpLink |获取或设置指向与此异常关联的帮助文件链接。  |
+|HResult |获取或设置 HRESULT（一个分配给特定异常的编码数字值）。  |
+|InnerException |获取导致当前异常的 Exception 实例。  |
+|Message |获取描述当前异常的消息。  |
+|Source |获取或设置导致错误的应用程序或对象的名称。 |
+|StackTrace |获取引发当前异常的方法。  |
+* 方法
+
+|名称|	说明|
+|:----|:----|
+|Finalize() |在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。（继承自 Object。） |
+	
+
+```C#
+    try{
+        throw new MyException(404);
+    }catch(MyException ex) when (ex.ErrorCode==404){
+        WriteLine("网页跳转错误");                
+    }
+```
+##### 异常过滤器 <a id="ExceptionWhen"></a>  :closed_umbrella: <a href="#top">置顶 :arrow_up:</a>
+`when 关键字`
+```C#
+    try{
+        throw new MyException(404);
+    }catch(MyException ex) when (ex.ErrorCode==404){
+        WriteLine("网页跳转错误");                
+    }
+```
+##### 抛出异常 <a id="ThrowException"></a>  :closed_umbrella: <a href="#top">置顶 :arrow_up:</a>
+`使用throw关键字抛出异常`
+##### 用户自定义异常 <a id="DefineByUserException"></a>  :closed_umbrella: <a href="#top">置顶 :arrow_up:</a>
+`用户自定义异常需要基础相应的基类,通过继承实现异常类,抛出接受异常的方法与系统定义异常相同`
+
+* 用户自定义的异常可以在实现了基类的基本构造函数后,添加用户自己需要的属性和方法
+
+```C#
+    public class MyException : System.Exception
+    {
+        public int ErrorCode{get;set;}
+        public MyException(int errorCode) {this.ErrorCode=errorCode; }
+        public MyException(string message,int errorCode) : base(message) { this.ErrorCode=errorCode;}
+        public MyException(string message, System.Exception inner) : base(message, inner) { }
+        protected MyException(
+            System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+```
