@@ -61,8 +61,15 @@
    - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#AsynAwaitLinq">`并行 Linq`</a>
    - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#CancelSearch" >`取消查询..`</a> 
 
-
-
+* [C# 6.0 异常处理](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md)
+:white_check_mark:
+   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ExceptionResultFrom">`异常原因`</a>
+   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ExceptionClassLibrary">`异常类`</a>
+   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#CatchException">`捕获类`</a>
+   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ClassException">`Exception类`</a>
+   -	<a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ExceptionWhen">`异常过滤器`</a>
+   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ThrowException">`抛出异常`</a>
+   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#DefineByUserException">`用户自定义异常`</a>
 
 
 
