@@ -37,39 +37,10 @@
 * [C# 6.0 的特殊集合 这里只讲两种类型](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Collection02.md)
 
 * [C# 6.0 Linq基础语法](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md)
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#LearingNeed">`初期准备`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#LearingNeed">  `1. 知识需要` </a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#DataPrepared"> `2. 程序数据准备`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#SampleExcetion">`Linq小例子-初体验`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#LinqIntroduce">`Linq 查询概述`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#LinqInstandered">`Linq 操作符`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#tiaojianshaixuan" >`条件筛选 where`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#fromSeletMany" >`复合 from`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#OrderbyWhat">`排序 orderby`</a> 
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#GroupFenZu">`分组 Group`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#QianTaoGroupFenZu">`嵌套 linq`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#letLinqVariable">`let 定义Linq中的变量`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#InnerConnection" >`内连接 join`</a> 
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#LeftOutterConnection" >`左外链接 join DefaultIfEmpty `</a> 
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#GroupConnection">`组连接 join new`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#SetOperation">`集合操作 Union,Intersect,Except..`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#elementXulie">`限定符 Any,All,Contains`</a>
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#PartitionOperation" >`分区 Take() Skip()`</a> 
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,Aggregate`</a> 
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#ChangeToCollection" >`转换ToList(),ToLookup...`</a> 
-      * <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#GetRange" >`生成操作符Range,`</a> 
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#AsynAwaitLinq">`并行 Linq`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Linq01.md#CancelSearch" >`取消查询..`</a> 
 
 * [C# 6.0 异常处理](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md)
 :white_check_mark:
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ExceptionResultFrom">`异常原因`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ExceptionClassLibrary">`异常类`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#CatchException">`捕获类`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ClassException">`Exception类`</a>
-   -	<a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ExceptionWhen">`异常过滤器`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#ThrowException">`抛出异常`</a>
-   - <a href="https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md#DefineByUserException">`用户自定义异常`</a>
+
 
 
 
