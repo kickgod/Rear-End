@@ -108,3 +108,44 @@
   * 获得当前线程ID： `Thread.CurrentThread.ManagedThreadId`
   * 启动线程 : `Start() 方法`
   * 如果方法有参数:`参数必须是Object 类型 ,然后参数传递给Start方法就好了`
+    ```C#
+      // load是一个 前台前程main函数执行完后,程序并未停止 在等待load线程执行完
+      Thread load = new Thread((finaName) =>
+      {
+          Console.WriteLine(finaName+"下载文件中...");
+          Thread.Sleep(3000);
+          Console.WriteLine("线程ID:"+Thread.CurrentThread.ManagedThreadId);
+          Console.WriteLine("下载完毕");
+      });
+
+      load.Start("XXX.种子");
+
+      Console.WriteLine("Mian Function");
+    ```
+   * 可以给Thread传递lambda表达式,静态方法,和对象方法、
+ 
+ ##### 前台线程/后台线程
+ * `只要有一个前台线程在运行,应用程序的进程就在运行,此线程为前台线程,如果主线程停止了,那么所有后台线程全部停止.`
+ * `默认情况下,Thread类创建的线程是前台线程。线程池中的线程总是后台线程,在用Thread类时,可以设置` **`isBackGround属性`** `把它设置为后台线程`
+ 
+ ```C#
+      Thread load = new Thread((finaName) =>
+      {
+          Console.WriteLine(finaName+"下载文件中...");
+          Thread.Sleep(3000);
+          Console.WriteLine("线程ID:"+Thread.CurrentThread.ManagedThreadId);
+          Console.WriteLine("下载完毕");
+      });
+      load.IsBackground = true; //设置为后台前程
+      load.Start("XXX.种子"); //不会输出了
+
+      Console.WriteLine("Mian Function");
+ ```
+ ##### 优先级
+ `CPU同一时间只能做一件事情,当很多线程需要执行的时候,线程调度器,会根据线程的优先级去判断先去执行那一个线程,如果优先级相同就按照顺序逐个执行`
+ 
+ * **`Priority`** ：`设置优先级 是一个 ThreadPriority的 枚举值,Highest AboveNormal BelowNormal  Lowest`
+  
+ ```C#
+ 
+ ```
