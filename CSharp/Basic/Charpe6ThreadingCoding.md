@@ -6,6 +6,12 @@
 
 - [x] :mountain_bicyclist:	<a href="#UseThreading">`通过Threading使用多线程`</a>
 
+- [x] :mountain_bicyclist:	<a href="#ChiziThreading">`线程池`</a>
+
+- [x] :mountain_bicyclist:	<a href="#TaskThreading">`基于任务的多线程`</a>
+
+- [x] :mountain_bicyclist:	<a href="#ResourceThreading">`线程争用问题`</a>
+
 #### &nbsp;&nbsp; 通过委托使用多线程 <a id="DelegateThreading"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
 * `C#委托实现多线程 需要借助两个方法 BeginInvoke 和 EndInvoke`
@@ -145,7 +151,222 @@
  `CPU同一时间只能做一件事情,当很多线程需要执行的时候,线程调度器,会根据线程的优先级去判断先去执行那一个线程,如果优先级相同就按照顺序逐个执行`
  
  * **`Priority`** ：`设置优先级 是一个 ThreadPriority的 枚举值,Highest AboveNormal BelowNormal  Lowest`
-  
- ```C#
- 
- ```
+
+##### 控制线程
+* `Thread.CurrentThread.ThreadState`:`获取当前线程的状态  ThreadState是一个枚举值`
+```C#
+//
+// 摘要:
+//     启动线程，它不会被阻止，并且有没有挂起 System.Threading.ThreadAbortException。
+Running = 0,
+//
+// 摘要:
+//     正在请求线程停止。 这是仅供内部使用。
+StopRequested = 1,
+//
+// 摘要:
+//     正在请求线程挂起。
+SuspendRequested = 2,
+//
+// 摘要:
+//     该线程将作为后台线程，而不是一个前台线程正在执行。 通过设置控制此状态 System.Threading.Thread.IsBackground 属性。
+Background = 4,
+//
+// 摘要:
+//     System.Threading.Thread.Start 不对的线程上调用方法。
+Unstarted = 8,
+//
+// 摘要:
+//     该线程已停止。
+Stopped = 16,
+//
+// 摘要:
+//   线程将受阻。Thread.Sleep(System.Int32) 或Thread.Join,
+//   请求锁的 .Threading.Monitor.Enter(System.Object) 或 .Monitor.Wait(System.Object,System.Int32,System.Boolean)
+//   Threading.ManualResetEvent。
+WaitSleepJoin = 32,
+//
+// 摘要:
+//     该线程已挂起。
+Suspended = 64,
+//
+// 摘要:
+//     System.Threading.Thread.Abort(System.Object) 的线程上调用方法，但该线程尚未收到挂起 System.Threading.ThreadAbortException
+//     ，将尝试将其终止。
+AbortRequested = 128,
+//
+// 摘要:
+//     线程状态包括 System.Threading.ThreadState.AbortRequested 和线程现在出现故障，但其状态不发生更改到 System.Threading.ThreadState.Stopped。
+Aborted = 256
+
+```
+
+* `线程的状态`:`Running / Unstarted` ,`当通过Thread 调用Start方法后 线程还不会进入Running状态,而是Unstared状态,只有当操作系统的线程调度器选择了要运行的线程,这个线程的状态才会修改为Running状态.我们可以使用` **`Sleep`** `方法让线程 进入WaitSleepJoin状态`,`使用` **`Abort`** `方法停止线程`
+
+* `如果需要等待线程结束的话,可以调用Thread对象的Join方法,表示把Thread加入进来,停止当前线程,并把它设置为WaitSleepJoin状态,知道加入线程完成为止`
+
+```C#
+        static void Main(string[] args)
+        {
+            Thread load = new Thread((finaName) =>
+            {
+                Console.WriteLine(finaName+"下载文件中...");
+                Thread.Sleep(3000);
+                Console.WriteLine("线程ID:"+Thread.CurrentThread.ManagedThreadId);
+                Console.WriteLine("下载完毕");
+
+                Console.WriteLine(Thread.CurrentThread.ThreadState);
+            });
+            load.Start("XXX.种子");
+
+            load.Join(); //等待load线程执行完成
+            Console.WriteLine("Mian Function");
+        }        
+        /* 输出
+          XXX.种子下载文件中...
+          线程ID:3
+          Running
+          Main Function
+        */
+```
+#### &nbsp;&nbsp; 线程池 <a id="ChiziThreading"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`创建线程需要时间,如果有不同的小任务需要完成,就可以事先创建许多线程,在完成这些任务的时候发送请求线程执行,这个线程的数量最好在需要更多线程时增加
+,在需要释放资源的时候减少,不需要自己创建创建线程池子,系统以及有一个` **`ThreadPool 静态类`** `类管理线程池。会自动增加减少线程数量,池中最大线程数量可以配置, 工作线程数量和IO线程数量,也可以配置最小线程数量`
+
+```C#
+      static void Main(string[] args)
+      {
+          //QueueUserWorkItem 发起工作线程  传入的方法必须带一个参数
+          ThreadPool.QueueUserWorkItem(CarryOut);
+          ThreadPool.QueueUserWorkItem(CarryOut);
+          ThreadPool.QueueUserWorkItem(CarryOut);
+          ThreadPool.QueueUserWorkItem(CarryOut);
+          ThreadPool.QueueUserWorkItem(CarryOut);
+          ThreadPool.QueueUserWorkItem(CarryOut);
+          Console.ReadKey();
+      }
+      public static void CarryOut(object states){
+          Console.WriteLine("线程执行ID：" + Thread.CurrentThread.ManagedThreadId);
+          Thread.Sleep(2000);
+          Console.WriteLine("线程结束了：" + Thread.CurrentThread.ManagedThreadId);
+      }
+```
+* `线程池都是后台线程`
+* `不能设置优先级和名称`
+* `只能处理时间短的任务,长时间任务请自动创建线程`
+
+#### &nbsp;&nbsp; 基于任务的多线程 <a id="TaskThreading"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+
+```C#
+      static void Main(string[] args)
+      {
+          Task t = new Task(CarryOut);
+          t.Start();
+          Thread.Sleep(3000);
+          Console.WriteLine("Main Function Over");
+
+      }
+      public static void CarryOut(){
+
+          Console.WriteLine("线程执行ID：" + Thread.CurrentThread.ManagedThreadId);
+          Thread.Sleep(2000);
+          Console.WriteLine("线程结束了：" + Thread.CurrentThread.ManagedThreadId);
+      }
+```
+* TaskFactory
+
+```C#
+      TaskFactory ta = new TaskFactory();
+      ta.StartNew(CarryOut);
+```
+
+##### 线程依赖/连续任务
+`如果任务T1的执行依赖于任务2的,那么久需要任务T2执行完毕后再开始执行T1这个时候可以使用连续任务`
+
+```C#
+        static void Main(string[] args)
+        {
+            Task t = new Task(DoFirst);            
+            Task t2 = t.ContinueWith(DoSecond);
+            Console.WriteLine("Task " + t.Id + " Start");
+            t.Start();
+
+            Console.WriteLine("Main Function Over");
+            Console.ReadKey();
+        }
+        public static void DoFirst()
+        {
+
+            Console.WriteLine("线程执行ID：" + Thread.CurrentThread.ManagedThreadId);
+            Thread.Sleep(2000);
+            Console.WriteLine("线程结束了：" + Thread.CurrentThread.ManagedThreadId);
+        }
+
+        public static void DoSecond(Task brefore)
+        {
+            Console.WriteLine(" Task："+brefore.Id+" Finish");
+            Console.WriteLine(" Task：" +Thread.CurrentThread.ManagedThreadId + " Start");
+        }
+```
+* `线程没有父子之分,但是任务有父子关系,父任务要等子任务执行完成后父任务才算完成`
+
+#### &nbsp;&nbsp; 线程争用问题 <a id="ResourceThreading"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
+`lock(Object){} 锁定一个对象,不能锁定值类型`
+* 一个线程争用问题
+```C#
+    class Person
+    {
+        public int i = 5;
+
+        public void ChangeStats()
+        {
+            i++;
+            if (i == 5)
+            {
+                Console.WriteLine($"i==5 { Thread.CurrentThread.ManagedThreadId }");
+            }
+            i = 5;
+        }
+    }
+    
+    
+    static void Main(string[] args)
+    {
+        Person p = new Person();
+        Thread t = new Thread(ChangeStats);
+        t.Start(p);
+        Thread t1 = new Thread(ChangeStats);
+        t1.Start(p);
+        Console.ReadKey();
+    }
+
+    public static void ChangeStats(object o)
+    {
+        Person p = o as Person;
+        while (true)
+        {
+            if (p.i == 5)
+            {
+                p.ChangeStats();
+            }
+        }
+    }
+```
+* lock解决争用问题
+```C# 
+      public static void ChangeStats(object o)
+      {
+          Person p = o as Person;
+          while (true)
+          {
+              lock (o)
+              {
+                  if (p.i == 5)
+                  {
+                      p.ChangeStats();
+                  }
+              }
+
+          }
+      }
+```
