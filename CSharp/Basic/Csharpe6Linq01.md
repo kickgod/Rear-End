@@ -2,7 +2,7 @@
 ---
 `LINQ（Language Integrated Query）语言集成查询` 是一组用于c#和Visual Basic语言的扩展。它允许编写C#或者Visual Basic代码以操作内存数据的方式，查
 询数据库。`对象查询语言`
-
+ 
 - [x] :whale2: <a href="#LearingNeed">`初期准备`</a>
    * <a href="#LearingNeed">  `1. 知识需要` </a>
    * <a href="#DataPrepared"> `2. 程序数据准备`</a>
