@@ -4,7 +4,7 @@
 
 - [x] :mountain_bicyclist:	<a href="#DelegateThreading">`通过委托使用多线程`</a>
 
-- [x] :mountain_bicyclist:	<a href="#UseThreading">`通过Threading使用多线程`</a>
+- [x] :mountain_bicyclist:	<a href="#UseThreading">`通过Threading使用多线程 `</a>
 
 - [x] :mountain_bicyclist:	<a href="#ChiziThreading">`线程池`</a>
 
