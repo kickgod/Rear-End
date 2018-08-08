@@ -41,7 +41,8 @@
 * [C# 6.0 异常处理](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md)
 :white_check_mark:
 
-
+* [	C# 6.0之前的多线程,任务](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Charpe6ThreadingCoding.md)
+:white_check_mark:
 
 
 
