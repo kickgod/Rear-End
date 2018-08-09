@@ -3,7 +3,8 @@
  :fast_forward:`可使用免费的跨平台工具生成各种 .NET 应用，如云、IoT 和游戏应用。 应用可以在 Android、iOS、Linux、macOS 和 Windows 上运行。 请将应用部署到服务器或桌面，然后发布到应用商店中，以供在移动设备上部署。 .NET 可供学生和爱好者使用，欢迎所有人积极参与生机勃勃的国际开发者社区，并对各种 .NET 技术的发展做出直接贡献。`:rewind:
 
 ----
-#### C# 语言基础  `核心C#` :100:
+#### C# 语言基础  `核心C#` :100: 
+:maple_leaf: `一下语法非常重要,如同打地基一样`
  * [C# 6.0 新特性](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CSharpSixNewcharacteristic.md)
  
  * [C# 6.0 基础部分](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBefore.md)
@@ -40,6 +41,9 @@
 
 * [C# 6.0 异常处理](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6Exception01.md)
 :white_check_mark:
+
+#### C# 语言进阶必须  `能编程的C#` 	:whale2:
+:maple_leaf: `以下是非常重要的,决定是否能够参与编程,能够做出web,pc等等`
 
 * [	C# 6.0 之前的多线程,任务](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Charpe6ThreadingCoding.md)
 :white_check_mark:
