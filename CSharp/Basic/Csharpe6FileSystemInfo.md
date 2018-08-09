@@ -5,8 +5,8 @@
     * <a href="#Path">  `Path 路径类` </a>
     * <a href="#File">  `File 文件操作` </a>
     * <a href="#FileInfo">  `FileInfo 文件对象` </a>
-    
-#### <a href="#SystemFileManagement" id="SystemFileManagement">管理文件系统</a>
+   
+#### <a href="#SystemFileManagement" id="SystemFileManagement">管理文件系统</a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `FileSystemInfo`：`这是表示任何文件系统对象的基类`
 * `FileInfo和 File`：`这些类表示文件系统上面的文件`
 * `DirectoryInfo和Directory`：`这些类表示文件系统上面的目录`
@@ -28,7 +28,7 @@
 * `DirectoryInfo,FileInfo实现与Directory和File类有大致相同的公共方法,并拥有一些公共属性和构造函数,但他们都是有状态的,并且这些类的成员都不是静态的
 需要实例化这些类,之后吧每个实例与特定的文件或者文件夹关联起来。`
 
-#####  <a id="DriveInfo" href="#DriveInfo">  `DriveInfo 检查驱动信息` </a>
+#####  <a id="DriveInfo" href="#DriveInfo">  `DriveInfo 检查驱动信息` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 [`DirveInfo`](https://msdn.microsoft.com/zh-cn/library/system.io.driveinfo(v=vs.110).aspx) `类可以用于检查驱动器信息,可以描述驱动器列表还可以进一步提供任何关于驱动器的大量细节`
 * 构造函数
   * `DriveInfo(String)`:	 `提供对有关指定驱动器的信息的访问。`
@@ -75,7 +75,7 @@
       磁盘总大小:127440777216
       ....
 ```
-##### [Path](https://msdn.microsoft.com/zh-cn/library/system.io.path(v=vs.110).aspx) 路径类 <a id="Path"></a>
+##### [Path](https://msdn.microsoft.com/zh-cn/library/system.io.path(v=vs.110).aspx) 路径类 <a id="Path"></a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `对包含文件或目录路径信息的 String 实例执行操作。 这些操作是以跨平台的方式执行的。`  **`静态列`**
 
 * Path 字段
@@ -128,7 +128,7 @@
       //  GetTempPath() 返回当前用户的临时文件夹的路径
       Console.WriteLine($"{Path.GetTempPath()}");
 ```
-##### [File](https://msdn.microsoft.com/zh-cn/library/system.io.file(v=vs.110).aspx) 文件操作 <a id="File"></a>
+##### [File](https://msdn.microsoft.com/zh-cn/library/system.io.file(v=vs.110).aspx) 文件操作 <a id="File"></a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `提供用于创建、复制、删除、移动和打开单一文件的静态方法，并协助创建 FileStream 对象。静态类`
 * 文件编码:[Encoding 类](https://msdn.microsoft.com/zh-cn/library/system.text.encoding(v=vs.110).aspx)  `System.Text.Encoding`
 
@@ -283,10 +283,110 @@
         File.Move(pathw, pathnew);
     }
 ```
-  
-  
-  
-  
+#### <a href="https://msdn.microsoft.com/zh-cn/library/system.io.fileinfo(v=vs.110).aspx" id="FileInfo">FileInfo 文件对象</a> :closed_umbrella: <a href="#top"> `置顶` </a> 
+`提供用于创建、复制、删除、移动和打开文件的属性和实例方法，并且帮助创建 FileStream 对象。 此类不能被继承`
+* 构造函数  
+   * `FileInfo(String)`	:`初始化作为文件路径的包装的 FileInfo 类的新实例 `
+* 属性
+    * `Attributes`	`获取或设置当前文件或目录的特性。（继承自 FileSystemInfo。）`
+    * `CreationTime`	`获取或设置当前文件或目录的创建时间。（继承自 FileSystemInfo。）`
+    * `CreationTimeUtc`	`获取或设置当前文件或目录的创建时间，其格式为协调世界时 (UTC)。（继承自 FileSystemInfo。）`
+    * `Directory`	`获取父目录的实例。`
+	* `DirectoryName`	`获取表示目录的完整路径的字符串。`
+	* `Exists`	`获取指示文件是否存在的值。（覆盖 FileSystemInfo.Exists。）`
+	* `Extension`	`获取表示文件扩展名部分的字符串。（继承自 FileSystemInfo。）`
+	* `FullName`	`获取目录或文件的完整目录。（继承自 FileSystemInfo。）`
+	* `IsReadOnly`	`获取或设置确定当前文件是否为只读的值。`
+	* `LastAccessTime`	`获取或设置上次访问当前文件或目录的时间。（继承自 FileSystemInfo。`
+	* `LastAccessTimeUtc`	`获取或设置上次访问当前文件或目录的时间，其格式为协调世界时 (UTC)。（继承自 FileSystemInfo。）`
+	* `LastWriteTime`	`获取或设置上次写入当前文件或目录的时间。（继承自 FileSystemInfo。）`
+	* `LastWriteTimeUtc`	`获取或设置上次写入当前文件或目录的时间，其格式为协调世界时 (UTC)。（继承自 FileSystemInfo。）`
+	* `Length`	`获取当前文件的大小（以字节为单位）。`
+    * `Name` `获取文件名。（覆盖 FileSystemInfo.Name。）`
+* 属性操作
+```C#
+	FileInfo info=new FileInfo("resource/index.html");
+	if(info.Exists){
+		Console.WriteLine($"父目录:{info.DirectoryName}");
+		Console.WriteLine($"文件名称:{info.Name}");
+		DirectoryInfo dr=info.Directory;
+		Console.WriteLine($"文件扩展:{info.Extension}");
+		Console.WriteLine($"完整目录:{info.FullName}");
+		Console.WriteLine($"父目录名称:{dr.Name}");
+		Console.WriteLine($"文件初次创建时间:{info.CreationTime}");
+		Console.WriteLine($"最后一次写入时间:{info.LastWriteTime}");
+		Console.WriteLine($"最后一次访问时间:{info.LastAccessTime}");
+
+	}else{
+		Console.WriteLine($"文件不存在 或者路径错误");    
+	}
+	/*
+		父目录名称:resource
+		文件初次创建时间:2018/8/9 18:40:24
+		最后一次写入时间:2018/8/9 18:40:24
+		最后一次访问时间:2018/8/9 18:40:24
+		PS G:\Acigela\DotnetConsole2> dotnet run
+		父目录:G:\Acigela\DotnetConsole2\resource
+		文件名称:index.html
+		文件扩展:.html
+		完整目录:G:\Acigela\DotnetConsole2\resource\index.html
+		父目录名称:resource
+		文件初次创建时间:2018/8/9 18:40:24
+		最后一次写入时间:2018/8/9 21:07:44
+		最后一次访问时间:2018/8/9 18:40:24
+	*/
+```
+* 方法操作
+	* `AppendText()` :`创建一个 StreamWriter，它向 FileInfo 的此实例表示的文件追加文本。`
+	* `CopyTo(String)`：`将现有文件复制到新文件，不允许覆盖现有文件。`
+	* `CopyTo(String, Boolean)`: `将现有文件复制到新文件，允许覆盖现有文件。`
+	* `Create()` :`创建文件。`
+	* `CreateObjRef(Type)`：`创建包含所有生成代理用于与远程对象进行通信所需的相关信息的对象。（继承自 MarshalByRefObject。）`
+	* `CreateText()`: `创建写入新文本文件的 StreamWriter。`
+	* `Decrypt()`:`使用 Encrypt 方法解密由当前帐户加密的文件。`
+	* `Delete()`:`永久删除文件。（覆盖 FileSystemInfo.Delete()。）`
+	* `Encrypt()`:`将某个文件加密，使得只有加密该文件的帐户才能将其解密。`
+	* `Equals(Object)`:`确定指定的对象是否等于当前对象。（继承自 Object。）`
+	* `GetAccessControl() `:`获取 FileSecurity 对象，该对象封装当前 FileInfo 对象所描述的文件的访问控制列表 (ACL) 项。`
+	* `GetAccessControl(AccessControlSections)`:`获取一个 FileSecurity 对象，该对象封装当前 FileInfo 对象所描述的文件的指定类型的访问控制列表 (ACL) 项。`
+	* `GetHashCode()`:`作为默认哈希函数。（继承自 Object。）`
+	* `GetLifetimeService() `:`检索当前生存期服务对象，用于控制此实例的生存期策略。（继承自 MarshalByRefObject。）`
+	* `GetObjectData(SerializationInfo, StreamingContext) `:`设置带有文件名和附加异常信息的 SerializationInfo 对象。（继承自 FileSystemInfo。）`
+	* `GetType() `:`获取当前实例的 Type。（继承自 Object。）`
+	* `InitializeLifetimeService() `:`获取生存期服务对象来控制此实例的生存期策略。（继承自 MarshalByRefObject。）`
+	* `MoveTo(String)`:`将指定文件移到新位置，提供要指定新文件名的选项。`
+	* `Open(FileMode)`:`在指定的模式中打开文件。`
+	* `Open(FileMode, FileAccess)`:`用读、写或读/写访问权限在指定模式下打开文件。`
+	* `Open(FileMode, FileAccess, FileShare)`:`用读、写或读/写访问权限和指定的共享选项在指定的模式中打开文件。`
+	* `OpenRead()`:`创建一个只读的 FileStream。`
+	* `OpenText()`:`创建使用从现有文本文件中读取的 UTF8 编码的 StreamReader。`
+	* `OpenWrite() `:`创建一个只写的 FileStream。`
+	* `Refresh()`:`刷新对象的状态。（继承自 FileSystemInfo。）`
+	* `Replace(String, String)`:`使用当前 FileInfo 对象所描述的文件替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份。`
+	* `Replace(String, String, Boolean)`:`使用当前 FileInfo 对象所描述的文件替换指定文件的内容，这一过程将删除原始文件，并创建被替换文件的备份。 还指定是否忽略合并错误。`
+	* `SetAccessControl(FileSecurity)`:`将 FileSecurity 对象所描述的访问控制列表 (ACL) 项应用于当前 FileInfo 对象所描述的文件。`
+	* `ToString()`:`以字符串形式返回路径。（覆盖 Object.ToString()。）`
+	
+```C#
+	FileInfo info=new FileInfo("resource/User.txt");
+	if(info.Exists){                                    
+	}else{
+	   info.CreateText();
+	}
+
+	//追加文本
+	StreamWriter wr= info.AppendText();
+	wr.WriteLine("let me start to keick hello wrold");
+	//将缓存刷到文件中去
+	wr.Flush();
+
+	//复制文件
+	info.CopyTo("resource/list.txt");
+	//移动文件
+	info.MoveTo("/resource/HHH.txt");
+	//删除文件
+	info.Delete();
+```
   
   
   
