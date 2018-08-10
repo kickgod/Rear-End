@@ -4,7 +4,7 @@
 
 ----
 #### C# 语言基础  `核心C#` :100: 
-:maple_leaf: `一下语法非常重要,如同打地基一样`
+:maple_leaf: `基础语法非常重要,如同打地基一样`
  * [C# 6.0 新特性](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/CSharpSixNewcharacteristic.md)
  
  * [C# 6.0 基础部分](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6ClassBefore.md)
@@ -50,6 +50,7 @@
 
 * [	C# 6.0 特性,反射,元数据,动态编程](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Charpe6CharacteristicreflectionMetadata.md)
 
+* [	C# 6.0 文件系统](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6FileSystemInfo.md)
 
 
 
