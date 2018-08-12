@@ -1,4 +1,3 @@
-
 <a id="top" href="#top">	:maple_leaf: EntityFramework ORM框架 :blue_heart:</a> 
 -----
 > `ORM框架`:`ORM`是通过使用描述对象和数据库之间映射的元数据,在我们想到描述的时候自然就想到了xml和特性(Attribute).目前的ORM框架中,Hibernate就是典型的使用xml文件作为描述实体对象的映射框架,而大名鼎鼎的Linq则是使用特性(Attribute)来描述的。
@@ -8,9 +7,18 @@
 - [x] :maple_leaf: <a href="#DBContent">`数据上下文类 `</a>
 - [x] :maple_leaf: <a href="#ModelAgreement">`约定,映射`</a>
     - <a href="#primarykey">`主键约束`</a>
+	- <a href="#oneSerachMany">`一查找多`</a> 	
     - <a href="#ForeginKeyOntToMany">`外键约束一对多`</a>
+    - <a href="#ForeginKeyManyToMany">`外键约束多对多`</a>	
+- [x] :maple_leaf: <a href="#TableField">`表的字段约束,表属性`</a>	
+	- <a href="#TableName">`表名称`</a>
+	- <a href="#IdentityColumn">`标识列`</a>
+	- <a href="#HasComputedColumnSql">`计算列`</a>
+	- <a href="#HasPrecision">`设置精度`</a>
+	- <a href="#StringLEngth">`字符串长度`</a>
+	- <a href="#StringLEngth">`可不可空属性`</a>
+	- <a href="#StringLEngth">`指定字段类型`</a>
 - [x] :maple_leaf: <a href="#DataMoveNotDisapper">`数据迁移 `</a>    
-
 
 #### <a id="ConnectDataBase" href="#ConnectDataBase">链接数据库</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `通过配置文件`
@@ -136,7 +144,7 @@
 	[CName] [nvarchar](max) NULL)
 
 ```
-
+* 主键不加特性注解的方式
 ```C#
     //产品类
     using System.ComponentModel.DataAnnotations;
@@ -151,7 +159,22 @@
     }
     // 数据库
 ```
+* 主键加注解的方式 [ForeignKey("Cat")]
 
+```C#
+    class Product
+    {
+        [Key]
+        public int Pid { get; set; }
+        public string PName { get; set; }
+        [ForeignKey("Cat")] //里面要跟着导航属性的名称
+        public int CategoryId {get;set;}
+        //延迟加载
+        public virtual Category Cat { get; set; }//导航属性
+
+    }
+
+```
 ```sql
     CREATE TABLE [dbo].[Products](
         [Pid] [int] IDENTITY(1,1) NOT NULL,
@@ -190,6 +213,76 @@
 ```
 **`注意:因为外键有virtual修饰,使用延迟加载,所以在需要导航属性的时候,需要使用Include("导航属性");`**
 
+#### <a id="ForeginKeyManyToMany" href="#ForeginKeyManyToMany">外键约束多对多</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
+
+*  <a id="oneSerachMany">`通过一查找多`</a> `一查找多 通过集合[List<>/ICollection]和 virtual 关键字 实现`
+```C#
+    class Category
+    {
+        [Key]
+        public int Cid { get; set; }
+        public string CName { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; } //必须有virtual 注意是延迟加载
+    }
+```
+##### 产品订单 多对多关系
+`一个产品可以有多个订单,一个订单可以多多个产品`
+* 产品表
+```
+    class Product
+    {
+        [Key]
+        public int Pid { get; set; }
+        public string PName { get; set; }
+        public virtual List<Order> Orders { get; set; }
+    }
+```
+* 订单表
+
+```C#
+    class Order
+    {
+        [Key]
+        public int OId { get; set; }
+        [MaxLength(80)]
+        public string OName { get; set; }
+
+        public virtual List<Product> Products { get; set; }
+    }
+```
+
+```C#
+    class ProductEntity: DbContext
+    {
+        public ProductEntity() : base("name=ConnectionString")
+        {
+            Database.SetInitializer<ProductEntity>(new DropCreateDatabaseIfModelChanges<ProductEntity>());
+           
+        }
+        public DbSet<Order> orders { get; set; }
+
+        public DbSet<Product> products { get; set; }
+    }
+```
+
+`这样就默认会创建一张表 表名称:OrderProducts 两个字段:Order_OId / Product_Pid 主外键`
+
+
+* 如果关系表要自己命名和键自己命名 可以使用如下方法
+```C#
+	protected override void OnModelCreating(DbModelBuilder modelBuilder)
+	{
+	    modelBuilder.Entity<Product>().HasMany(t => t.Orders).WithMany(a => a.Products).Map(m =>
+	    {
+		m.ToTable("ProductOrder");
+		m.MapLeftKey("Pid");
+		m.MapRightKey("Oid");
+	    });
+	}
+```
+
+
 #### <a id="DataMoveNotDisapper" href="#DataMoveNotDisapper">数据迁移</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `当模型发生变化的时候,总是重新创建数据库会导致很严重的问题,就是数据丢失`
 * `我们使用数据迁移解决这个问题`
@@ -205,4 +298,72 @@
  Add-Migration AddPasswrod
  Update-DataBase
 ```
+#### <a id="TableField" href="#TableField">表的字段约束,表属性</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
+`表还有自增长,计算属性,默认值,约束鞥,下面我们来讲述这些映射,首先得知道在那些配置映射,也是在派生类上下文重写OnModelCreating`
+```C#
+	protected override void OnModelCreating(DbModelBuilder modelBuilder)
+	{
 
+	}
+```
+* `对属性进行映射对常见的可以划分为数值映射,字符串映射,日期映射,当然还有xml映射,GUID映射,text映射等等`
+#####  <a id="TableName">`表名称`</a>
+```C#
+  modelBuilder.Entity<Blog>().ToTable("Bloginfo"); //将Blog映射为表 表名称为Bloginfo
+```
+#####  <a id="PrimaryKeyByCode">`主键`</a>
+* 单值主键
+```C#
+  modelBuilder.Entity<Blog>().HasKey(k => k.Id);
+```
+* 组合主键
+```C#
+modelBuilder.Entity<Blog>().HasKey(k =>
+new {
+	ID = k.Id,
+	BlogName = k.Name
+});
+```
+#####  <a id="IdentityColumn">`标识列`</a>
+`通过属性 设置DatabaseGeneratedOption 枚举值`
+```C#
+  modelBuilder.Entity<Blog>().Property(P=>P.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+```
+#####  <a id="HasComputedColumnSql">`计算列`</a>
+```C#
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Person>()
+            .Property(p => p.DisplayName)
+            .HasComputedColumnSql("[LastName] + ', ' + [FirstName]");
+    }
+```
+##### 数值映射说明
+* `C#中的Int类型默认映射后对应于数据库中的Int类型`
+* `C#中的Double类型默认映射后对应于数据库中的float类型`
+* `C#中的float类型默认映射后对应于数据库中的real类型`
+* `C#中的Decimal类型默认映射后对应于数据库中的Decimal(18,2)类型`
+* `C#中的Int64类型默认映射后对应于数据库中的BigInt类型`
+##### <a id="HasPrecision">`设置精度`</a>
+```C#
+  modelBuilder.Entity<Product>().Property(p => p.RealPrice).HasPrecision(18, 4);// 4位小数 默认两位小数
+```
+##### <a id="StringLEngth">`字符串长度`</a>
+`字符串自动映射到nvarchar,默认为 nvarchar(max)`
+```C#
+  modelBuilder.Entity<Product>().Property(p => p.PName).HasMaxLength(50);
+```
+##### <a id="StringLEngth">`可不可空属性`</a>
+```C#
+  modelBuilder.Entity<Product>().Property(p => p.PName).IsOptional(); //可空
+  modelBuilder.Entity<Product>().Property(p => p.PName).IsRequired(); //不可空
+```
+##### <a id="StringLEngth">`指定类型`</a>
+```C#
+  modelBuilder.Entity<Product>().Property(p => p.PName).HasColumnType("char");
+```
+##### <a id="StringLEngth">`日期`</a>
+`日期类型默认为Date类型,但是数据库中海油DateTime,datetime2,smalldatetime，time(7) 可以通过HasColumnType指定`
+```C# 
+  modelBuilder.Entity<Blog>().Property(p => p.CreateTime).HasColumnType("datetime2");
+```
