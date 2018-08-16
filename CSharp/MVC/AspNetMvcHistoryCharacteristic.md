@@ -20,7 +20,7 @@
   * `支持依赖注解和全局操作过滤器`
   * `丰富的JS支持,Jq验证和JSON绑定`
   * `NuGet支持` **`[重要]`**
-####  <a id="MVC3" href="#MVC4">ASP.NET MVC 4</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>  
+####  <a id="MVC4" href="#MVC4">ASP.NET MVC 4</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>  
   * `ASP.NET WEB API`  **`[非常重要]`**
      * **`介绍:`** `ASP.NET MVC使得控制到字节的相应变得非常容易,而且MVC模式在创建服务层时变得容易,可以是MVC创建Web服务这些服务可以返回XML,Json或者其他非HTML格式的数据,并且比使用其他服务框架(WCF) 或编写原始的HTTP处理程序更加容易,尽管如此,MVC任然有一些不足之处,比如我们需要假设Web来传送服务,但是总体而言MVC更加优,MVC4提供了一个良好的解决方案:ASP.NET Web API，它是一个提供了ASP.NET MVC开发风格的框架,专门用来编写Htttp服务,改框架包括在HTTO服务域修改一些MVC概念,并提供了一些新的面相服务的功能`
          * **`路由`** ：`MVC API使用相同的路由系统,将URL映射到控制器操作,按照约定将HTTP动词映射到操作,从而实现将路由融入HTTP上下文,这样方便阅读和
@@ -72,7 +72,7 @@
            //这样引用不需要绑定到jquery绑定号 框架会自动获取最新版本,而不需修改任何代码
            @Scripts.Render("~/bundles/jquery")
        ```
-####  <a id="MVC2" href="#MVC5">ASP.NET MVC 5</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="MVC5" href="#MVC5">ASP.NET MVC 5</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 :fast_forward:`发布与2013年10月份主要特点如下:`:rewind:
   * `One ASP.NET`
      * `过去的版本MVC是 每次创建项目时候，创建一个MVC程序,Web From或其他类型,之后,实际上我们被限制住了,在某种程度上可以把Web From添加到一个MVC程序中,但是吧MVC添加到WebFrom 中是很宽单的添加时需要做一些神秘的修改,在MVC5情况发生了变化,因为现在只有一种ASP.NET 项目类型,在Visual Studio2013 中创建新的Web应用程序时,没有复杂的选项,不只是在一开始创建ASP.NET项目时才支持那么做，在不断开发的过程中,可以添加对其他框架的支持,因为工具和特性都是NuGet包提供了,开发过程中,可以使用ASP.NET基架想任何现有的ASP.NET应用程序添加MVC`
@@ -88,7 +88,7 @@
   * `身份验证过滤器`:`允许开发人员参与和结果执行管道,过滤器重写意味着某个控制器不执行全局过滤器`
      * 
   * `过滤器重写`
-####  <a id="MVC2" href="#Agreement">ASP.NET MVC 约定</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="Agreement" href="#Agreement">ASP.NET MVC 约定</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 :fast_forward:`MVC对约定的依赖性很强,这样就避免了开发人员配置和指定一些项,因为可以通过约定推断`:rewind:
 * `控制器默认存放在 Controllers文件夹中,控制器以Controller结尾例如 HomeController`
 * `模型类默认放在Models文件夹中`
