@@ -94,3 +94,9 @@
 * `模型类默认放在Models文件夹中`
 * `视图存放在 Views文件夹中,每个控制器类都有一个对应其名称的视图文件夹放在views文件夹下用于存放有关此控制器的视图 例如 HomeController 在views文件夹下有一个 Home 文件存放视图`
 * `共享的母版视图存放在Views/Shared 文件夹中`
+
+#### <a id="PersonAuthentication" href="#PersonAuthentication">配置身份验证</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+* **`No Authentication`** :`用于不需要身份验证的应用程序,例如没有管理单元的公共网站`
+* **`Individual User Account`** :`用于本地存储用户配置文件,(例如在SQL SERVER数据库中存储) 支持账号密码,以及社交认证提供程序;`
+* **`Organization Account`**:`用于某种形式的活动目录 包括Azure Active Directory和Office365 进行身份验证的账户`
+* **`Windows Authentication`** ：`用于内部网应用程序`
