@@ -10,7 +10,7 @@
 - [X] `C#泛型,委托,事件` :white_check_mark:
 - [X] `C#集合,Linq,Lambda表达式,正则表达式` :white_check_mark:
 - [x] `C#EF框架,文件系统,数据库访问` :white_check_mark:
-- [x] `C#SQL语句 数据库操作` :white_check_mark:
+- [x] `C# 特性注解 反射 SQL语句 数据库操作` :white_check_mark:
 #### `必备基础计算机素养`
 - [x] `Http协议` :sailboat:
 - [x] `数据结构` :sailboat:
