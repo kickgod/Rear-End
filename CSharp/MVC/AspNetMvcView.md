@@ -6,6 +6,8 @@
 - [x] :maple_leaf: <a href="#ClasstMvcData">`向视图传递数据[强类型视图]`</a>
 - [x] :maple_leaf: <a href="#ViewJiJia">`视图基架`</a>
 - [x] :maple_leaf: <a href="#Razor">`Razor 视图引擎`</a>
+- [x] :maple_leaf: <a href="#RazorLayout">`Razor 视图布局`</a>
+- [x] :maple_leaf: <a href="#RazorPart">`部分视图`</a>
 
 ####  <a id="DefaultMvcData" href="#DefaultMvcData">`向视图传递数据[非强类型视图]`</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `一般我们可以通过两种方式添加数据,这里我们介绍ViewBag/ViewData 接着说Razor 在将强类型视图,强类型视图最好结合表单使用`
@@ -82,7 +84,8 @@
             new CsharpGeneration(2,"c#第二个版本发行加入web 和数据库编程 事件组件驱动成为C#的标志"),
             new CsharpGeneration((float)3.5,"Linq成为C#的标准支持"),
             new CsharpGeneration(4,"C#在事件编程上走向成熟 推出了MVC模式 C#的新时代来领了"),
-            new CsharpGeneration((float)4.5,"异步多线变得更加方便！MVC成为流行编程方式  C#支持游戏 移动app开发 wpf"),
+            new CsharpGeneration((float)4.5,"异步多线变得更加方便！MVC成为流行编程方式 
+            C#支持游戏 移动app开发 wpf"),
             new CsharpGeneration(6,"C#迎来跨平台时代")
         };
         return View(Alist);
@@ -241,7 +244,7 @@
 `如果不使用显式表达式，<p>Age@joe.Age</p> 会被视为电子邮件地址，因此会呈现 <p>Age@joe.Age</p>。 如果编写为显式表达式，则呈现 <p>Age33</p>。`
 * 显式表达式可用于从 .cshtml 文件中的泛型方法呈现输出。 以下标记显示了如何更正之前出现的由 C# 泛型的括号引起的错误。 此代码以显式表达式的形式编写：
 ```html
-  <p>@(GenericMethod<int>())</p>
+  <p>@(GenericMethod<int>())</p> //错误语法
 ```
 #### 表达式编码
 `计算结果为字符串的 C# 表达式采用 HTML 编码。 计算结果为 IHtmlContent 的 C# 表达式直接通过 IHtmlContent.Write
@@ -434,3 +437,147 @@ To 呈现。 计算结果不为 IHtmlContent 的 C# 表达式通过 ToString 转
   <div>From method: @GetHello()</div> 
   //生成HTML结果  <div>From method: Hello</div>
 ```
+#### Razor注释
+```C#
+ @*
+     这是Razor 注释    
+ *@
+```
+####  <a id="RazorLayout" href="#RazorLayout">`Razor 视图布局`</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`制作布局页面,布局页面类似于母版页,制作布局页需要解决三个问题如何设定填充位置,另一个是如何把页面填充到指定的位置,不填充如何不报错`
+* 1. **`@RazorBody()`** :`这是一个占位符,用来标记使用这个布局的视图将渲染他们的主要内容的位置,多个Razor视图可以利用这个布局保持一致性`
+* 2. **`@RazorSection(Name)`**:`添加一个布局节,和RazorBody基本一样`
+* 3. **`@RenderSection("scripts", required: false)`** :`required 参数置为false 那么可以填充也可以不填充,不会报错`
+* 创建布局页面
+```html
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <meta name="viewport" content="width=device-width" />
+      <title>@ViewBag.Title</title>
+  </head>
+  <body>
+      <div class="Main">
+          @RenderBody()
+      </div>
+      <footer>
+          @RenderSection("Footer")
+      </footer>
+  </body>
+  </html>
+
+```
+* 使用布局页面
+```html
+  @{
+      ViewBag.Title = "About Page";
+      Layout = "~/Views/Shared/_MyLayout.cshtml";
+  }
+
+  <h2>About 这是主页面</h2>
+
+  @section Footer{
+      <h2>这是眉角</h2>    
+  }
+```
+* 渲染结果
+```html
+<html><head>
+    <meta name="viewport" content="width=device-width">
+    <title>About Page</title>
+</head>
+<body>
+    <div class="Main">
+        <h2>About 这是主页面</h2>
+    </div>
+    <footer>
+      <h2>这是眉角</h2>    
+    </footer>
+  </body>
+</html>
+```
+
+####  <a id="RazorPart" href="#RazorPart">`部分视图`</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`部分视图除了没有html标签之外其他和普通视图没有什么区别,控制器在返回部分视图的时候需要视图 return PartialView();`
+* 用处:`不能够指定布局页,布局视图的作用,将一个部分视图通过Ajax加载到一个正在调用Ajax的当前视图中,做异步刷新`
+##### HomeController
+```C#
+        public ActionResult Index()
+        {
+            return View();
+        }
+        
+        public ActionResult Message()
+        {
+            Random r = new Random();
+            int t = r.Next(0, 15);
+            ViewBag.Message = t;
+            return PartialView();
+        }
+```
+##### Message 视图
+```html
+  <h4 class="h4">
+     更新中: Message:@ViewBag.Message
+  </h4>
+```
+
+##### Index 视图
+```html
+    @{
+        ViewBag.Title = "Home Page";
+    }
+    <style>
+        #result {
+            text-indent:20px;
+        }
+    </style>
+    <div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>
+
+    <div class="row">
+        <div id="result"></div>
+    </div>
+    @section  scripts{
+        <script type="text/javascript">
+            $(function () {
+                //每隔两秒钟刷新一下
+                window.setInterval(function () {
+                    $("#result").load('/Home/Message');
+                },2000);
+
+            })
+          </script>
+    }
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
