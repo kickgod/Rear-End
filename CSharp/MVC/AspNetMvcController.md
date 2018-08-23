@@ -9,8 +9,9 @@
 * [x] :maple_leaf: <a href="#CreateStringController">创建一个返回String类型的控制器/映射规则</a>
 * [x] :maple_leaf: <a href="#CreateViewController">返回视图</a>
 * [x] :maple_leaf: <a href="#CreateParameterController">方法参数</a>
+* [x] :maple_leaf: <a href="#FunctionDirection">方法重定向</a>
 
-####  <a id="MVC2" href="#MVC2">控制器约定</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="ControllerAgreement" href="#ControllerAgreement">控制器约定</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `控制器`:`响应用户的HTTP请求并将处理后的信息通过HTML页面的形式返回给浏览器`
 * **`命名方式`**:`名称后面跟一个Controller`   `例如`:`HomeController`,`StudentController`,`UserController`
 * **`存放位置`**:`放在根目录下面的Controller`
@@ -88,12 +89,61 @@
     //返回内容为:Name:Wangzhe Age:15
 
 ```
+####  <a id="FunctionDirection" href="#FunctionDirection">方法重定向</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`将一个处理过程交给另一个控制器`
 
+#### RedirectToAction(action,controller)
+* `protected internal RedirectToRouteResult RedirectToAction(string actionName, object routeValues);`
+* `protected internal RedirectToRouteResult RedirectToAction(string actionName);`
+* `protected internal RedirectToRouteResult RedirectToAction(string actionName, RouteValueDictionary routeValues);`
+* `protected internal RedirectToRouteResult RedirectToAction(string actionName, string controllerName);`
+* `protected internal RedirectToRouteResult RedirectToAction(string actionName, string controllerName, object routeValues);`
+-----
+`routeValues 为匿名类型参数`
+```C#
+public ActionResult ShowDirection(int? i)
+{
+    if (i == null)
+    {
+        return RedirectToAction("Error","Home");
+    }
+    if(i<0)
+    return RedirectToAction("Index");
+    else
+    {
+        return View();
+    }
+}
 
+public ActionResult Error()
+{
+    return View("~/Views/Shared/Error.cshtml");
+}
+```
+#### 传递参数
+`传递参数要使用匿名类型`
+```C#
+    public ActionResult ShowDirection(int? i)
+    {
+        if (i == null)
+        {
+            return RedirectToAction("Error","Home",new { ErrorMessage= "请求URL错误",ErrorCode=56 });
+        }
+        if(i<0)
+        return RedirectToAction("Index");
+        else
+        {
+            return View();
+        }
+    }
 
+    public ActionResult Error(String ErrorMessage,int ErrorCode)
+    {
+        ViewBag.ErrorMessage = ErrorMessage;
+        return View("~/Views/Shared/Error.cshtml");
+    }
 
-
-
+```
 
 
 
