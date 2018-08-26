@@ -18,17 +18,20 @@
 	- <a href="#StringLEngth">`字符串长度`</a>
 	- <a href="#StringLEngth">`可不可空属性`</a>
 	- <a href="#StringLEngth">`指定字段类型`</a>
-- [x] :maple_leaf: <a href="#DataMoveNotDisapper">`数据迁移 `</a>    
+	- <a href="#ComplexAttributes">`复合属性`</a>
+- [x] :maple_leaf: <a href="#DataMoveNotDisapper">`数据迁移 `</a>
+- [x] :maple_leaf: <a href="#ParalleToken">`乐观并发属性 `</a>
 
 #### <a id="ConnectDataBase" href="#ConnectDataBase">链接数据库</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `通过配置文件`
 ##### 在App.Config里面添加
 
 ```XML
-    <connectionStrings>
-      <add name="ConnectionString" connectionString="Data Source=Ip地址;Initial Catalog=BlogsDb;
-           Persist Security Info=True;User ID=UserName;Password=Password"  providerName="System.Data.SqlClient"/>
-    </connectionStrings>
+<connectionStrings>
+	<add name="ConnectionString" connectionString="Data Source=Ip地址;Initial Catalog=BlogsDb;
+			 Persist Security Info=True;User ID=UserName;Password=Password" 
+			 providerName="System.Data.SqlClient"/>
+</connectionStrings>
 ```
 * 在数据库上下文类中调用构造函数
 ```C#
@@ -366,4 +369,97 @@ new {
 `日期类型默认为Date类型,但是数据库中海油DateTime,datetime2,smalldatetime，time(7) 可以通过HasColumnType指定`
 ```C# 
   modelBuilder.Entity<Blog>().Property(p => p.CreateTime).HasColumnType("datetime2");
+```
+##### <a id="ComplexAttributes">`复合属性`</a>
+* 将一些属性合并为一个类
+```C#
+    public class User
+    {
+        [Key]
+        public string ID { get; set; }
+        public string Pwd { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public Address address { get; set; } //地址类 复合属性
+    }
+```
+* 地址类
+```C#
+    public class Address
+    {
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+    }
+```
+* 映射结果
+```SQL
+CREATE TABLE [dbo].[Users](
+	[ID] [nvarchar](128) NOT NULL,
+	[Pwd] [nvarchar](max) NULL,
+	[Name] [nvarchar](max) NULL,
+	[Age] [int] NOT NULL,
+	[address_Street] [nvarchar](max) NULL,
+	[address_City] [nvarchar](max) NULL,
+	[address_ZipCode] [nvarchar](max) NULL
+    )
+```
+```C#
+public async Task<ActionResult> Index()
+{
+    using(StoreContent store = new StoreContent())
+    {
+        store.Database.Connection.Open();
+        User u = new User();
+        u.Age = 19;
+        u.Name = "无双";
+        u.ID = "201611000001";
+        u.Pwd = "ASCBASKJDPOWQMDASDKJIOQWDNQWKDNQWUYUE123";
+				
+        u.adrress = new Address(); //不管address属性是否需要填值 都要做这一步 不然一定要报错
+				
+				
+        u.address.City = "BeiJing";
+        u.address.ZipCode = "56300";
+        u.address.Street = "天下无敌街道";
+        store.Users.Add(u);
+        int i =await store.SaveChangesAsync();
+        ViewBag.status = i;
+    }
+            
+    return View();
+}
+```
+**`规则:`** `复合属性总是要初始化,为了防止抛弃异常可以在复合类中使用构造函数初始化`
+```C#
+    public class User
+    {
+        [Key]
+        public string ID { get; set; }
+        public string Pwd { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public Address address { get; set; } //地址类 复合属性
+				//使得address属性能够总是被初始化 防止实体异常
+				public User(){
+					  address =new Address();
+				}
+    }
+```
+#### <a id="ParalleToken" href="#ParalleToken">乐观并发属性</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
+`EF框架解决并发有两种方式,一种是利用并发Token，另一种则是利用行版本的方式,配置如下`
+* `并发分悲观并发和乐观并发。`
+	* `悲观并发：比如有两个用户A,B，同时登录系统修改一个文档，如果A先进入修改，则系统会把该文档锁住，B就没办法打开了，只有等A修改完，完全退出的时候B才能进入修改。`
+	* `乐观并发：同上面的例子，A,B两个用户同时登录，如果A先进入修改紧跟着B也进入了。A修改文档的同时B也在修改。如果在A保存之后B再保存他的修改，此时系统检测到数据库中文档记录与B刚进入时不一致，B保存时会抛出异常，修改失败。`
+  * `Entity Framework不支持悲观并发，只支持乐观并发 如果要对某一个表做并发处理，就在该表中加一条Timestamp类型的字段。注意，一张表中只能有一个Timestamp的字段。	Data Annotations中用Timestamp来标识设置并发控制字段，标识为Timestamp的字段必需为byte[]类型。`
+```C#
+		public class Person
+	  {
+        public int PersonId { get; set; }
+        public int SocialSecurityNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+    }
 ```
