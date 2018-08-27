@@ -291,9 +291,17 @@ protected override void OnModelCreating(DbModelBuilder modelBuilder)
 `当模型发生变化的时候,总是重新创建数据库会导致很严重的问题,就是数据丢失`
 ##### `我们使用数据迁移解决这个问题，数据迁移有以下几个命令`
 * `[Enable-Migrations]`:`在项目中启用代码迁移`
+   * 参数:`-ContextTypeName`:`指定要使用的上下文,如何省略迁移,将会在目标项目中查找单个上下文类`
+   * 参数:`-EnableAutomaticMigrations`:`指定是否在基架中是否使用自动迁移,如果省略,将禁止自动迁移`
+   * 参数:`-MigrationsDiretory`:`指定包含迁移类的文件的目录名称,如果省略,那么迁移目录名称为Migrations`
+   * 参数:`-ProjectName`:`制定基架配置类文件将会添加的项目,如果省略,将使用包管理器中默认使用的项目`
 * `[Add-Migrations]`:`对已经挂起模型改变搭建几家,也就是说在上次迁移后对模型进行了更改,以此为下一次迁移搭建基价,此时生成的模型状态为挂起状态
 (获得)`
+   * 参数:`-Name`:`自定义脚本名称`
+   * 参数:`-ProjectName`:`和上面一样`
 * `[Update-DataBase]`:`通过Add-Migrations 命令将挂起的模型迁移应用到数据库并保持数据同步`
+   * 参数:`-Script`:`不是直接执行挂起的更改而是生成SQL脚本`
+   * 参数:`无参数`:`更新数据库到最近的迁移`
 * `[Get-Migrations]`:`显示已经应用到数据库的迁移`
 -----
 
@@ -507,41 +515,3 @@ public async Task<ActionResult> Index()
 * `对于经常需要查询的字段创建索引`
 * `索引不在多,在巧`
 * `如果字段类型是string 并且没有规定 MaxLength(number) 那么无法在这个字段上面创建索引`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
