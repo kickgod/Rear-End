@@ -290,18 +290,20 @@ protected override void OnModelCreating(DbModelBuilder modelBuilder)
 #### <a id="DataMoveNotDisapper" href="#DataMoveNotDisapper">数据迁移</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `当模型发生变化的时候,总是重新创建数据库会导致很严重的问题,就是数据丢失`
 ##### `我们使用数据迁移解决这个问题，数据迁移有以下几个命令`
-   * `[Enable-Migrations]`:`在项目中启用代码迁移`
-   * `[Add-Migrations]`:`对已经挂起模型改变搭建几家,也就是说在上次迁移后对模型进行了更改,以此为下一次迁移搭建基价,此时生成的模型状态为挂起状态
-   (获得)`
-   * `[Update-DataBase]`:`通过Add-Migrations 命令将挂起的模型迁移应用到数据库并保持数据同步`
-	 * `[Get-Migrations]`:`显示已经应用到数据库的迁移`
+* `[Enable-Migrations]`:`在项目中启用代码迁移`
+* `[Add-Migrations]`:`对已经挂起模型改变搭建几家,也就是说在上次迁移后对模型进行了更改,以此为下一次迁移搭建基价,此时生成的模型状态为挂起状态
+(获得)`
+* `[Update-DataBase]`:`通过Add-Migrations 命令将挂起的模型迁移应用到数据库并保持数据同步`
+* `[Get-Migrations]`:`显示已经应用到数据库的迁移`
+-----
 
-* **`打开Nuget管理控制台输入命令:Enable-Migrations `**
-* **`注意`**:`将迁移的项目设置为启动项目`
-* `然后回车后就会产生一个文件Migrations 里面存放 迁移记录类`
-* `然后就可以修改实体类了`
-* `然后搭建基架 Add-Migration AddPasswrod 后面的名称可以随意乱写标识一下做了什么更改就可以了`
-* `输入: Update-DataBase 更新数据库 使之生效`
+* 可能操作
+   * **`打开Nuget管理控制台输入命令:Enable-Migrations `**
+   * **`注意`**:`将迁移的项目设置为启动项目`
+   * `然后回车后就会产生一个文件Migrations 里面存放 迁移记录类`
+   * `然后就可以修改实体类了`
+   * `然后搭建基架 Add-Migration AddPasswrod 后面的名称可以随意乱写标识一下做了什么更改就可以了`
+   * `输入: Update-DataBase 更新数据库 使之生效`
 ```C#
  //三条命令
  Enable-Migrations
@@ -311,10 +313,10 @@ protected override void OnModelCreating(DbModelBuilder modelBuilder)
 #### <a id="TableField" href="#TableField">表的字段约束,表属性</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `表还有自增长,计算属性,默认值,约束鞥,下面我们来讲述这些映射,首先得知道在那些配置映射,也是在派生类上下文重写OnModelCreating`
 ```C#
-	protected override void OnModelCreating(DbModelBuilder modelBuilder)
-	{
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
 
-	}
+    }
 ```
 * `对属性进行映射对常见的可以划分为数值映射,字符串映射,日期映射,当然还有xml映射,GUID映射,text映射等等`
 #####  <a id="TableName">`表名称`</a>
@@ -330,8 +332,8 @@ protected override void OnModelCreating(DbModelBuilder modelBuilder)
 ```C#
 modelBuilder.Entity<Blog>().HasKey(k =>
 new {
-	ID = k.Id,
-	BlogName = k.Name
+   ID = k.Id,
+   BlogName = k.Name
 });
 ```
 #####  <a id="IdentityColumn">`标识列`</a>
@@ -341,12 +343,12 @@ new {
 ```
 #####  <a id="HasComputedColumnSql">`计算列`</a>
 ```C#
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Person>()
-            .Property(p => p.DisplayName)
-            .HasComputedColumnSql("[LastName] + ', ' + [FirstName]");
-    }
+   protected override void OnModelCreating(ModelBuilder modelBuilder)
+   {
+       modelBuilder.Entity<Person>()
+           .Property(p => p.DisplayName)
+           .HasComputedColumnSql("[LastName] + ', ' + [FirstName]");
+   }
 ```
 ##### 数值映射说明
 * `C#中的Int类型默认映射后对应于数据库中的Int类型`
