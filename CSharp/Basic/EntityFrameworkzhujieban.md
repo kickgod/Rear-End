@@ -20,7 +20,7 @@
   [Key]
   public int OId { get; set; } //字段上面加上key注解
 ```
-#### <a id="Index" href="#Index">索引 `[Index]` </a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
+##### <a id="Index" href="#Index">索引 `[Index]` </a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 * `索引Index 默认为非聚集非唯一索引`
 * `对于外键按照约定最好创建索引`
 * `对于经常需要查询的字段创建索引`
@@ -43,7 +43,7 @@
       public virtual ClassTeam classTeam { get; set; }
   }
 ```
-* `创建唯一索引 ` ：**`[Index(IsUnique = true)]`**
+`创建唯一索引 ` ：**`[Index(IsUnique = true)]`**
 ```C#
   [Table("Users")]
   public class User
