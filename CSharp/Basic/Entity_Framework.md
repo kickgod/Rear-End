@@ -21,6 +21,7 @@
 	- <a href="#ComplexAttributes">`复合属性`</a>
 - [x] :maple_leaf: <a href="#DataMoveNotDisapper">`数据迁移 `</a>
 - [x] :maple_leaf: <a href="#ParalleToken">`乐观并发属性 `</a>
+- [x] :maple_leaf: <a href="#IndexEntity">`索引 `</a>
 
 #### <a id="ConnectDataBase" href="#ConnectDataBase">链接数据库</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `通过配置文件`
@@ -274,21 +275,27 @@
 
 * 如果关系表要自己命名和键自己命名 可以使用如下方法
 ```C#
-	protected override void OnModelCreating(DbModelBuilder modelBuilder)
-	{
-	    modelBuilder.Entity<Product>().HasMany(t => t.Orders).WithMany(a => a.Products).Map(m =>
-	    {
-		m.ToTable("ProductOrder");
-		m.MapLeftKey("Pid");
-		m.MapRightKey("Oid");
-	    });
-	}
+protected override void OnModelCreating(DbModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Product>().HasMany(t => t.Orders).WithMany(a => a.Products).Map(m =>
+    {
+        m.ToTable("ProductOrder");
+        m.MapLeftKey("Pid");
+        m.MapRightKey("Oid");
+    });
+}
 ```
 
 
 #### <a id="DataMoveNotDisapper" href="#DataMoveNotDisapper">数据迁移</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
 `当模型发生变化的时候,总是重新创建数据库会导致很严重的问题,就是数据丢失`
-* `我们使用数据迁移解决这个问题`
+##### `我们使用数据迁移解决这个问题，数据迁移有以下几个命令`
+   * `[Enable-Migrations]`:`在项目中启用代码迁移`
+   * `[Add-Migrations]`:`对已经挂起模型改变搭建几家,也就是说在上次迁移后对模型进行了更改,以此为下一次迁移搭建基价,此时生成的模型状态为挂起状态
+   (获得)`
+   * `[Update-DataBase]`:`通过Add-Migrations 命令将挂起的模型迁移应用到数据库并保持数据同步`
+	 * `[Get-Migrations]`:`显示已经应用到数据库的迁移`
+
 * **`打开Nuget管理控制台输入命令:Enable-Migrations `**
 * **`注意`**:`将迁移的项目设置为启动项目`
 * `然后回车后就会产生一个文件Migrations 里面存放 迁移记录类`
@@ -447,14 +454,15 @@ public async Task<ActionResult> Index()
     }
 ```
 #### <a id="ParalleToken" href="#ParalleToken">乐观并发属性</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
-`EF框架解决并发有两种方式,一种是利用并发Token，另一种则是利用行版本的方式,配置如下`
+* `当一个用户对实体的数据进行编辑，然后另一个用户在前一个用户将更改写入到数据库之前更新同一实体的数据时将发生并发冲突。如果你没有启用冲突检测，那么最后一次对数据库的更新将会覆盖其他用户对数据库所做的更改。在大部分应用程序中，这种风险是可以接受的：如果只有少量的用户，或者很少的更新，或者被覆盖的数据是不太重要的，实现并发冲突可能是得不偿失的。在这种情况下，你不需要配置应用程序以处理并发冲突`
+* `EF框架解决并发有两种方式,一种是利用并发Token，另一种则是利用行版本的方式,配置如下`
 * `并发分悲观并发和乐观并发。`
 	* `悲观并发：比如有两个用户A,B，同时登录系统修改一个文档，如果A先进入修改，则系统会把该文档锁住，B就没办法打开了，只有等A修改完，完全退出的时候B才能进入修改。`
 	* `乐观并发：同上面的例子，A,B两个用户同时登录，如果A先进入修改紧跟着B也进入了。A修改文档的同时B也在修改。如果在A保存之后B再保存他的修改，此时系统检测到数据库中文档记录与B刚进入时不一致，B保存时会抛出异常，修改失败。`
-  * `Entity Framework不支持悲观并发，只支持乐观并发 如果要对某一个表做并发处理，就在该表中加一条Timestamp类型的字段。注意，一张表中只能有一个Timestamp的字段。	Data Annotations中用Timestamp来标识设置并发控制字段，标识为Timestamp的字段必需为byte[]类型。`
+  * `Entity Framework不支持悲观并发，只支持乐观并发 如果要对某一个表做并发处理，就在该表中加一条Timestamp类型的字段。注意，一张表中只能有一个Timestamp的字段。Data Annotations中用Timestamp来标识设置并发控制字段，标识为Timestamp的字段必需为byte[]类型。`
 ```C#
-		public class Person
-	  {
+   public class Person
+   {
         public int PersonId { get; set; }
         public int SocialSecurityNumber { get; set; }
         public string FirstName { get; set; }
@@ -463,3 +471,75 @@ public async Task<ActionResult> Index()
         public byte[] RowVersion { get; set; }
     }
 ```
+* `Fluent API用IsRowVersion方法`
+```c#
+  modelBuilder.Entity<Person>().Property(p => p.RowVersion).IsRowVersion();
+```
+* [`并发冲突博客人`](https://blog.csdn.net/johnsonblog/article/details/39298201)
+#### <a id="IndexEntity" href="#IndexEntity">索引</a> :star2: <a href="#top"> `置顶` :arrow_up:</a>
+`按照约定，为外键使用每个属性 （或组的属性） 中创建索引。`
+```C#
+ protected override void OnModelCreating(ModelBuilder modelBuilder)
+ {
+     modelBuilder.Entity<Blog>().HasIndex(b => b.Url);
+ }
+ 
+ public class Blog
+ {
+    public int BlogId { get; set; }
+    public string Url { get; set; }
+ }
+```
+* `也可指定性地要求索引的值唯一，也就是说，对于给定的属性，任何两个实体的值都不能相同。`
+```C#
+ modelBuilder.Entity<Blog>()
+  .HasIndex(b => b.Url)
+  .IsUnique();
+  //复合索引
+   modelBuilder.Entity<Blog>()
+  .HasIndex(b =>new {url= b.Url,name=b.Name})
+  .IsUnique();
+```
+* `索引Index 默认为非聚集非唯一索引`
+* `对于外键按照约定最好创建索引`
+* `对于经常需要查询的字段创建索引`
+* `索引不在多,在巧`
+* `如果字段类型是string 并且没有规定 MaxLength(number) 那么无法在这个字段上面创建索引`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
