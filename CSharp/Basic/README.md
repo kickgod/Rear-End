@@ -47,7 +47,9 @@
 
 * [	C# 6.0 文件系统](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6FileSystemInfo.md)
 
-* [	C# 6.0 XML和JSON](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6XMLJson.md)
+* [	C# 6.0 XML和JSON](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6XMLJson.md):white_check_mark:
+
+* [	C# 6.0 EF框架](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Entity_Framework.md):white_check_mark:
 
 
 
