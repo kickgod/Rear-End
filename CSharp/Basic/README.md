@@ -51,6 +51,8 @@
 
 * [	C# 6.0 Entity Framework 框架基本用法](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Entity_Framework.md):white_check_mark:
 
+* [	C# 6.0 Entity Framework 注解版](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/EntityFrameworkzhujieban.md):white_check_mark:
+
 * [	C# 6.0 Entity Framework 框架实体](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Entity_Framework_EntityDataCoporation.md):white_check_mark:
 
 * [	C# 6.0 Linq to Entity使用](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6LinqToEntity.md):white_check_mark:
