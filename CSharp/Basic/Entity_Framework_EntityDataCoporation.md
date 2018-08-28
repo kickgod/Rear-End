@@ -3,6 +3,7 @@
 `我们通过EntityFramework来说对数据进行操作并持久化到数据库,那么EF,要通过EF上下文泪来维护实体的状态,明确知道每一个状态对应的操作,也就是说
 EF上下文来维护尸体的状态,操作数据库的方式也有很多变化`
 - [x] :maple_leaf: <a href="#EntityState">实体状态</a>
+
 - [x] :maple_leaf: <a href="#DataCorpration">数据操作</a>
    - <a href="#DataQuery">`查询数据`</a> 
    - <a href="#LoadRelationData">`加载关联数据`</a> 
