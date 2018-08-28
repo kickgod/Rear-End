@@ -5,8 +5,9 @@ EF上下文来维护尸体的状态,操作数据库的方式也有很多变化`
 - [x] :maple_leaf: <a href="#EntityState">实体状态</a>
 - [x] :maple_leaf: <a href="#DataCorpration">数据操作</a>
    - <a href="#DataQuery">`查询数据`</a> 
+   - <a href="#LoadRelationData">`加载关联数据`</a> 
     
-#### <a id="EntityState" href="#EntityState">实体状态</a> :star2: <a href="#top">:arrow_up:</a>
+##### <a id="EntityState" href="#EntityState">实体状态</a> :star2: <a href="#top">:arrow_up:</a>
 `EF实体状态存在于命名空间System.Data.Entity,下的EntityState枚举中,通过实体标记可以实现一些基本操作`
 ```C#
  public enum EntityState {
@@ -92,8 +93,9 @@ public  ActionResult Index()
     return View();
 }
 ```
-#### <a id="DataQuery" href="#DataQuery">数据查询</a> :star2: <a href="#top">:arrow_up:</a>
-        
-        
-        
+##### <a id="DataQuery" href="#DataQuery">数据查询</a> :star2: <a href="#top">:arrow_up:</a>
+`在EF框架中 使用Linq To Entity查询` [`Linq To Entity`](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6LinqToEntity.md) `学完了它 就会基本的查询方法了`
+##### <a id="LoadRelationData" href="#LoadRelationData">加载关联数据</a> :star2: <a href="#top">:arrow_up:</a>
+`EF6.X中 数据加载方式三种:`,`延迟加载`,`饥饿加载`,`显示加载`,`三种加载方式都有其场景,利用不当将会导致性能问题,进阶中会进一步讲到这三者究竟
+如何使用而不是滥用一通.饥饿加载的时候要使用Include来实现,默认情况下需要在Include方法中填写加载导航属性字符串.`
         
