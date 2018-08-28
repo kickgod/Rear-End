@@ -3,11 +3,12 @@
 `我们通过EntityFramework来说对数据进行操作并持久化到数据库,那么EF,要通过EF上下文泪来维护实体的状态,明确知道每一个状态对应的操作,也就是说
 EF上下文来维护尸体的状态,操作数据库的方式也有很多变化`
 - [x] :maple_leaf: <a href="#EntityState">实体状态</a>
-
 - [x] :maple_leaf: <a href="#DataCorpration">数据操作</a>
    - <a href="#DataQuery">`查询数据`</a> 
-   - <a href="#LoadRelationData">`加载关联数据`</a> 
-    
+- [x] :maple_leaf: <a href="#LoadRelationData">`加载关联数据`</a> 
+   - <a href="#LayzLoadData">`延迟加载`</a> 
+   - <a href="#EagerLoadData">`饥饿加载`</a>
+   - <a href="#ExplicilyLoadData">`显式加载`</a>
 ##### <a id="EntityState" href="#EntityState">实体状态</a> :star2: <a href="#top">:arrow_up:</a>
 `EF实体状态存在于命名空间System.Data.Entity,下的EntityState枚举中,通过实体标记可以实现一些基本操作`
 ```C#
@@ -99,4 +100,52 @@ public  ActionResult Index()
 ##### <a id="LoadRelationData" href="#LoadRelationData">加载关联数据</a> :star2: <a href="#top">:arrow_up:</a>
 `EF6.X中 数据加载方式三种:`,`延迟加载`,`饥饿加载`,`显示加载`,`三种加载方式都有其场景,利用不当将会导致性能问题,进阶中会进一步讲到这三者究竟
 如何使用而不是滥用一通.饥饿加载的时候要使用Include来实现,默认情况下需要在Include方法中填写加载导航属性字符串.`
-        
+#####  <a id="LayzLoadData" href="#LayzLoadData">延迟加载</a> :star2: <a href="#top">:arrow_up:</a>
+`顾名思义,延迟加载就是当我们需要的时候才会加载,当第一次访问实体/实体的属性的时候,实体或实体的集合将自动从数据库加载.访问导航属性时,相关对象/子对象
+不会自动加载当使用POCO(Plain Old CLR Objects) 实体类型时,通过创建派生代理类型的实例,然后覆盖virtual 的导航属性从而实现延迟加载,好像听起来
+有点晦涩难懂,进阶会详细说明`
+```C#
+  public BLOGEntity() : base("name=ConnectionString")
+  {
+      Database.SetInitializer<BLOGEntity>(new DropCreateDatabaseIfModelChanges<BLOGEntity>());
+      Configuration.LazyLoadingEnabled = false; //在EF上下文派生类中收到关闭延迟加载
+  }
+```
+* `延迟加载会有一个序列化Json的循环引用问题当使用Newtonsoft.Json序列化的时候,但是测试后发现LitJson包 序列化就没有问题,如果有问题使用投影解决就行,将属性的值通过select方法投影到一个新类型上面`
+#####  <a id="EagerLoadData" href="#EagerLoadData">饥饿加载</a> :star2: <a href="#top">:arrow_up:</a>
+`查询实体时,加载相关实体/子实体 作为查询的一部分,加载父对象时同时加载子对象,在EF中可以使用DBSet<T>.Include() 方法来实现饥饿
+加载,和延迟加载,不同的是,饥饿加载时,无论我们用或者不用,利用Include方法斗殴会对子对象进行加载,下面利用Include来加载Customer中
+的Order对象 饥饿加载的本质提前加载数据`
+```C#
+ static void ReadData()
+ {
+     ProductEntity entity = new ProductEntity();
+     Product p = entity.products.Include("Cat").FirstOrDefault(); //注意这里非常重要 不然 p.cat为空
+
+     if (p != null)
+     {
+         Console.WriteLine($"{p.Pid} {p.PName} {p.Cid} {p.Cat.CName}");
+     }
+
+ }
+```
+#####  <a id="ExplicilyLoadData" href="#ExplicilyLoadData">显式加载</a> :star2: <a href="#top">:arrow_up:</a>
+`延迟执行有延迟加载和显示加载两种方式,即使我们禁用了延迟加载任然可以通过显示加载来延迟加载相关实体,通过DbEntity<T>.Reference("").Load()加载
+实体,通过DbEntityEntry<T>().Collection("").Load()`
+```C#
+  static void ReadData()
+  {
+      ProductEntity entity = new ProductEntity();
+      Product p = entity.products.FirstOrDefault();
+
+      entity.Entry(p).Collection("Cat").Load();
+
+      var cs = p.Cat;
+
+      if (cs != null)
+      {
+          Console.WriteLine($"{cs.Cid} {cs.CName}");
+      }
+  }
+
+```
