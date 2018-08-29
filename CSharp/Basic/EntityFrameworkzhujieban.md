@@ -14,7 +14,7 @@
   [Key]
   public int OId { get; set; } //字段上面加上key注解
 ```
-##### <a id="Mainkey" href="#DefaultValue">默认值 `[DefaultValue(value)]` </a> :star2: <a href="#top"> :arrow_up:</a>
+##### <a id="DefaultValue" href="#DefaultValue">默认值 `[DefaultValue(value)]` </a> :star2: <a href="#top"> :arrow_up:</a>
 * `输入字符串是最安全的，可以传入sql函数 向下面这样`
 ```C#
   [Table("Movie")]
