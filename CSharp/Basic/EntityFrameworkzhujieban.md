@@ -1,12 +1,14 @@
 <a id="top" href="#top">	:maple_leaf: EntityFramework ORM框架 [注解版] :blue_heart:</a> 
 -----
 - [x] :maple_leaf: <a href="#ModelAgreement">表约定,映射</a>
-  - [x] <a href="#Mainkey">`主键 [key] `</a>
-  - [x] <a href="#DefaultValue">`默认值 [DefaultValue(value)] `</a>
+  - <a href="#Mainkey">`主键 [key] `</a>
+  - <a href="#DefaultValue">`默认值 [DefaultValue(value)] `</a>
+  - <a href="#notNullProperty">`不可空属性 [Required] `</a>
 - [x] :maple_leaf: <a href="#TableStructure">表结构</a>
-  - [x] <a href="#TableName">`表名另取 [Table("tableName")]`</a>
-  - [x] <a href="#Index">`索引 [Index] `</a>
-  
+  - <a href="#TableName">`表名另取 [Table("tableName")]`</a>
+  - <a href="#Index">`索引 [Index] `</a>
+- [x] :maple_leaf: <a href="#EFYuedingPeizhi">EF框架映射配置</a>
+  - <a href="#NotMapped">`属性排除不映射为表字段 [NotMapped] `</a> 
 
 ##### <a id="Mainkey" href="#Mainkey">主键 `[key]` </a> :star2: <a href="#top">  :arrow_up:</a>
 `1.主键约束`
@@ -33,7 +35,17 @@
       public decimal Price { get; set; }
   }
 ```
-##### <a id="TableName" href="#TableName">表名另取 `[Table("tableName")]`</a> :star2: <a href="#top">:arrow_up:</a>
+##### <a id="notNullProperty" href="#notNullProperty">默认值 `[DefaultValue(value)]` </a> :star2: <a href="#top"> :arrow_up:</a>
+```C#
+  public class Blog
+  {
+      public int BlogId { get; set; }
+      [Required]
+      public string Url { get; set; }
+  }
+```
+
+##### <a id="TableName" href="#TableName">不可空属性 `[Required]`</a> :star2: <a href="#top">:arrow_up:</a>
 `默认是以类名称为表名`
 ```C#
   [Table("OrderInfo")]
@@ -112,4 +124,17 @@
       public int Age { get; set; }
       public Address adrress { get; set; }
   }
+```
+##### <a id="NotMapped" href="#NotMapped">属性排除不映射为表字段`[NotMapped]` </a> :star2: <a href="#top">  :arrow_up:</a>
+```C#
+  public class Blog
+  {
+      [key]
+      public int BlogId { get; set; }
+      public string Url { get; set; }
+
+      [NotMapped]
+      public DateTime LoadedFromDatabase { get; set; } //该属性不会被映射打数据库中
+  }
+
 ```
