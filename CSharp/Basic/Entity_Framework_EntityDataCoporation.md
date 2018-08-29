@@ -9,6 +9,7 @@ EF上下文来维护尸体的状态,操作数据库的方式也有很多变化`
    - <a href="#LayzLoadData">`延迟加载`</a> 
    - <a href="#EagerLoadData">`饥饿加载`</a>
    - <a href="#ExplicilyLoadData">`显式加载`</a>
+- [x] :maple_leaf: <a href="#SqlQuery">`原始查询`</a> 
 ##### <a id="EntityState" href="#EntityState">实体状态</a> :star2: <a href="#top">:arrow_up:</a>
 `EF实体状态存在于命名空间System.Data.Entity,下的EntityState枚举中,通过实体标记可以实现一些基本操作`
 ```C#
@@ -148,4 +149,100 @@ public  ActionResult Index()
       }
   }
 
+```
+#####  <a id="SqlQuery" href="#SqlQuery">原始查询</a> :star2: <a href="#top">:arrow_up:</a>
+`在实体上面执行原始查询,EF框架底层还是基于ADO.NET,对于一些复杂的查询,我们还是需要理由原始查询或者存储过程来完成所有Entity Framework 团队
+还是做了底层查询,在EF框架中,我们可以通过SqlQuery方法来进行原始查询,SqlQuery方法有如下两种形式`
+```C#
+    Context.Database.SqlQuery<TElement>(String sql,params object[]);
+    Context.Products.SqlQuery<TElement>(String sql,object[] parameters);
+```
+`原始查询只有当结果全部枚举完成后（也就是只有ToList后） 才会和数据库进行交互否则不会执行查询`
+```C#
+   BLOGEntity db = new BLOGEntity();
+   var BUserPage = db.Database.SqlQuery<BUser>("Select * from dbo.BUser").ToList();
+   return View(BUserPage);
+```
+#### <a href="#dbcontectsqlquery" id="dbcontectsqlquery">`上下文类SqlQuery查询`</a>
+`通过上下文类可以对整个数据库进行查询`
+**`支持对表数据集合泛型返回`**
+```C#
+   public ActionResult Index()
+   {  
+      var BUserPage = db.Database.SqlQuery<BUser>("Select *  from dbo.BUser").ToList();
+      return View(BUserPage);
+   }
+```
+**`支持函数统计泛型返回`**
+```C#
+  public string LC()
+  {
+      var TBUserCount = db.Database.SqlQuery<int>("Select count(*) from dbo.BUser").ToList();
+      String JS = "";
+      if (TBUserCount != null)
+      {
+          JS = LitJson.JsonMapper.ToJson(TBUserCount);
+      }
+      return JS;
+  }
+```
+**`支持单列泛型方法返回`**
+```C#
+  public string LC()
+  {
+      var TBUserCount = db.Database.SqlQuery<String>("Select Name from dbo.BUser").ToList();
+      String JS = "";
+      if (TBUserCount != null)
+      {
+          JS = LitJson.JsonMapper.ToJson(TBUserCount);
+      }
+      return JS;
+  }
+```
+**`不支持单列非泛型方法返回`**
+```C#
+   //SqlQuery没有使用泛型 
+   var TBUserCount = db.Database.SqlQuery("Select Name from dbo.BUser").ToList();
+```
+#### <a href="#dbcontectsqlquery" id="dbcontectsqlquery">`实体SqlQuery查询`</a>
+`通过实体可以对这个实体对应的表进行查询`
+**`支持对表数据集合泛型返回`**
+```C#
+   public ActionResult Index()
+   {  
+      var BUserPage = db.BUsers.SqlQuery("Select *  from dbo.BUser").ToList();
+      return View(BUserPage);
+   }
+```
+**`不支持函数统计泛型返回`**
+```C#
+  public string LC()
+  {
+      var TBUserCount = db.BUsers.SqlQuery("Select count(*) from dbo.BUser").ToList();
+      String JS = "";
+      if (TBUserCount != null)
+      {
+          JS = LitJson.JsonMapper.ToJson(TBUserCount);
+      }
+      return JS;
+     /*System.Data.Entity.Core.EntityCommandExecutionException:“The data reader is 
+     incompatible with the specified 'Blogs.Models.BUser'. A member of the type, 
+     'BUserID', does not have a corresponding column in the data reader with the same name.”*/
+  }
+```
+**`不支持单列方法返回`**
+```C#
+  public string LC()
+  {
+      var TBUserName = db.BUsers.SqlQuery("Select Name from dbo.BUser").ToList();
+      String JS = "";
+      if (TBUserName != null)
+      {
+          JS = LitJson.JsonMapper.ToJson(TBUserName);
+      }
+      return JS;
+  }
+  /*System.Data.Entity.Core.EntityCommandExecutionException:“The data reader is 
+  incompatible with the specified 'Blogs.Models.BUser'. A member of the type, 
+  'BUserID', does not have a corresponding column in the data reader with the same name.”*/
 ```
