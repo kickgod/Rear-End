@@ -83,7 +83,7 @@
       public virtual ClassTeam classTeam { get; set; }
   }
 ```
-* `错误的索引创建方式`
+`错误的索引创建方式`
 ```C#
   public class User
   {
