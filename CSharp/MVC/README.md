@@ -39,3 +39,5 @@
   - [x] :maple_leaf: [ASP.NET MVC 细节问题](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/AspNetMvcDetailQuestion.md)
 
  - [x] :maple_leaf: [ASP.NET MVC 错误重定向](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/CsharpMVC_ErrorDealWith.md)
+
+ - [x] :maple_leaf: [ASP.NET MVC 依赖注入容器](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/AspNetMvcDependecy.md)
