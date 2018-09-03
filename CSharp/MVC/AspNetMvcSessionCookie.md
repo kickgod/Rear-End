@@ -4,8 +4,7 @@
 
 - [x] :maple_leaf: <a href="#SessionObject">`Session`</a>
 - [x] :maple_leaf: <a href="#CookieObject">`Cookie`</a>
-- [x] :maple_leaf: <a href="#">``</a>
-- [x] :maple_leaf: <a href="#">``</a>
+- [x] :maple_leaf: <a href="#ManyValueCookie">`多值Cookie`</a>
 
 ####  <a id="SessionObject" href="#SessionObject">Session对象</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 * `每一个用户访问Web时,都会被分配一个Session对象回话结束或者操作就会手动释放`
@@ -61,10 +60,20 @@
 ```C#
   Response.Cookies["User"].Expires = DateTime.MinValue;
 ```
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="ManyValueCookie" href="#多值Cookie">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`多值Cookie`
+```C#
+   HttpCookie ck_User = new HttpCookie("User");
+   ck_User.Values.Add("UserData", UserData);
+   ck_User.Values.Add("LoginTime", DateTime.Now.ToLocalTime().ToString());
+   ck_User.Values.Add("Type", "Code");
+
+   ck_User.Expires = DateTime.Now.AddSeconds(200); //不设置的话,那么关闭浏览器回话结束就没有了 设置有效期
+   Response.Cookies.Add(ck_User);
+```
+##### 获取多值Cookie的值
+```C#
+   ViewBag.User = Request.Cookies["User"].Values.Get("UserData");
+   ViewBag.LoginTime = Request.Cookies["User"].Values.Get("LoginTime");
+```
+
