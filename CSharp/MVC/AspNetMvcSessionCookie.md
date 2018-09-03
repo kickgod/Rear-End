@@ -32,7 +32,7 @@
   String data=(String)Session["User"]; 
 ```
 * `注意类型转换就行`
-##### 移除Session 
+##### <a href="#top">移除Session  :arrow_up: </a>
 ```C#
   Session.Clear(); //从回话状态中移除所有键值
   Session.Abandon(); //取消当前回话状态
