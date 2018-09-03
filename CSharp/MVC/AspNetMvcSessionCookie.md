@@ -3,7 +3,7 @@
 `通过Cookie或者Session保存用户信息，在用户访问网站期间,作为一种用户认证手段`
 
 - [x] :maple_leaf: <a href="#SessionObject">`Session`</a>
-- [x] :maple_leaf: <a href="#">``</a>
+- [x] :maple_leaf: <a href="#CookieObject">`Cookie`</a>
 - [x] :maple_leaf: <a href="#">``</a>
 - [x] :maple_leaf: <a href="#">``</a>
 
@@ -40,7 +40,27 @@
   Session.RemoveAll();//从回话状态中移除所有键值
 ```
 * `获取当前URL`：`Request.Url.LocalPath.ToString();`
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="CookieObject" href="#CookieObject">Cookie </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+* `Cookie 是存放在客户端的小文本数据,可由服务器操作,检测,且可以由客户端浏览器发回给服务器`
+  * `文本信息 IE6之前的浏览器只支持4K的数据,所以一般是只支持4K信息`
+  * `且不安全,需要进行加密操作`
+##### <a href="#top">设置一个单值Cookie :arrow_up: </a>
+```C#
+   HttpCookie ck_User = new HttpCookie("User");
+   ck_User.Value = UserData;
+   ck_User.Expires = DateTime.Now.AddSeconds(60); //不设置的话,那么关闭浏览器回话结束就没有了 设置有效期
+   Response.Cookies.Add(ck_User);
+```
+##### <a href="#top">获取一个单值Cookie :arrow_up: </a>
+`此时要通过Request 来获取值`
+```C#
+   ViewBag.User = Request.Cookies["User"].Value;
+```
+##### <a href="#top">删除一个单值Cookie :arrow_up: </a>
+`设置Cookie为已经过期就可以了`
+```C#
+  Response.Cookies["User"].Expires = DateTime.MinValue;
+```
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
