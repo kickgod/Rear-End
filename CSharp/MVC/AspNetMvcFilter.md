@@ -4,9 +4,7 @@
 放置在某个局部位置的功能,否则会打破关注分离模式,典型的例子就是页面需要登录才能访问`
 
 - [x] :maple_leaf: <a href="#WithFunction">`简单的配置一个使用Authorize 的例子`</a>
-- [x] :maple_leaf: <a href="#FilterInterface">`过滤器简洁`</a>
-- [x] :maple_leaf: <a href="#">``</a>
-- [x] :maple_leaf: <a href="#">``</a>
+- [x] :maple_leaf: <a href="#FilterInterface">`系统过滤器`</a>
 
 ####  <a id="WithFunction" href="#WithFunction">简单的配置一个使用Authorize 的例子</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ##### 1. 在根目录下的Web.config文件中设置网站验证方式
@@ -220,17 +218,53 @@ MVC的时候就自己去编写一个继承IAuthorizationFilter的方法`
 `派生自ControllerContext,提供了许多有用的属性和方法,可用于获取关于请求的信息`
 ##### ControllerContext 有用的属性
 ----
-* `Controller`:`类型：ControllerBase`，`返回请求的控制器对象`
-* `HttpContext`:`类型:HttpContextBase`,` 获取或设置 HTTP上下文。`
-* `IsChildAction`:`类型:Boolean`,`获取一个值，该值指示关联的操作方法是否为子操作。`
-* `RequestContext`:`类型:RequestContext`,`获取或设置请求上下文。`
-* `RequestContext`:`类型:RequestContext`,` 获取或设置 URL 路由数据。`
+`Controller`:`类型：ControllerBase`，`返回请求的控制器对象`<br/>
+`HttpContext`:`类型:HttpContextBase`,` 获取或设置 HTTP上下文。`<br/>
+`IsChildAction`:`类型:Boolean`,`获取一个值，该值指示关联的操作方法是否为子操作。`<br/>
+`RequestContext`:`类型:RequestContext`,`获取或设置请求上下文。`<br/>
+`Exception`:`类型:Exception`,` 未处理的异常。`<br/>
+`Result`:`类型:ActionResult`,`用于动作方法的结果;通过该该属性设置为一个非空值,过滤器可以取消这个请求`<br/>
+`ExceptionHandled`:`类型:bool`,`如果另一个过滤器已经把这个异常标记为已处理,则返回true`<br/>
 
+```C#
+    public class MyExceptionAttribute : FilterAttribute, IExceptionFilter
+    {
+        public void OnException(ExceptionContext filterContext)
+        {
+            //如果异常尚未处理
+            if (!filterContext.ExceptionHandled)
+            {
+                filterContext.HttpContext.Response.Redirect("/Home/Error"); //注意添加这个方法和视图
+                filterContext.ExceptionHandled = true;
+            }
+        }
+    }
+```
+`单个方法不好捕获,所以我们将其注解到类上面 然后throw一个异常,`
+```C#
+  [MyException]
+  public class AdminController : Controller
+  {
 
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+      [Authorize]
+      public ActionResult Index()
+      {
+          ViewBag.User = Request.Cookies["User"].Values.Get("UserData");
+          ViewBag.LoginTime = Request.Cookies["User"].Values.Get("LoginTime");
+          throw new Exception();
+          return View();
+      }
+      [Authorize]
+      public ActionResult List()
+      {
+          return View();
+      }
+      public ActionResult Error()
+      {
+          return View();
+      }
+  }
+```
+`然后启动,注意这个请点击 菜单联的  调试-> 开始执行,不然程序会以调试状态执行,那么最终程序会断掉到你抛出错误的那个地方,不会向前执行到
+你的异常过滤器哪里`
+##### 其他过滤器 类似于如此,实现接口可以了,查查资料看看参数类型和属性方法就好了
