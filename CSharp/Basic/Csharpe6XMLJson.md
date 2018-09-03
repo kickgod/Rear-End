@@ -137,6 +137,14 @@
 ```
 
 #####  <a href="#LitJson" id="LitJson"> LitJson解析包</a> `非泛型 JsonMapper JsonData` <a id="JSONNOGeneric"></a>  :star2: <a href="#top"> `置顶` :arrow_up:</a>
+`使用JsonData`
+```C#
+  JsonData data = new JsonData();
+        data["name"] = "peiandsky";
+        data["age"] = 28;
+        data["sex"] ="male";
+        string  json1= data.ToJson();
+```
 `依靠`
 ```C#
     JsonData val=JsonMapper.ToObject(File.ReadAllText("resource/Inputbooks.json"));
