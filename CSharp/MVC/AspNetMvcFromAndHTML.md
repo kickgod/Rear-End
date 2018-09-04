@@ -90,11 +90,11 @@
   public ActionResult Create()
   {
       ModelState.AddModelError("","this is a Error Page");
+      ModelState.AddModelError("ID", "编号重复");
       return View();
   }
-  //视图中
-  @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 ```
+##### 视图中 @Html.ValidationSummary(true, "", new { @class = "text-danger" }) 参数为true 的时候
 ```html
 
    <div class="validation-summary-errors text-danger">
@@ -120,22 +120,10 @@
         public double Price{get;set;}
     }
 ```
-```html
-   <div class="validation-summary-errors text-danger">
-      <ul>
-          <li>this is a Error Page</li>
-      </ul>
-   </div>
-  <div class="form-group">
-      <label class="control-label col-md-2" for="ID">编号</label>
-      <div class="col-md-10">
-          <input class="input-validation-error form-control text-box single-line" data-val="true" data-val-required="请输入书籍编号"                  id="ID" name="ID" type="text" value="" />
-          <span class="field-validation-error text-danger" data-valmsg-for="ID" data-valmsg-replace="true">编号重复</span>
-      </div>
-  </div>
+![baidu](/Image/truePictureForm.png)  
 
-
-```
+##### 视图中 @Html.ValidationSummary(false, "", new { @class = "text-danger" }) 参数为false 的时候
+![baidu](/Image/falsePictureForm.png)  
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
