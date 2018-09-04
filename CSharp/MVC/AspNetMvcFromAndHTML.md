@@ -64,7 +64,7 @@
      &lt;br/&gt; hello World
   </textarea>;
 ```
-####  <a id="AboutForm" href="#AboutForm">关于表单</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+#####  <a id="AboutForm" href="#AboutForm">关于表单</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ```c#
   @using (Html.BeginForm("Show", "Home", FormMethod.Post)){
       @Html.AntiForgeryToken()
@@ -74,8 +74,68 @@
       <p><input name="UserPwd" type="password" /></p>
       <p><input type="submit" value="Create" class="btn btn-danger" /></p>
   }
+  
+  //控制器方法
+  [HttpPost]
+  [ValidateAntiForgeryToken]
+  public ActionResult Show(String UserName,String phoneNumber,string UserPwd){
+      //...
+  }
 ```
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+**`重复攻击`** ：`[ValidateAntiForgeryToken]` `和`  `@Html.AntiForgeryToken()` `方法配合使用可以防止表单重复攻击 over-posting`
+**` @Html.ValidationSummary(excludePropertyErrors:false)`**:`辅助方法可以用来显示ModelState字典中所有验证错误的无序列表,使用布尔参数来告知
+辅助方法排除属性级别的错误` 
+##### 来一个例子
+```C#
+  public ActionResult Create()
+  {
+      ModelState.AddModelError("","this is a Error Page");
+      return View();
+  }
+  //视图中
+  @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+```
+```html
+
+   <div class="validation-summary-errors text-danger">
+      <ul>
+          <li>this is a Error Page</li>
+      </ul>
+   </div>
+```
+```C#
+    public class Book
+    {
+        [DisplayName("编号")]
+        [Required(ErrorMessage ="请输入书籍编号")]
+        public string ID{get;set;}
+        [Required(ErrorMessage ="请输入书籍的名称")]
+        [DisplayName("书名称")]
+        public string Name{get;set;}
+        [DisplayName("出版日期")]
+        [Required(ErrorMessage ="请输入出版年")]
+        public int PublishYear{get;set;}
+        [DisplayName("价格")]
+        [Required(ErrorMessage ="请输入价格")]
+        public double Price{get;set;}
+    }
+```
+```html
+   <div class="validation-summary-errors text-danger">
+      <ul>
+          <li>this is a Error Page</li>
+      </ul>
+   </div>
+  <div class="form-group">
+      <label class="control-label col-md-2" for="ID">编号</label>
+      <div class="col-md-10">
+          <input class="input-validation-error form-control text-box single-line" data-val="true" data-val-required="请输入书籍编号"                  id="ID" name="ID" type="text" value="" />
+          <span class="field-validation-error text-danger" data-valmsg-for="ID" data-valmsg-replace="true">编号重复</span>
+      </div>
+  </div>
+
+
+```
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
