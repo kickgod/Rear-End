@@ -6,8 +6,11 @@
 - [x] :maple_leaf: <a href="#HTMLFunctioN">`HTML 方法`</a>
    - <a href="#CodingBySelf">`自动编码`</a>
    - <a href="#AboutForm">`关于表单`</a>
-- [x] :maple_leaf: <a href="#">``</a>
-- [x] :maple_leaf: <a href="#">``</a>
+   - <a href="#AntherFunction">`其他方法`</a>
+   - <a href="#AntherForFunction">`其他带F方法`</a>
+   - <a href="#DefineByYourSelf">`自定义属性data-`</a>
+- [x] :maple_leaf: <a href="#ActionLink">`URL链接标签辅助方法`</a>
+- [x] :maple_leaf: <a href="#loadPartView">`加载部分视图`</a>
 
 ####  <a id="From" href="#From">From标签</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 > `From标签是重要的,且是强大的,它的优势在Web From中并未完全发挥出来`
@@ -120,10 +123,203 @@
         public double Price{get;set;}
     }
 ```
+##### 视图
+```html
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Book</h4>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ID, 
+                  htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ID, 
+                  new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ID, "",
+                  new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new 
+                { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = 
+                 new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new 
+               { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PublishYear, htmlAttributes: new 
+              { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PublishYear, new { htmlAttributes = 
+               new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PublishYear, "", 
+                new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class =
+                "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new
+                 { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class
+                 = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+```
+
 ![baidu](/Image/truePictureForm.png)  
 
 ##### 视图中 @Html.ValidationSummary(false, "", new { @class = "text-danger" }) 参数为false 的时候
 ![baidu](/Image/falsePictureForm.png)  
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-####  <a id="  " href="#  ">   </a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+
+#####  <a id="AntherFunction" href="#AntherFunction">其他方法</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+* `第一个参数` :`表名DOM节点的 ID和Name属性` <br/>
+* `第二个参数` :`这是内容就是 TextNode input标签就是value`<br/>
+* `最后一个参数` :`htmlAttributes: new { @class = "control-label col-md-2" } 设置Html属性 使用匿名对象`<br/>
+
+**`@Html.TextBox("BookID","这是标签的内容" ,new { @class="text-danger" });`**
+```html
+ <input class="text-danger" id="BookID" name="BookID" type="text" value="这是标签的内容" />;
+```
+**`@Html.TextArea("BookContext","我是TextAre的内容",new { @class= "text-warning" });`**
+```html
+<textarea class="text-warning" cols="20" id="BookContext" name="BookContext" rows="2">
+   我是TextAre的内容
+</textarea>
+```
+**`@Html.Label("TitleName","王者")`**
+```html
+   <input id="TitleName" name="TitleName" type="hidden" value="王者" />
+```
+**`@Html.Hidden("TitleName","王者")`**
+```html
+   <input id="UserPassword" name="UserPassword" type="password" />;
+```
+**`RadioButton`**
+```Html
+   @Html.RadioButton("Coler", "White") White
+   @Html.RadioButton("Coler", "Red", false) Red
+   @Html.RadioButton("Coler", "Blue", true) Blue
+   @Html.RadioButton("Coler", "Yellow", false) Yellow
+
+   <input id="Coler" name="Coler" type="radio" value="White" /> White
+   <input id="Coler" name="Coler" type="radio" value="Red" /> Red
+   <input checked="checked" id="Coler" name="Coler" type="radio" value="Blue" /> Blue
+   <input id="Coler" name="Coler" type="radio" value="Yellow" /> Yellow
+```
+**`@Html.CheckBox("YourCode") 至高王者`**
+```Html
+    <input id="YourCode" name="YourCode" type="checkbox"value="true" />
+   <input name="YourCode" type="hidden" value="false" /> 至高王者
+```
+`为什么有两个input 因为HTML 规范 规定浏览器只提交 开 即选中的 复选框的,但是MVC需要绑定模型需要提交一个值`
+#####  <a id="AntherForFunction" href="#AntherForFunction">其他带For的方法</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`他们被称之为强类型辅助方法,使用这个方法的时候需要向他传递一个lambda表达式`
+**`@Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })`**<br/>
+`如果模型是IEnumerable 的集合或者数组 那么LabelFor就很瓜了,不能使用 这个方法只适用于单体对象的属性`<br/>
+```C#
+   <label class="control-label col-md-2" for="ID">编号</label>
+```
+**` @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })`**
+```html
+  <input class="form-control text-box single-line" 
+         data-val="true"
+         data-val-required="请输入书籍的名称" 
+         id="Name" name="Name" 
+         type="text" value=""
+  />
+```
+**` @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })`**
+```html
+  <span class="field-validation-valid text-danger" 
+        data-valmsg-for="Name" d
+        ata-valmsg-replace="true">
+  </span>
+```
+#####  <a id="DefineByYourSelf" href="#DefineByYourSelf">自定义属性data-</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`自定义属性 需要使用 data-val 中横线`
+
+* `@Html.TextArea("BookContext","我是TextAre的内容",new { @class= "text-warning", data_val_type = "34" });`
+
+```html
+ <textarea class="text-warning" cols="20" data-val-type="34" id="BookContext" name="BookContext" rows="2">
+   我是TextAre的内容
+ </textarea>
+```
+####  <a id="ActionLink" href="#ActionLink">URL链接标签辅助方法</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+`Html辅助方法提供了 ActionLink和Html.RouteLink`
+##### ActionLink 常用的参数
+* `@Html.ActionLink("链接到主页", "Index", "Book",new {id=15,name="JiangXing" },htmlAttributes: new { @class="btn btn-danger" });`
+   * `1`:`a标签的内容`
+   * `2`:`方法名称`
+   * `3`:`控制器`
+   * `4`:`路由传参数`
+   * `5`:`Html属性`
+```html
+ <a class="btn btn-danger" href="/Book/Index/15?name=JiangXing">链接到主页</a>;
+```
+##### Url.Action
+* `@Url.Action("Index", "Book",new {name="JiangXing" },null)` 
+```html
+  /Book?name=JiangXing;
+```
+##### Url.RouteUrl
+##### Url.Content
+####  <a id="loadPartView" href="#loadPartView">加载部分视图</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+##### @Html.Partial("Message","Home");/@Html.RenderPartial("Message","Home");
+`这个方法是真的只是加载视图,不会去请求方法,而下面的方法 回去请求方法 然后得到方法返回的视图而 这两个方法 只有视图,不会去请求方法`
+#####  @Html.Action / @Html.RouteAction
+* `加载部分视图的方法,但是如何内容变化不能够检查到,不能够像Ajax一样 一直获得最新的视图`
+  * `@Html.Action("Message")` `内部是方法名称`
+  * `@Html.Action("Message","Home");` `方法名称, 控制器名称`
+  * `@Html.Action("Message","Home",new { id=5,name="wangzhe"})` `最后一个参数 传递给方法的参数`
+```C#
+  public ActionResult Message()
+  {
+      Random r = new Random();
+      int t = r.Next(0, 15);
+      ViewBag.Message = t;
+      return PartialView();
+  }
+```
+`通过Ajaxa 请求的页面每次加载都会刷新一次`
+
+```html
+<div class="row">
+    <div class="col-md-12">
+        <div id="result"></div>
+        @Html.Label("Title")
+    </div>
+    @ViewBag.status
+</div>
+@section  scripts{
+    <script type="text/javascript">
+        $(function () {
+            //每隔两秒钟刷新一下
+            window.setInterval(function () {
+                $("#result").load('/Home/Message');
+            },2000);
+        })
+      </script>
+}
+```
+
