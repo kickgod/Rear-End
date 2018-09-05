@@ -295,7 +295,7 @@ protected override void OnModelCreating(DbModelBuilder modelBuilder)
    * 参数:`-EnableAutomaticMigrations`:`指定是否在基架中是否使用自动迁移,如果省略,将禁止自动迁移`
    * 参数:`-MigrationsDiretory`:`指定包含迁移类的文件的目录名称,如果省略,那么迁移目录名称为Migrations`
    * 参数:`-ProjectName`:`制定基架配置类文件将会添加的项目,如果省略,将使用包管理器中默认使用的项目`
-* `[Add-Migrations]`:`对已经挂起模型改变搭建几家,也就是说在上次迁移后对模型进行了更改,以此为下一次迁移搭建基价,此时生成的模型状态为挂起状态
+* `[Add-Migration]`:`对已经挂起模型改变搭建几家,也就是说在上次迁移后对模型进行了更改,以此为下一次迁移搭建基价,此时生成的模型状态为挂起状态
 (获得)`
    * 参数:`-Name`:`自定义脚本名称`
    * 参数:`-ProjectName`:`和上面一样`
