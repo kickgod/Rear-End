@@ -7,7 +7,9 @@
 - [x] :maple_leaf: <a href="#">访问文件和目录</a>
   - <a href="#ListContent" >`列出文件内容`</a> 
   - <a href="#ListContentfilter" >`列出文件内容-过滤和排除标准`</a>
-- [x] :maple_leaf: <a href="#">``</a>
+  - <a href="#ListContentContext" >`列出文件内容-文件的FileInfo信息`</a>
+  - <a href="#ListContentNeed" >`列出文件内容-特殊需求`</a>
+- [x] :maple_leaf: <a href="#NavigatorSystem">`导航文件系统`</a>
 - [x] :maple_leaf: <a href="#">``</a>
 - [x] :maple_leaf: <a href="#">``</a>
 
@@ -114,7 +116,55 @@ Dir $home -recurse -include *.bmp,*.png,*.jpg, *.gif
 ```C#
 Dir $home -recurse | Where-Object { $_.length -gt 100MB }
 ```
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up:</a>
+#####  <a id="ListContentContext" href="#ListContentContext">文件的FileInfo信息</a>  :star2: <a href="#top"> :arrow_up:</a>
+```powershell
+PS C:\Users\Kick> $file = ls *.json
+PS C:\Users\Kick> $file | Format-List
+PS C:\Users\Kick> $file.Attributes
+Archive
+PS C:\Users\Kick> $file.Mode
+-a---
+**`命令`**:`Get-Item` <br/><br/>
+`获得单个文件 也可以获得目录本身`
+```powershell
+# Get-Item 获取的是目录对象本身:
+$directory = Get-Item c:\windows
+$directory
+
+```
+#####  <a id="ListContentNeed" href="#ListContentNeed">列出文件内容-特殊需求</a>  :star2: <a href="#top"> :arrow_up:</a>
+`可以使用相对时间获取2周以内更改过的文件：`
+```powershell
+Dir | Where-Object { $_.CreationTime -gt (Get-Date).AddDays(-14) }
+```
+`比如下面的例子通过管道过滤2007年5月12日后更改过的文件：`
+```powershell
+Dir | Where-Object { $_.CreationTime -gt [datetime]::Parse("May 12, 2007") }
+```
+####  <a id="NavigatorSystem" href="#NavigatorSystem">导航文件系统</a>  :star2: <a href="#top"> :arrow_up:</a>
+`使用Get-Location命令获取当前工作的目录。`
+
+**`命令`**:`Set-Location Cd`
+`如果你想导航到文件系统的另外一个位置，可以使用Set-Location或者它的别名Cd：`
+```powershell
+# 进入父目录 (相对路径):
+Cd ..
+# 进入当前盘的根目录 (相对路径):
+Cd \
+# 进入指定目录 (绝对路径):
+Cd c:\windows
+# 从环境变量中获取系统目录 (绝对路径):
+Cd $env:windir
+# 从普通变量中获取目录 (绝对路径):
+Cd $home
+```
+
+|字符|  意义|	示例|	示例描述|
+|:---:|:----|:-----|:----|
+|.|当前目录|	Ii .|	用资源浏览器打开当前目录|
+|..|父目录|	Cd ..|	切换到父目录|
+| \ |驱动器根目录|	Cd \  |	切换到驱动器的顶级根目录|
+|~|家目录|	Cd ~|	切换到PowerShell初始化的目录|
 #####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up:</a>
 #####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up:</a>
 ####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up:</a>
