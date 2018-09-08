@@ -16,7 +16,6 @@
   - <a href="#ReadAndWriteFile" >`读写文件内容`</a>
   - <a href="#MoveAndCopyFile" >`移动和复制文件和目录`</a>
   - <a href="#DeleteFileOrDirectionay" >`删除文件和目录`</a>
-- [x] :maple_leaf: <a href="#">``</a>
 
 ####  <a id="GetListContent" href="#GetListContent">访问文件和目录内容</a>  :star2: <a href="#top"> :arrow_up:</a>
 ##### <a id="ListContent" href="#ListContent">列出文件内容</a>  :star2: <a href="#top"> :arrow_up: </a>
