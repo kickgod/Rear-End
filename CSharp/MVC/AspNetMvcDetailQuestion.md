@@ -7,6 +7,12 @@
 ####  <a id="FilePath" href="#FilePath">MVC 文件路径错误问题</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 * `使用visual studio 调试mvc程序。再后台获取项目文件夹的路径，本地调试的话，直接使用相对路径根目录是IIS express,就不能正确获取项目的文件夹路径。`
 * `需要使用 Server.MapPath(）方法来获取项目文件夹下的相对路径。`
+
+* 当在控制器里面调用方法的时候,可以这样做
 ```C#
-   Server.MapPath("~/Scripts/App/Validation.js");
+   Server.MapPath("~/Scripts/App/Validation.js"); //将虚拟路径映射为物理路径
+```
+* `当不在控制器中调用这个方法的时候` 
+```
+   HttpContext.Current.Server.MapPath(@"~/Resources/JsonData/Modules.json")
 ```
