@@ -42,6 +42,8 @@
 
  - [x]  :maple_leaf: [ASP.NET MVC 注解验证](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/AspNetMvcAttributeAndValidation.md)  
 
+ - [x]  :maple_leaf: [ASP.NET MVC 安全性](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/AspNetMvcSafe.md)  
+
  - [x] :maple_leaf: [ASP.NET MVC 过滤器](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/AspNetMvcFilter.md)
   
  - [x] :maple_leaf: [ASP.NET MVC 依赖注入容器](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/MVC/AspNetMvcDependecy.md)
