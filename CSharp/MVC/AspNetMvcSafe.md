@@ -7,7 +7,7 @@
 - [x] :maple_leaf: <a href="#EncodeHtml">`HTML JavaScript 编码`</a>
 - [x] :maple_leaf: <a href="#CSRFA">`阻止CSRF攻击`</a>
 - [x] :maple_leaf: <a href="#CookieLost">`使用HttpOnly阻止Cookie窃取`</a>
-- [x] :maple_leaf: <a href="#RepeatAttakc">`防止重复提交 / 模板误绑定</a>
+- [x] :maple_leaf: <a href="#RepeatAttakc">`防止重复提交 / 模板误绑定`</a>
 
 #####  <a id="ASPNETMVCSAFE" href="#ASPNETMVCSAFE">ASP.NET MVC 安全说明</a>  :star2: <a href="#top"> :arrow_up: </a>
 `ASP.NET MVC不像ASP.NET Web form那样提供了很多自动保护机制来保护页面不受恶意用户的攻击,例如：`
