@@ -7,6 +7,7 @@
 - [x] :maple_leaf: <a href="#EncodeHtml">`HTML JavaScript 编码`</a>
 - [x] :maple_leaf: <a href="#CSRFA">`阻止CSRF攻击`</a>
 - [x] :maple_leaf: <a href="#CookieLost">`使用HttpOnly阻止Cookie窃取`</a>
+- [x] :maple_leaf: <a href="#RepeatAttakc">`防止重复提交 / 模板误绑定</a>
 
 #####  <a id="ASPNETMVCSAFE" href="#ASPNETMVCSAFE">ASP.NET MVC 安全说明</a>  :star2: <a href="#top"> :arrow_up: </a>
 `ASP.NET MVC不像ASP.NET Web form那样提供了很多自动保护机制来保护页面不受恶意用户的攻击,例如：`
@@ -65,13 +66,25 @@
   </system.web>
 ```
 
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
-####  <a id="" href="#"></a>  :star2: <a href="#top"> :arrow_up: </a>
+####  <a id="RepeatAttakc" href="#RepeatAttakc">防止重复提交 / 模板误绑定</a>  :star2: <a href="#top"> :arrow_up: </a>
+`对于一个模型,防止一些实体属性被错误绑定,我们使用bind来限定绑定的属性范围`
+**`白名单绑定 [Bind(Include="Name,Comment")] `**:`只绑定Name,Comment 属性`
+```C#
+   public async Task<ActionResult> Create([Bind(Include = "ProfessionID,Name,AddTime,InstituteID")] Profession profession)
+   {
+       if (ModelState.IsValid)
+       {
+           db.Professions.Add(profession);
+           await db.SaveChangesAsync();
+           return RedirectToAction("Index");
+       }
+
+       ViewBag.InstituteID = new SelectList(db.Institutes, "InstituteID", "Name", profession.InstituteID);
+       return View(profession);
+   }
+```
+**`黑名单绑定 [Bind(Exclude="Name,Comment")] `**:`禁止绑定Name,Comment 属性,其他的都绑定`
+
 
 
 
