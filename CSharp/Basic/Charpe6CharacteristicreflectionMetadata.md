@@ -1,12 +1,12 @@
 <a href="#top" id="top" >:maple_leaf: 特性,反射,元数据,动态编程</a>	:blue_heart:
 ----
-- [x] <a href="#Characteristic">C# 特性</a>
+- [x] <a href="#Characteristic">`C# 特性`</a>
   - [x] <a href="#Obsolute">`Obsolute 特性`</a>:`弃用方法`
   - [x] <a href="#Conditional">`Conditional 特性`</a>:`取消调用`
   - [x] <a href="#DebuggerStepThrough">`DebuggerStepThrough 特性`</a>:`跳过单步调试`
-
-- [x] <a href="#Caller">调用者信息</a>
-  - [x] <a href="#Conditional">`Conditional 特性`</a>:`取消调用`
+  - [x] <a href="#ConditionalByYourself">`编写一个自定义特性`</a>:`取消调用`
+- [x] <a href="#typeReflection">`反射`</a>
+  - [x] <a href="#SystemType">`System.Type 类`</a>:`T`
   
 #### C# 特性 <a id="Characteristic"></a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
@@ -115,7 +115,7 @@
     }
 ```
 
-##### 编写一个自定义特性类 
+##### <a href="#" id="ConditionalByYourself">编写一个自定义特性类 </a>
 * `可通过定义特性类创建自己的自定义特性，特性类是直接或间接派生自 Attribute 的类，可快速轻松地识别元数据中的特性定义。`
 * `类名称后缀为Attribute`
 * `类一般声明为sealed`
@@ -182,3 +182,18 @@
     MyTestAttribute attr = array[0] as MyTestAttribute;
     Console.WriteLine($"描述：{attr.Description}");
  ```
+##### <a href="#" id="typeReflection">反射 </a>
+`反射提供描述程序集、模块和类型的对象（Type 类型）。 可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现有对象中获取类型，然后调用其方法或访问其字段和属性。 如果代码中使用了特性，可以利用反射来访问它们`
+##### <a href="#" id="SystemType">System.Type 类 </a>
+`使用Type类的目的是存储数据类型的引用,本质上是一个抽象的基类 实例化它的方法如下`
+```c#
+  int i = 42;
+  Type f_type = typeof(float);
+  System.Type type = i.GetType();
+  System.Console.WriteLine(type.Name);
+  System.Console.ReadKey();
+```
+* `有用的属性`
+   * `Name`:`数据类型名称`
+   * `FullName`:`数据类型完全名称 包含命名空间`
+   * `NameSpace`:`数据类型所属的命名空间`
