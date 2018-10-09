@@ -1,12 +1,11 @@
-<a id="top" href="#top">ASP.NET MVC Ajax  :maple_leaf:</a> 
+<a id="top" href="#top">ASP.NET MVC Ajax 和 客户端验证  :maple_leaf:</a> 
 ----
 `MVC框架提供了许多的脚本,并且做了需要的处理,Jquery 和Ajax 本身我们就不讲了`
 - [x] :maple_leaf: <a href="#MVCAttribute">`Script 文件夹中的文件解释`</a>
-- [x] :maple_leaf: <a href="#DefineByUserself">`自定义验证逻辑注解`</a>
 - [x] :maple_leaf: <a href="#AjaxUnobtrusiveFunction">`Ajax辅助方法`</a>
   - <a href="#Required">`引入Ajax脚本`</a>
   - <a href="#StringLength">`使用Ajax`</a>
-
+- [x] :maple_leaf: <a href="#ClienValidation">`客户端验证`</a>
 ####  <a id="MVCAttribute" href="#MVCAttribute">Scripts 文件夹中的文件解释</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `Scripts 文件夹的内容,如下所示,一下脚本都是非侵入式脚本,意思就是加载如html 后不惜改变html 或者css 等等的结构引起其他脚本变化无法运行等等`
 ```C#
@@ -145,11 +144,33 @@ public ActionResult GetFuck(String name) {
       return PartialView(lis);
   }
 ```
+#### :maple_leaf: <a href="#top" id="ClienValidation">`客户端验证`</a>
+`ASP.NET MVC框架的客户端验证总是默认开启的, 它的本质还是Jquery 验证,所以要使用它需要 jquery.validate.min.js 和jquery.validate.unobtrusive.min.js 文件 才能启用客户端验证 例如下面的属性`
+```C#
+  [Required(ErrorMessage ="请填写名称！违令者斩")]
+  public string Name { get; set; }
 
+  [Range(10,26,ErrorMessage ="年龄在10岁到26岁之间")][Required(ErrorMessage ="请填写年龄")]
+  public int Age { get; set; }
+```
+`上面的验证一般在特定的场合下启用,例如表单中! 所以一般在创建视图的时候 Views:选择中有一个Reference script libraries 它的意思就是是否引入
+Jquery验证脚本,当选择后就会发现在试图中多了一些代码`
+```C#
+@section scripts{
+  @Scripts.Render("~/bundles/jqueryval")
+}
+```
+`这个脚本并不在布局页引入,因为有些页面并不需要Jqery 验证,比例在呈现数据的时候,只是在需要的时候加载,以免性能损失`
+#### :maple_leaf: <a href="#top" id="CloseClienValidation">`关闭客户端验证`</a>
+`ASP.NET MVC框架的客户端验证总是默认开启的，然而你可以在web.config中设置这些行为，如果需要禁用一下属性中的一个那么把值设置为false就行,但是当你
+需要逐个试图的控制这些设置,那么HTML辅助方法EnableClientValidation和EnableUnobtrusiveJavascript在一个具体试图中重写了这些配置设置`
 
-
-
-
+```xml
+ <appSettings>
+   <add key="ClientValidationEnabled" value="true" />
+   <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+ </appSettings>
+```
 
 
 
