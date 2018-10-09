@@ -5,11 +5,7 @@
 - [x] :maple_leaf: <a href="#DefineByUserself">`自定义验证逻辑注解`</a>
 - [x] :maple_leaf: <a href="#AjaxUnobtrusiveFunction">`Ajax辅助方法`</a>
   - <a href="#Required">`引入Ajax脚本`</a>
-  - <a href="#StringLength">`StringLength`</a>
-  - <a href="#RegularExpression">`RegularExpression`</a>
-  - <a href="#Range">`Range`</a>
-  - <a href="#Compare">`Compare`</a>
-  - <a href="#Remote">`Remote`</a>
+  - <a href="#StringLength">`使用Ajax`</a>
 
 ####  <a id="MVCAttribute" href="#MVCAttribute">Scripts 文件夹中的文件解释</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `Scripts 文件夹的内容,如下所示,一下脚本都是非侵入式脚本,意思就是加载如html 后不惜改变html 或者css 等等的结构引起其他脚本变化无法运行等等`
@@ -53,13 +49,102 @@ modernizr-2.8.3.js
 Install-Package Microsoft.jQuery.Unobtrusive.Ajax
 ```
 **`注意`**:`然后把脚本拖到试图上面,Vs 会自动添加脚本`
+##### <a href="#top" id="StringLength" >`使用Ajax`</a>
+###### Ajax 请求控制器方法
+```javascript
+//利用Ajax 请求另一个页面
+@Ajax.ActionLink("Click me now to die", "GetFuck","Home",
+     new { name = "kicker" },
+     new AjaxOptions {
+         HttpMethod = "Get"
+     },
+     new { @class ="btn btn-primary" }
+  )
+```
+```C#
+public ActionResult GetFuck(String name) {
+    ViewBag.Message = name;
 
-
-
-
-
-
-
+    return View();
+}
+```
+`如果出现错误:`：`@Ajax.ActionLink为何老是在新窗口中打开页面呢`<br/>
+**`原因`** : `JS文件加载顺序不对 先加载Jquery 然后加载 ~/Scripts/jquery.unobtrusive-ajax.js, ~/Scripts/jquery.validate* `
+###### Ajax 请求一个部分视图
+```javascript
+<div id="loadPart">
+  @Ajax.ActionLink("加载部分视图", "GetPartFuck", "Home",null,
+  new AjaxOptions {
+      UpdateTargetId = "loadPart",
+      InsertionMode = InsertionMode.ReplaceWith,
+      HttpMethod = "GET"
+  },
+  new { @class ="btn btn-primary" }
+  )
+</div>
+```
+* `第一个参数`:`文本信息`
+* `第二个参数`:`方法名称`
+* `第三个参数`:`控制器名称`
+* `第四个参数`:`Ajax参数`
+* `第五个参数`:`Ajax配置参数`
+* `第六个参数`:`Html属性配置参数`
+```C#
+  public ActionResult GetPartFuck()
+  {
+      return PartialView();
+  }
+```
+###### Ajax 加载数据
+```Javascript
+<div id="loadPart">
+</div>
+@using (Ajax.BeginForm("Search", "Home", new AjaxOptions
+{
+    UpdateTargetId = "loadPart",
+    InsertionMode = InsertionMode.ReplaceWith,
+    OnBegin = "func_bengin", //当请求开始的时候执行的js函数 以下一样
+    OnSuccess = "func_Success",
+    OnFailure = "func_fialure",
+    OnComplete = "func_Finish",
+    LoadingElementId = "load-ajax", //请求过程中客户端框架会自动显示这个元素
+    LoadingElementDuration = 3000,  //动画持续时间
+    HttpMethod = "GET"
+}))
+{
+    <input type="text" name="Key" />
+    <button class=" btn  btn-danger">查询</button>
+}
+@section scripts{
+    <script>
+        function func_bengin() {
+            alert("Ajax 请求开始了")
+        }
+        function func_Success() {
+            alert("Ajax 请求成功了")
+        }
+        function func_fialure() {
+            alert("Ajax 请求失败了")
+        }
+        function func_Finish() {
+            alert("Ajax 请求完成了")
+        }
+    </script>
+}
+```
+```C#
+  public ActionResult Search(String Key)
+  {
+      ViewData["title"] = Key;
+      List<Auto> lis = new List<Auto>()
+      {
+          new Auto("kicker",15),
+          new Auto("wate",17),
+          new Auto("watse",18)
+      };
+      return PartialView(lis);
+  }
+```
 
 
 
