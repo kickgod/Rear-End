@@ -6,11 +6,8 @@
 - [x] :whale2: <a href="#LearingNeed">`初期准备`</a>
    * <a href="#LearingNeed">  `1. 知识需要` </a>
    * <a href="#DataPrepared"> `2. 程序数据准备`</a>
-
 - [x] :whale2: <a href="#SampleExcetion">`Linq小例子-初体验`</a>
-
 - [x] :whale2: <a href="#LinqIntroduce">`Linq 查询概述`</a>
-
 - [x] :whale2: <a href="#LinqInstandered">`Linq 操作符`</a>
    * <a href="#tiaojianshaixuan" >`条件筛选 where`</a>
    * <a href="#fromSeletMany" >`复合 from`</a>
@@ -27,7 +24,6 @@
    * <a href="#polymerizationFunction" >`聚合Count,Sum,Min,Max,Average,Aggregate`</a> 
    * <a href="#ChangeToCollection" >`转换ToList(),ToLookup...`</a> 
    * <a href="#GetRange" >`生成操作符Range,`</a> 
-   
 - [x] :whale2: <a href="#AsynAwaitLinq">`并行 Linq`</a>
 - [x] :whale2: <a href="#CancelSearch" >`取消查询..`</a> 
 
