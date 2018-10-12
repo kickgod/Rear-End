@@ -25,5 +25,37 @@
 * `流的只是一系列操作而不是存储数据 它定义转换获取 使用数据的方式`
 * `流所定义的操作的执行可以并行也可以顺序,所以会有顺序流和并行流两种类型,他们的创建方式不同其他的操作方式大致一样`
 ####  <a id="Ninject" href="#Ninject">流的创建</a> :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
-`Collection 接口的stream 方法可以把任何接口集合转换为一个流,如果你有一个数组,那么可以使用静态的Stream.of(Array)方法`
-![集合接口继承]('/Image/Collection.png')
+`Collection 接口的stream 方法可以把任何接口集合转换为一个流,如果你有一个数组,那么可以使用静态的Stream.of(Array)方法` **`集合继承关系`**
+
+![集合接口继承](/Image/Collection.png)
+
+`如何创建并行流呢？` `default Stream<E> parallelStream() ` `调用这个方法就行了` ``
+* `Collection 集合来创建并行流的方法：`  `Collection.parallelStream()`
+* `将顺序流变成并行流 Stream.parallel() Stream.isParallel() 判断是否是并行流`
+
+```java
+ public static  void StreamOf(){
+     Stream<Integer> ins = Stream.of(1,2,3,4,8,9,121,56,78,32,15,23).parallel();//变成并行流
+     Stream<Integer> vals =  ins.filter(val -> val >12);
+     List<Integer>  ins_list = vals.collect(Collectors.toList());
+     for (Integer val : ins_list) {
+         System.out.println("Item :"+val);
+     }
+ }
+
+ public static void StreamOfArray(){
+    String strs = "JakeLover list name is what you should knows" +
+            " anything do you know fuck the word Names WhatWhere";
+    List<String> words = Arrays.asList(strs.split(" "));
+    Stream<String> wordsStream =words.parallelStream();
+    //并行流
+    try
+     {
+         Integer[] vals = new Integer[]{10,56,23,75,94,12};
+         Stream<Integer> vals_stream = Stream.of(Arrays.copyOfRange(vals, 2, 7)); //从一个数组中截图部分值组成流
+         Stream<Integer> val_para = vals_stream.parallel(); //变成并行流
+     }catch (Exception ex ){
+         System.out.println(ex.getMessage());
+     }
+  }
+```
