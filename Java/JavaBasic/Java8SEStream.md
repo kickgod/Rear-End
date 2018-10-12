@@ -26,4 +26,4 @@
 * `流所定义的操作的执行可以并行也可以顺序,所以会有顺序流和并行流两种类型,他们的创建方式不同其他的操作方式大致一样`
 ####  <a id="Ninject" href="#Ninject">流的创建</a> :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `Collection 接口的stream 方法可以把任何接口集合转换为一个流,如果你有一个数组,那么可以使用静态的Stream.of(Array)方法`
-[]('/Image/Collection.png')
+![集合接口继承]('/Image/Collection.png')
