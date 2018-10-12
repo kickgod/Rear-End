@@ -4,6 +4,7 @@
 
 - [x] :maple_leaf: <a href="#ClassJieOu">`流的初体验`</a>
 - [x] :maple_leaf: <a href="#Ninject">`流的创建`</a>
+   - <a href="#RandomStream">创建无限流</a>
 - [x] :maple_leaf: <a href="#MVCNinject">`Ninject 容器 MVC 注入`</a>
 - [x] :maple_leaf: <a href="#NinjectPropertyConstructor">`Ninject 指定属性和构造器参数`</a>
 - [x] :maple_leaf: <a href="#NinjectWhenFunction">`Ninject 条件绑定方法`</a>
@@ -57,5 +58,31 @@
      }catch (Exception ex ){
          System.out.println(ex.getMessage());
      }
+  }
+```
+#####  <a id="RandomStream" href="#RandomStream">创建无限流</a> :star2: <a href="#top"> :arrow_up: </a>
+`Stream有两个创建无限流的静态方法,genetare() 接受一个参数函数 Suppiler 可以传递一个lambda 表达式 传入怎么样的方法  返回怎么样的流`<br/>
+`Suppiler 所属包:import java.util.function.Supplier`
+```java
+//Suppiler 接口源码
+public interface Supplier<T> {
+    /**
+     * Gets a result.
+     *
+     * @return a result
+     */
+    T get();
+}
+```
+##### 无限流::随机流
+* `传入一个随机函数 就可以创建一个随机流, 要有limit 方法规定数量....不然可能会内存耗尽`
+```java
+  public static Stream<Double> getRandomStrea(){
+      Stream<Double> rand = Stream.generate(Math::random).limit(10);//引用随机函数
+      List<Double> dbs = rand.collect(Collectors.toList());
+      for (int i=0;i<10;i++){
+          System.out.println("Random item:"+dbs.get(i));
+      }
+      return rand;
   }
 ```
