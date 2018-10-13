@@ -10,7 +10,12 @@
 - [x] :maple_leaf: <a href="#DistinctStream">`distinct() :保留不同的元素`</a>
 - [x] :maple_leaf: <a href="#SortStream">`sorted() /Sorted(Comparator) 排序`</a>
 - [x] :maple_leaf: <a href="#peekStream">`peek(action) 产生一个新的流`</a>
-- [x] :maple_leaf: <a href="#NinjectScopeFunction">`Optional`</a>
+- [x] :maple_leaf: <a href="#OptionalStream">`Optional`</a>
+- [x] :maple_leaf: <a href="#top">`约简-[集合方法]`</a>
+   - <a href="#streamMinMax">`min / max`</a>
+   - <a href="#streamfindAnyFirst">`findFirst / findAny`</a>
+   - <a href="#streamMatch">`allMatch / anyMatch / noneMathc`</a>
+- [x] :maple_leaf: <a href="#OptionalStreamList">`流转换回集合`</a>
 
 ####  <a id="ClassJieOu" href="#ClassJieOu">流的初体验</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ```java
@@ -198,4 +203,124 @@ for (String val:wordlist
      Optional<String> word_max = words.stream().max(String::compareToIgnoreCase);
      System.out.println("最大值："+word_max.orElse(" 集合为空"));
  }
+```
+##### :maple_leaf: <a href="OptionalStream" id="OptionalStream">`Optional 类型`</a> <a href="#top">:arrow_up: </a>
+`Optional是Java8提供的为了解决null安全问题的一个API。善用Optional可以使我们代码中很多繁琐、丑陋的设计变得十分优雅`
+[`Optional`](http://www.importnew.com/26066.html)
+* `Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象`
+* `Optional 是个容器：它可以保存类型T的值，或者仅仅保存null。Optional提供很多有用的方法，这样我们就不用显式进行空值检测。`
+* `Optional 类的引入很好的解决空指针异常。`[`Optional类 菜鸟教程`](http://www.runoob.com/java/java8-optional-class.html)
+* `如果一个值是存在的， isPresent()将返回 true和 get()将返回值。 `
+###### `基本方法`
+* `T orElse(T other) `:`如果存在该值，返回值， 否则返回 other。 `
+* `T orElseGet(Supplier<? extends T> other)`:`如果存在该值，返回值， 否则触发 other，并返回 other 调用的结果。`
+* `T get()`:`如果在这个Optional中包含这个值，返回值，否则抛出异常：NoSuchElementException`
+* `Boolean isPresent()`:`如果值存在则方法会返回true，否则返回 false。`
+* `void ifPresent(Consumer<? super T> consumer)`:`如果值存在则使用该值调用 consumer , 否则不做任何事情。`'
+* `static Optional<T> ofNullable(T value) `:`如果为非空，返回 Optional 描述的指定值，否则返回空的 Optional。`
+* `static <T> Optional<T> of(T value)`:`返回一个指定非null值的Optional。`
+* `static <T> Optional<T> empty() `:`返回一个空 Optional实例。 。`
+```java
+  Integer value1 = null;
+  Integer value2 = new Integer(10);
+
+  Optional<Integer> val = Optional.ofNullable(value1);
+  Optional<Integer> val2 = Optional.of(value2);
+
+  System.out.println(val.orElse(1)); //1
+  System.out.println(val2.orElse(2));//10
+  System.out.println("第一个参数值存在: " + val.isPresent());
+  System.out.println("第二个参数值存在: " + val2.isPresent());
+  /*
+   第一个参数值存在: false
+   第二个参数值存在: true
+   */
+```
+##### <a id="streamMinMax" href="#top" >`min / max`</a> <a href="#top">:arrow_up: </a>
+* `Optional<T> max(Comparator<? super T> comparator) `:`返回最大元本流根据提供的 Comparator。`
+* `Optional<T> min(Comparator<? super T> comparator) `:`返回最小元本流根据提供的 Comparator。`
+```java
+ public static void  main(String args[]){
+     String strs = "JakeLover list name is what you should knows " +
+             "anything do you know fuck the word Names WhatWhere";
+     List<String> words = Arrays.asList(strs.split(" "));
+     Optional<String> word_max = words.stream().max(String::compareToIgnoreCase);
+     Optional<String> word_min = words.stream().min(String::compareToIgnoreCase);
+     System.out.println("最大值："+word_max.orElse(" 集合为空"));
+     System.out.println("最小值："+word_min.orElse(" 集合为空"));
+ }
+```
+##### <a id="streamfindAnyFirst" href="#top">`findFirst / findAny`</a> <a href="#top">:arrow_up: </a>
+* `findAny() `:`返回任意一个元素,有可能只是第一个元素`
+* `findFirst() `:`返回第一个元素`
+```java
+ public static void  main(String args[]){
+     String strs = "JakeLover list name is what you should knows " +
+             "anything do you know fuck the word Names WhatWhere";
+     List<String> words = Arrays.asList(strs.split(" "));
+
+     Optional<String> word_any = words.stream().findAny(); //返回任意一个元素
+     Optional<String> word_fisrt = words.stream().findFirst();//返回第一个元素
+     System.out.println("第一个元素："+ word_fisrt.orElse(" 集合为空"));
+     System.out.println("任意一元素："+ word_any.orElse(" 集合为空"));
+ }
+```
+* `异常  NullPointerException如果选定的元素是空的 `
+
+##### <a id="streamMatch" href="#top" >`allMatch / anyMatch / noneMathc`</a> <a href="#top">:arrow_up: </a>
+* `Boolean noneMatch(Predicate<? super T> predicate)`:`返回此流中的任何元素是否匹配所提供的谓词。 `
+* `Boolean allMatch(Predicate<? super T> predicate)`:` 返回此流中的所有元素是否匹配所提供的谓词。 `
+* `Boolean anyMatch(Predicate<? super T> predicate)`:` 返回此流中的任何元素是否匹配所提供的谓词。 `
+```java
+  List<Integer> vals = new ArrayList<Integer>();
+  vals.add(1);
+  vals.add(5);
+  vals.add(10);
+  vals.add(15);
+  vals.add(20);
+  vals.add(25);
+  vals.add(30);
+  Boolean isAllHave = vals.stream().allMatch(num -> num > 10);
+  Boolean isHaveOne = vals.stream().anyMatch(num -> num > 25);
+  Boolean noneOk = vals.stream().noneMatch(num -> num < 0);
+  System.out.println(isAllHave); //false
+  System.out.println(isHaveOne); //true
+  System.out.println(noneOk);    //true
+```
+##### <a id="OptionalStreamList" href="#OptionalStreamList" >`流转换回集合`</a> <a href="#top">:arrow_up: </a>
+* `可以调用forEach 方法将函数应用每个元素`
+* `forEachOrdered:` `按照流中的顺序来处理他们 但是这个方法会上市并行处理的部分甚至全部优势`
+```java
+ List<Integer> vals = new ArrayList<Integer>();
+ vals.add(1);
+ vals.add(5);
+ vals.add(10);
+ vals.add(15);
+ vals.add(20);
+ vals.add(25);
+ vals.add(30);
+ vals.stream().forEach(System.out::println);
+ vals.stream().forEachOrdered(System.out::println);
+```
+##### toArray 方法的使用
+`将流转换为数组的方法可以调用这个方法，但是无法在运行的时候创建泛型数组,所有toArrat 会返回一个Object[]数组,如果想要让数组具有正确的类型,可以将其
+传递到数组构造器中  类型：toArray(T[]::new);`
+```java
+ String strs = "JakeLover list name is what you should knows" +
+        " anything do you know fuck the word Names WhatWhere";
+ List<String> words = Arrays.asList(strs.split(" "));
+ String[] listword = words.stream().distinct().filter(val -> val.length() > 5).toArray(String[]::new);
+```
+##### collect 方法
+`它会接受一个Collector接口的实例,Collector类提供了大量用于生成公共收集器的工厂方法,为了将流手机到列表中,可以直接调用`
+* `.collect(Collectors.toList()) 返回 List<T>`
+* `.collect(Collectors.toSet())  返回 Set<T>`
+```java
+  String strs = "JakeLover list name is what you should knows" +
+          " anything do you know fuck the word Names WhatWhere";
+  List<String> words = Arrays.asList(strs.split(" "));
+  List<String> listword = words.stream().distinct()
+  .filter(val -> val.length() > 5).collect(Collectors.toList());
+  Set<String> list_set = words.stream().distinct()
+  .filter(val -> val.length() > 5).collect(Collectors.toSet());
 ```
