@@ -6,7 +6,8 @@
   - <a href="#Required">`引入Ajax脚本`</a>
   - <a href="#StringLength">`使用Ajax`</a>
 - [x] :maple_leaf: <a href="#ClienValidation">`客户端验证`</a>
-####  <a id="MVCAttribute" href="#MVCAttribute">Scripts 文件夹中的文件解释</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+
+#####  <a id="MVCAttribute" href="#">Scripts 文件夹中的文件解释</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `Scripts 文件夹的内容,如下所示,一下脚本都是非侵入式脚本,意思就是加载如html 后不惜改变html 或者css 等等的结构引起其他脚本变化无法运行等等`
 ```C#
 bootstrap.js
