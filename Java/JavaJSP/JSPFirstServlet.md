@@ -6,9 +6,22 @@
 - [x] [`Servlet 接口`](#interface)
 - [x] [`ServletRequest 接口`](#servletrequest)
 - [x] [`ServletResponse 接口`](#servletresponse)
+- [x] [`ServletConfig 接口`](#servletconfig)
+- [x] [`GenericServlet 类`](#genericservlet)
+- [x] [`HttpServlet 类`](#httpservlet)
 
 * `新建一个 java web 项目 然后在src 中添加这个类`
 * `更改xml 配置文件`
+```xml
+  <servlet>
+  	<servlet-name>my</servlet-name>
+  	<servlet-class>com.study.server.MyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>my</servlet-name>
+  	<url-pattern>/my</url-pattern>
+  </servlet-mapping>
+```
 ```JAVA
 package com.study.jsp;
 import java.io.IOException;
@@ -28,6 +41,7 @@ public class MyServlet extends HttpServlet {
    }
 }
 ```
+`启动它 然后输入路由 http://localhost:8080/study_Servlet/my  然后就看到效果啦`
 #### [Servlet API](#top) <span id="servletapi"></span> 
 `Serlvet 的结构`
 
@@ -45,7 +59,7 @@ public class MyServlet extends HttpServlet {
 	* `返回传递给init方法的ServletConfig`
 * **`public abstract void destroy()`**
 	* `宣布这个对象已经完成使命,接下来静静等待gc回收它就行了`
-##### [ServletRequest 接口](#top) <span id="servletrequest"></span>[官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletRequest.html)
+##### [ServletRequest 接口](#top) <span id="servletrequest"></span> [官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletRequest.html)
 ###### [`与http请求相关`](#httpRequestforservlet)
 * `getReader（）`:`返回一个缓冲读取器，用于读取请求正文中的文本。`
 * `getContentType()` :`返回请求正文的MIME类型，或者 null类型是否已知。`	
@@ -55,14 +69,14 @@ public class MyServlet extends HttpServlet {
 * `setAttribute（String，Object）`:`此方法将属性存储在请求上下文中; 这些属性将在请求之间重置。`
 * `getProtocol()`:`以protocol / majorVersion.minorVersion格式返回请求使用的协议的名称和版本，例如HTTP / 1.1。`
 * `getScheme()` :`返回请求方式，例如 http，https或ftp。`
-###### [`请求者客户端`](#httpclientforservlet)
+###### [请求者客户端](#httpclientforservlet)
 * `getServerPort()`: `返回发送请求的端口号。`
 * `getRemoteAddr()`: `返回发送请求的客户端或最后一个代理的Internet协议（IP）地址。`
 * `getRemoteHost()` :`返回客户端的完全限定名称或发送请求的最后一个代理。`
 * `getServerName()`: `返回发送请求的服务器的主机名。`
-###### [`与文件上传有关`](#httpFileforservlet)
+###### [与文件上传有关](#httpFileforservlet)
 * `getInputStream() `:`使用ServletInputStream以二进制数据的形式检索请求的主体。`
-###### [`与request 属性有关`](#)
+###### [与request 属性有关](#)
 * `setAttribute(java.lang.String name, java.lang.Object o) `：`在此请求中存储属性。 如果第二参数为null 那么相当于removeAttribute`
 * `getAttributeNames()`:`Returns an Enumeration containing the names of the attributes available to this request.`
 * `removeAttribute（java.lang.String name)`:`从此请求中删除属性。`
@@ -88,3 +102,44 @@ public class MyServlet extends HttpServlet {
 * `setContentLength(len)`: `设置响应中内容主体的长度在HTTP-servlet中，此方法设置HTTP-Content-Length标头。`
 * `setContentType(java.lang.String)`: `如果尚未提交响应，则设置发送到客户端的响应的内容类型。`
 * `setLocale(java.util.Locale)`: `如果尚未提交响应，则设置响应的区域设置。`
+
+##### [ServletConfig 接口](#top) <span id="servletconfig"></span> [官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletConfig.html)
+* `getInitParameter(name)`: `name:String返回String包含指定的初始化参数的值的a,或者null如果该参数不存在。`
+* `getInitParameterNames()`: `返回servlet的初始化参数的名称作为Enumeration的String对象或空Enumeration如果servlet没有初始化参数。`
+* `getServletContext()`: `返回ServletContext对调用者正在执行的引用。`
+* `getServletName()`: `返回此servlet实例的名称。`
+##### [GenericServlet 类](#top) <span id="genericservlet"></span> 
+```
+java.lang.Object
+   |
+   ---javax.servlet.GenericServlet:java.io.Serializable，Servlet，ServletConfig
+     |
+     --- HttpServlet
+```
+- `它给出了 Servlet 除了Service 之外其他四个方法的简单实现,让我们不必关注与另外四个方法的实现 你只需要关注service 的实现就好啦,但是它还是不如他的子类那么方便,所以还是使用HttpServlet吧 `
+##### 具有的方法
+* `destroy()`: `由servlet容器调用，以向servlet指示servlet正在停止服务。`
+* `getInitParameter(java.lang.String-name)`: `返回String包含指定的初始化参数的值的a，或者null如果该参数不存在。`
+* `getInitParameterNames()`: `返回servlet的初始化参数的名称作为Enumeration的String对象或空Enumeration如果servlet没有初始化参数。`
+* `getServletConfig()`: `返回此servlet的ServletConfig对象。`
+* `getServletContext()`: `返回ServletContext对此servlet运行的引用。`
+* `getServletInfo()`: `返回有关servlet的信息，例如作者，版本和版权。`
+* `getServletName()`: `返回此servlet实例的名称。`
+* `init()`: `一种方便的方法，可以被覆盖，这样就不需要打电话了super.init(config)。`
+* `init(ServletConfig-config)`: `由servlet容器调用，以向servlet指示servlet正在投入使用。`
+* `log(java.lang.String-msg)`: `将指定的消息写入servlet日志文件，该文件以servlet的名称为前缀。`
+* `log(java.lang.String-message,`: `java.lang.Throwable-t)`
+* `service(ServletRequest-req,`: `ServletResponse-res)`
+
+##### [HttpServlet 类](#top) <span id="httpservlet"></span> 
+`用于应对浏览器的请求和发送响应提供了许多的方法`
+* `void doDelete(HttpServletRequest req, HttpServletResponse resp) 由服务器调用（通过service方法）以允许servlet处理DELETE请求。`
+* `void doGet(HttpServletRequest req, HttpServletResponse resp) 由服务器调用（通过service方法）以允许servlet处理GET请求。`
+* `void doHead(HttpServletRequest req, HttpServletResponse resp) 从受保护service方法接收HTTP HEAD请求 并处理请求。`
+* `void doOptions(HttpServletRequest req, HttpServletResponse resp) 由服务器调用（通过service方法）以允许servlet处理OPTIONS请求。`
+* `void doPost(HttpServletRequest req, HttpServletResponse resp) 由服务器调用（通过service方法）以允许servlet处理POST请求。`
+* `void doPut(HttpServletRequest req, HttpServletResponse resp) 由服务器调用（通过service方法）以允许servlet处理PUT请求。`
+* `void doTrace(HttpServletRequest req, HttpServletResponse resp) 由服务器调用（通过该service方法）以允许servlet处理TRACE请求。`
+* `long getLastModified(HttpServletRequest req) 返回HttpServletRequest 自上次修改对象的时间，以格林威治标准时间1970年1月1日午夜为单位，以毫秒为单位。`
+* `void service(HttpServletRequest req, HttpServletResponse resp) 从public service方法接收标准HTTP请求， 并将它们分派给此类中定义的doXXX方法。`
+* `void service(ServletRequest req, ServletResponse res) 将客户端请求分派给受保护的 service方法。`
