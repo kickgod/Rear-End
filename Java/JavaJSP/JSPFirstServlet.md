@@ -2,9 +2,9 @@
 -----
 `JSP的底层其实就是 Servlet 现在我们来跑一个Servlet 吧` [`servlet 文档`](https://docs.oracle.com/cd/E17802_01/products/products/servlet/2.1/api/packages.html)
 
-- [x] [servlet 结构类图](#servletapi)
-- [x] [Servlet 接口](#interface)
-- [x] [ServletRequest](#servletrequest)
+- [x] [`servlet 结构类图`](#servletapi)
+- [x] [`Servlet 接口`](#interface)
+- [x] [`ServletRequest`](#servletrequest)
 
 
 * `新建一个 java web 项目 然后在src 中添加这个类`
@@ -49,7 +49,7 @@ public class MyServlet extends HttpServlet {
 	* `返回传递给init方法的ServletConfig`
 * **`public abstract void destroy()`**
 	* `宣布这个对象已经完成使命,接下来静静等待gc回收它就行了`
-##### [ServletRequest](#servletrequest) <span id="servletrequest"></span> 	 [官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletRequest.html)
+##### [ServletRequest](#servletrequest) <span id="servletrequest"></span>[官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletRequest.html)
 ##### [`与http请求相关`](#httpRequestforservlet)
 * `getReader（）`:`返回一个缓冲读取器，用于读取请求正文中的文本。`
 * `getContentType()` :`返回请求正文的MIME类型，或者 null类型是否已知。`	
@@ -57,7 +57,10 @@ public class MyServlet extends HttpServlet {
 * `getCharacterEncoding()` :`返回此请求正文中使用的字符编码的名称。`
 * `setAttribute（String，Object）`:`此方法将属性存储在请求上下文中; 这些属性将在请求之间重置。`
 * `setCharacterEncoding(java.lang.String env)`：`设置此请求正文中使用的字符编码的名称。`
+* `getProtocol()`:`以protocol / majorVersion.minorVersion格式返回请求使用的协议的名称和版本，例如HTTP / 1.1。`
+* `getScheme()` :`返回请求方式，例如 http，https或ftp。`
 ##### [`请求者客户端`](#httpclientforservlet)
 * `getServerPort()`: `返回发送请求的端口号。`
 * `getRemoteAddr()`: `返回发送请求的客户端或最后一个代理的Internet协议（IP）地址。`
 * `getRemoteHost()` :`返回客户端的完全限定名称或发送请求的最后一个代理。`
+* `getServerName()`: `返回发送请求的服务器的主机名。`
