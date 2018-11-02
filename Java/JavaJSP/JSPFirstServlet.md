@@ -1,6 +1,12 @@
 [第一个Servlet ](#top) <span id="top"></span>  	:maple_leaf:
 -----
-`JSP的底层其实就是 Servlet 现在我们来跑一个Servlet 吧`
+`JSP的底层其实就是 Servlet 现在我们来跑一个Servlet 吧` [`servlet 文档`](https://docs.oracle.com/cd/E17802_01/products/products/servlet/2.1/api/packages.html)
+
+- [x] [servlet 结构类图](#servletapi)
+- [x] [Servlet 接口](#interface)
+- [x] [ServletRequest](#servletrequest)
+
+
 * `新建一个 java web 项目 然后在src 中添加这个类`
 * `更改xml 配置文件`
 ```JAVA
@@ -27,5 +33,31 @@ public class MyServlet extends HttpServlet {
 }
 ```
 #### [Servlet API](#servletapi) <span id="servletapi"></span> 
+`Serlvet 的结构`
 
-[图片]
+![图片](/Image/Servlet.png)
+
+##### [Servlet 接口](#interface) <span id="interface"></span> 
+`这个接口定义了五个方法`
+* **`public abstract void init(ServletConfig config) throws ServletException`** 
+	* `初始化servlet。该方法在加载servlet时由servlet引擎[Tomcate]自动调用一次。保证在接受任何服务请求之前完成。Servlet容器通过 ServletConfig 参数向Servlet 传递配置信息 ServletConfig从应用程序配置信息中获取名-值对的初始化参数`
+* **`public abstract void service(ServletRequest req,ServletResponse res) throws ServletException, IOException`**
+	* `处理客户端请求的方法 在调用这个方法之前要 包装 init 方法被正确调用 里面包含 request 和Response两个参数 一个获取请求信息 一个设置响应信息`
+* **`public abstract String getServletInfo()`**
+	* `返回servlet的信息,版权 作者等等`
+* **` public abstract ServletConfig getServletConfig()`***
+	* `返回传递给init方法的ServletConfig`
+* **`public abstract void destroy()`**
+	* `宣布这个对象已经完成使命,接下来静静等待gc回收它就行了`
+##### [ServletRequest](#servletrequest) <span id="servletrequest"></span> 	 [官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletRequest.html)
+##### [`与http请求相关`](#httpRequestforservlet)
+* `getReader（）`:`返回一个缓冲读取器，用于读取请求正文中的文本。`
+* `getContentType()` :`返回请求正文的MIME类型，或者 null类型是否已知。`	
+* `getContentLength()` :` 返回请求正文的长度（以字节为单位），并由输入流提供，如果长度未知，则返回-1。`
+* `getCharacterEncoding()` :`返回此请求正文中使用的字符编码的名称。`
+* `setAttribute（String，Object）`:`此方法将属性存储在请求上下文中; 这些属性将在请求之间重置。`
+* `setCharacterEncoding(java.lang.String env)`：`设置此请求正文中使用的字符编码的名称。`
+##### [`请求者客户端`](#httpclientforservlet)
+* `getServerPort()`: `返回发送请求的端口号。`
+* `getRemoteAddr()`: `返回发送请求的客户端或最后一个代理的Internet协议（IP）地址。`
+* `getRemoteHost()` :`返回客户端的完全限定名称或发送请求的最后一个代理。`
