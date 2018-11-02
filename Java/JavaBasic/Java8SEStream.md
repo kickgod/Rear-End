@@ -2,22 +2,22 @@
 ----
 `类似于C#的Linq to Objcet 对象查询方法,Java也提供了流操作!以提高代码质量,减少程序员的工作量,这在现代程序开发中是十分重要的`
 
-- [x] :maple_leaf: <a href="#ClassJieOu">`流的初体验`</a>
-- [x] :maple_leaf: <a href="#Ninject">`流的创建`</a>
+- [x] :maple_leaf: <a href="#exprencestream">`流的初体验`</a>
+- [x] :maple_leaf: <a href="#createstream">`流的创建`</a>
    - <a href="#RandomStream">`创建无限流`</a>
-- [x] :maple_leaf: <a href="#MVCNinject">`filter,map,flatMap`</a>
-- [x] :maple_leaf: <a href="#NinjectPropertyConstructor">`limit,skip,concat`</a>
-- [x] :maple_leaf: <a href="#DistinctStream">`distinct() :保留不同的元素`</a>
-- [x] :maple_leaf: <a href="#SortStream">`sorted() /Sorted(Comparator) 排序`</a>
-- [x] :maple_leaf: <a href="#peekStream">`peek(action) 产生一个新的流`</a>
-- [x] :maple_leaf: <a href="#OptionalStream">`Optional`</a>
+- [x] :maple_leaf: <a href="#filtermapflatmap">`filter,map,flatMap`</a>
+- [x] :maple_leaf: <a href="#limitskipconcat">`limit,skip,concat`</a>
+- [x] :maple_leaf: <a href="#distinctstream">`distinct() :保留不同的元素`</a>
+- [x] :maple_leaf: <a href="#sortstream">`sorted() /Sorted(Comparator) 排序`</a>
+- [x] :maple_leaf: <a href="#peekstream">`peek(action) 产生一个新的流`</a>
+- [x] :maple_leaf: <a href="#optionalstream">`Optional`</a>
 - [x] :maple_leaf: <a href="#top">`约简-[集合方法]`</a>
-   - <a href="#streamMinMax">`min / max`</a>
-   - <a href="#streamfindAnyFirst">`findFirst / findAny`</a>
-   - <a href="#streamMatch">`allMatch / anyMatch / noneMathc`</a>
-- [x] :maple_leaf: <a href="#OptionalStreamList">`流转换回集合`</a>
+   - <a href="#streamminmax">`min / max`</a>
+   - <a href="#streamfindanyfirst">`findFirst / findAny`</a>
+   - <a href="#sstreammatch">`allMatch / anyMatch / noneMathc`</a>
+- [x] :maple_leaf: <a href="#optionalstreamList">`流转换回集合`</a>
 
-####  <a id="ClassJieOu" href="#ClassJieOu">流的初体验</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="exprencestream" href="#exprencestream">流的初体验</a>  :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 ```java
  public static void main(String args[]){
      String strs = "JakeLover list name is what you should knows" +
@@ -32,7 +32,7 @@
 * `流的原则`：`定义做什么而非怎么做`
 * `流的只是一系列操作而不是存储数据 它定义转换获取 使用数据的方式`
 * `流所定义的操作的执行可以并行也可以顺序,所以会有顺序流和并行流两种类型,他们的创建方式不同其他的操作方式大致一样`
-####  <a id="Ninject" href="#Ninject">流的创建</a> :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
+####  <a id="createstream" href="#createstream">流的创建</a> :star2: <a href="#top"> :arrow_up:  :arrow_up:</a>
 `Collection 接口的stream 方法可以把任何接口集合转换为一个流,如果你有一个数组,那么可以使用静态的Stream.of(Array)方法` **`集合继承关系`**
 
 ![集合接口继承](/Image/Collection.png)
@@ -110,7 +110,7 @@ public interface Supplier<T> {
      return rand;
  }
 ```
-####  :maple_leaf: <a id="MVCNinject" href="#MVCNinject" >`filter,map,flatMap`</a><a href="#top"> :arrow_up: </a>
+####  :maple_leaf: <a id="filtermapflatmap" href="#filtermapflatmap" >`filter,map,flatMap`</a><a href="#top"> :arrow_up: </a>
 `流从转换会形成一个新的流,它的元素派生自另一个流中的元素,我们已经看到了filter转换会产生一个流,它的元素与某种条件想匹配.下面，我们将一个字符串
 流抓还为包含长单词的流`
 * **`Stream<T> filter(Predicate<? super T> predicate)`**:`传入T  返回Boolean 返回由该流的元素组成的流，该元素与给定的谓词匹配。 `
@@ -146,7 +146,7 @@ for (String val:wordlist
      return list_c.stream();
   }
 ```
-#####  :maple_leaf: <a href="NinjectPropertyConstructor" id="NinjectPropertyConstructor">`limit,skip,concat`</a><a href="#top"> :arrow_up: </a>
+#####  :maple_leaf: <a href="limitskipconcat" id="limitskipconcat">`limit,skip,concat`</a><a href="#top"> :arrow_up: </a>
 `抽取子流和连接流的方法`
 * `Stream<T> limit(long maxSize) 返回一个包含该流的元素流，截断长度不超过 maxSize。 `
 * `Stream<T> skip(long n) 返回一个包含此流的其余部分丢弃的流的第一 n元素后流。 `
@@ -163,7 +163,7 @@ for (String val:wordlist
   }
  }
 ```
-#####  :maple_leaf: <a href="DistinctStream" id="DistinctStream">distinct() :保留不同的元素</a><a href="#top">:arrow_up: </a> 
+#####  :maple_leaf: <a href="distinctstream" id="distinctstream">distinct() :保留不同的元素</a><a href="#top">:arrow_up: </a> 
 `删除重复元素`
 ```java
  public static  void distinct(){
@@ -175,7 +175,7 @@ for (String val:wordlist
      }
  }
 ```
-#####  :maple_leaf: <a href="SortStream" id="SortStream">`sorted() /Sorted(Comparator) 排序`</a><a href="#top">:arrow_up: </a> 
+#####  :maple_leaf: <a href="sortstream" id="sortstream">`sorted() /Sorted(Comparator) 排序`</a><a href="#top">:arrow_up: </a> 
 ```java
  public static  void distinct(){
      Integer[] nums = {1,1,2,5,66,66,77,1,2,3,5,4,4,8,15,16};
@@ -187,7 +187,7 @@ for (String val:wordlist
      }
  }
 ```   
-##### :maple_leaf: <a href="peekStream" id="peekStream">`peek(action) 产生一个新的流`</a> <a href="#top">:arrow_up: </a>
+##### :maple_leaf: <a href="peekstream" id="peekstream">`peek(action) 产生一个新的流`</a> <a href="#top">:arrow_up: </a>
 ```java
  public static void peek(){
     Integer[] nums = {1,1,2,5,66,66,77,1,2,3,5,4,4,8,15,16};
@@ -204,7 +204,7 @@ for (String val:wordlist
      System.out.println("最大值："+word_max.orElse(" 集合为空"));
  }
 ```
-##### :maple_leaf: <a href="OptionalStream" id="OptionalStream">`Optional 类型`</a> <a href="#top">:arrow_up: </a>
+##### :maple_leaf: <a href="optionalstream" id="optionalstream">`Optional 类型`</a> <a href="#top">:arrow_up: </a>
 `Optional是Java8提供的为了解决null安全问题的一个API。善用Optional可以使我们代码中很多繁琐、丑陋的设计变得十分优雅`
 [`Optional`](http://www.importnew.com/26066.html)
 * `Optional 类是一个可以为null的容器对象。如果值存在则isPresent()方法会返回true，调用get()方法会返回该对象`
@@ -236,7 +236,7 @@ for (String val:wordlist
    第二个参数值存在: true
    */
 ```
-##### <a id="streamMinMax" href="#top" >`min / max`</a> <a href="#top">:arrow_up: </a>
+##### <a id="streamminmax" href="#top" >`min / max`</a> <a href="#top">:arrow_up: </a>
 * `Optional<T> max(Comparator<? super T> comparator) `:`返回最大元本流根据提供的 Comparator。`
 * `Optional<T> min(Comparator<? super T> comparator) `:`返回最小元本流根据提供的 Comparator。`
 ```java
@@ -250,7 +250,7 @@ for (String val:wordlist
      System.out.println("最小值："+word_min.orElse(" 集合为空"));
  }
 ```
-##### <a id="streamfindAnyFirst" href="#top">`findFirst / findAny`</a> <a href="#top">:arrow_up: </a>
+##### <a id="streamfindanyfirst" href="#top">`findFirst / findAny`</a> <a href="#top">:arrow_up: </a>
 * `findAny() `:`返回任意一个元素,有可能只是第一个元素`
 * `findFirst() `:`返回第一个元素`
 ```java
@@ -267,7 +267,7 @@ for (String val:wordlist
 ```
 * `异常  NullPointerException如果选定的元素是空的 `
 
-##### <a id="streamMatch" href="#top" >`allMatch / anyMatch / noneMathc`</a> <a href="#top">:arrow_up: </a>
+##### <a id="sstreammatch" href="#top" >`allMatch / anyMatch / noneMathc`</a> <a href="#top">:arrow_up: </a>
 * `Boolean noneMatch(Predicate<? super T> predicate)`:`返回此流中的任何元素是否匹配所提供的谓词。 `
 * `Boolean allMatch(Predicate<? super T> predicate)`:` 返回此流中的所有元素是否匹配所提供的谓词。 `
 * `Boolean anyMatch(Predicate<? super T> predicate)`:` 返回此流中的任何元素是否匹配所提供的谓词。 `
@@ -287,7 +287,7 @@ for (String val:wordlist
   System.out.println(isHaveOne); //true
   System.out.println(noneOk);    //true
 ```
-##### <a id="OptionalStreamList" href="#OptionalStreamList" >`流转换回集合`</a> <a href="#top">:arrow_up: </a>
+##### <a id="optionalstreamList" href="#optionalstreamList" >`流转换回集合`</a> <a href="#top">:arrow_up: </a>
 * `可以调用forEach 方法将函数应用每个元素`
 * `forEachOrdered:` `按照流中的顺序来处理他们 但是这个方法会上市并行处理的部分甚至全部优势`
 ```java
