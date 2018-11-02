@@ -4,7 +4,7 @@
 
 - [x] :maple_leaf: <a href="#exprencestream">`流的初体验`</a>
 - [x] :maple_leaf: <a href="#createstream">`流的创建`</a>
-   - <a href="#RandomStream">`创建无限流`</a>
+   - <a href="#randomstream">`创建无限流`</a>
 - [x] :maple_leaf: <a href="#filtermapflatmap">`filter,map,flatMap`</a>
 - [x] :maple_leaf: <a href="#limitskipconcat">`limit,skip,concat`</a>
 - [x] :maple_leaf: <a href="#distinctstream">`distinct() :保留不同的元素`</a>
@@ -72,7 +72,7 @@
   Integer[] vals = new Integer[]{1,2,4,3,9,5,6,78,5,6,15};
   Stream<Integer> v = Arrays.stream(vals,1,6);
 ```
-#####  <a id="RandomStream" href="#RandomStream">创建无限流</a> :star2: <a href="#top"> :arrow_up: </a>
+#####  <a id="randomstream" href="#randomstream">创建无限流</a> :star2: <a href="#top"> :arrow_up: </a>
 `Stream有两个创建无限流的静态方法,genetare() 接受一个参数函数 Suppiler 可以传递一个lambda 表达式 传入怎么样的方法  返回怎么样的流`<br/>
 `Suppiler 所属包:import java.util.function.Supplier`
 ```java
