@@ -34,7 +34,6 @@ public class MyServlet extends HttpServlet {
 ```
 #### [Servlet API](#servletapi) <span id="servletapi"></span> 
 `Serlvet 的结构`
-
 ![图片](/Image/Servlet.png)
 
 ##### [Servlet 接口](#interface) <span id="interface"></span> 
@@ -50,7 +49,7 @@ public class MyServlet extends HttpServlet {
 * **`public abstract void destroy()`**
 	* `宣布这个对象已经完成使命,接下来静静等待gc回收它就行了`
 ##### [ServletRequest](#servletrequest) <span id="servletrequest"></span>[官方文档](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/ServletRequest.html)
-##### [`与http请求相关`](#httpRequestforservlet)
+###### [`与http请求相关`](#httpRequestforservlet)
 * `getReader（）`:`返回一个缓冲读取器，用于读取请求正文中的文本。`
 * `getContentType()` :`返回请求正文的MIME类型，或者 null类型是否已知。`	
 * `getContentLength()` :` 返回请求正文的长度（以字节为单位），并由输入流提供，如果长度未知，则返回-1。`
@@ -59,7 +58,7 @@ public class MyServlet extends HttpServlet {
 * `setCharacterEncoding(java.lang.String env)`：`设置此请求正文中使用的字符编码的名称。`
 * `getProtocol()`:`以protocol / majorVersion.minorVersion格式返回请求使用的协议的名称和版本，例如HTTP / 1.1。`
 * `getScheme()` :`返回请求方式，例如 http，https或ftp。`
-##### [`请求者客户端`](#httpclientforservlet)
+###### [`请求者客户端`](#httpclientforservlet)
 * `getServerPort()`: `返回发送请求的端口号。`
 * `getRemoteAddr()`: `返回发送请求的客户端或最后一个代理的Internet协议（IP）地址。`
 * `getRemoteHost()` :`返回客户端的完全限定名称或发送请求的最后一个代理。`
