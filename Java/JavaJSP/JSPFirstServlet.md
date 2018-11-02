@@ -54,8 +54,8 @@ public class MyServlet extends HttpServlet {
 * `getContentType()` :`返回请求正文的MIME类型，或者 null类型是否已知。`	
 * `getContentLength()` :` 返回请求正文的长度（以字节为单位），并由输入流提供，如果长度未知，则返回-1。`
 * `getCharacterEncoding()` :`返回此请求正文中使用的字符编码的名称。`
-* `setAttribute（String，Object）`:`此方法将属性存储在请求上下文中; 这些属性将在请求之间重置。`
 * `setCharacterEncoding(java.lang.String env)`：`设置此请求正文中使用的字符编码的名称。`
+* `setAttribute（String，Object）`:`此方法将属性存储在请求上下文中; 这些属性将在请求之间重置。`
 * `getProtocol()`:`以protocol / majorVersion.minorVersion格式返回请求使用的协议的名称和版本，例如HTTP / 1.1。`
 * `getScheme()` :`返回请求方式，例如 http，https或ftp。`
 ###### [`请求者客户端`](#httpclientforservlet)
@@ -63,3 +63,11 @@ public class MyServlet extends HttpServlet {
 * `getRemoteAddr()`: `返回发送请求的客户端或最后一个代理的Internet协议（IP）地址。`
 * `getRemoteHost()` :`返回客户端的完全限定名称或发送请求的最后一个代理。`
 * `getServerName()`: `返回发送请求的服务器的主机名。`
+###### [`与文件上传有关`](#httpFileforservlet)
+* `getAttributeNames()`:`Returns an Enumeration containing the names of the attributes available to this request.`
+* `getInputStream() `:`使用ServletInputStream以二进制数据的形式检索请求的主体。`
+###### [`与request 属性有关`](#)
+* `removeAttribute（java.lang.String name)`:`从此请求中删除属性。`
+* `getParameter(java.lang.String name)`:`以String形式返回请求参数的值，如果参数不存在，则返回null。`
+* `getParameterMap() `:`返回此请求的参数的java.util.Map。`
+* `getParameterValues(java.lang.String name) `:`返回包含给定请求参数所具有的所有值的String对象数组，如果参数不存在，则返回null。`
