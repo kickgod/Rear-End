@@ -1,5 +1,6 @@
 ### [Servlet 处理HTTP请求的一些类](#top) <b id="top"></b> :maple_leaf:
 - [x] [`HttpServletRequest 类`](#httpservletrequest) :maple_leaf:
+- [x] [`HttpServletResponse 类`](#httpservletresponse) :maple_leaf:
 
 #### [HttpServletRequest 类](#top) <b id="httpservletrequest"></b> 
 `实现了接口 ServletRequest` [`官方文档`](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletRequest.html)
@@ -54,4 +55,7 @@ http://localhost:8080/study_Servlet/my 返回 /my
 ```
 * `isRequestedSessionIdValid() `:`返回当前请求ID 是否任然有效`
 * `getAuthType()`:`BASIC_AUTH，FORM_AUTH，CLIENT_CERT_AUTH，DIGEST_AUTH`
-[](#top) <b id="#"></b>
+#### [`HttpServletResponse 类`](#top) <b id="httpservletresponse"></b>
+`处理Http 响应的类`
+##### `拥有的方法`
+* `addCookie(Cookie cookie)`: `将指定的cookie添加到响应中`
