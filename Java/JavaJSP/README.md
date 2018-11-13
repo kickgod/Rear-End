@@ -7,3 +7,4 @@
 - [x] :mens:[`Servlet 接口和类`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPFirstServlet.md)
 - [x] :mens:[`HttpServlet 接口和类`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPHttpPack.md)
 #### :checkered_flag: [Jsp 基础](#top) :maple_leaf:	
+- [x] :mens:[`JSP 架构与认识`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPArchitecture.md)
