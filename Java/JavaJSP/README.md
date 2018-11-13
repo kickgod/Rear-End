@@ -6,5 +6,6 @@
 #### :checkered_flag: [Servlet 基础](#top) :maple_leaf:	
 - [x] :mens:[`Servlet 接口和类`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPFirstServlet.md)
 - [x] :mens:[`HttpServlet 接口和类`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPHttpPack.md)
+- [x] :mens:[`Servlet 基础内容`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/Servletknoeledge.md)
 #### :checkered_flag: [Jsp 基础](#top) :maple_leaf:	
 - [x] :mens:[`JSP 架构与认识`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPArchitecture.md)
