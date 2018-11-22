@@ -25,3 +25,12 @@
    ```
 * `获取请求行数据`
 * `获取用户数据`
+   * `java.lang.String`	`getParameter(java.lang.String name) `:`以a为参数String，或者null如果参数不存在，则返回请求参数的值。`
+  * `java.util.Map`	`getParameterMap()`:`返回此请求的参数的java.util.Map。`
+  * `java.util.Enumeration`	`getParameterNames()  `:` 返回 包含此请求中包含的参数名称Enumeration的String对象。`
+  * `java.lang.String[]`	`getParameterValues(java.lang.String name) `:`返回String包含给定请求参数具有的所有值的对象数组，或者 null参数是否不存在。`
+
+     	
+             
+     	
+              
