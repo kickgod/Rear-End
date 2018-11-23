@@ -53,10 +53,11 @@
   * `java.util.Map`	`getParameterMap()`:`返回此请求的参数的java.util.Map。`
   * `java.util.Enumeration`	`getParameterNames()  `:` 返回 包含此请求中包含的参数名称Enumeration的String对象。`
   * `java.lang.String[]`	`getParameterValues(java.lang.String name) `:`返回String包含给定请求参数具有的所有值的对象数组，或者 null参数是否不存在。`
-  * ` java.lang.String`	`getQueryString()` `返回路径后请求URL中包含的查询字符串。`
+  * `java.lang.String`	`getQueryString()` `返回路径后请求URL中包含的查询字符串。`
   * `Bool` `isRequestedSessionIdValid() ` `   检查请求的会话ID是否仍然有效。`
 * `请求转发`:`request.getRequestDispatcher("Login.jsp").forward(request,response);`   
-  
+  * `void`:`setAttribute(java.lang.String name, java.lang.Object o)`:`在此请求中存储属性。`
+  * `java.lang.Object` `getAttribute(java.lang.String name)`: `返回指定属性的值作为Object，或者null如果不存在给定名称的属性。`
   ```java
    //请求转发之后要加 return   在之后 一般
    request.getRequestDispatcher("Login.jsp").forward(request,response);
@@ -64,3 +65,41 @@
   ```
 ##### [Request作用域](#top)  <b id="life"></b>
 `在页面跳转过程中,可以将这个request 传递给另一个servlet类 有可能多个Servlet 负责响应一个HTTP请求 然后多个 Servlet 公用一个request对象`
+
+###### 登录重定向  
+`当登录失败的时候,显示失败信息 通过` `setAttribute` `方法`
+```java
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+throws ServletException, IOException {
+
+    String UserID  = new String(request.getParameter("UserID").getBytes("iso-8859-1"), "utf-8");
+    String UserPwd = new String(request.getParameter("UserPwd").getBytes("iso-8859-1"), "utf-8");
+    System.out.println(UserID);
+    System.out.println(UserPwd);
+
+    if(UserID.length() < 5){
+
+        request.setAttribute("isLoginRight",false);
+
+        request.getRequestDispatcher("Login.jsp").forward(request,response);
+    }else{
+        response.getWriter().println("你登录成功了！");
+    }
+}
+```
+
+```jsp
+<form  method="post" action="/login" >
+    <%
+         Boolean val = (Boolean) request.getAttribute("isLoginRight");
+         if(val !=null && !val){
+             response.getWriter().println("登录失败");
+         }
+    %>
+    <label for="UserID">账户名称</label>
+    <input type="text" id="UserID"  name="UserID" placeholder="请输入账户名称" >
+    <label for="UserPwd">账户密码</label>
+    <input type="text" id="UserPwd"  name="UserPwd" placeholder="请输入账户名称" >
+    <input type="submit" id="val" value="提交吧" class=" btn btn-danger btn-sm" >
+</form>
+```
