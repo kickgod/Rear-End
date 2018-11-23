@@ -6,6 +6,7 @@
 * [`Servlet 生命周期`](#servlet)
 * [`web.xml 配置`](#xml)  
 * [`Servlet 注意事项`](#notice)  
+* [`Servlet 基本流程`](#service)  
 
 ##### [一.写代码来试一试](#top) <span id="servlet"></span> 
 ```java
@@ -148,10 +149,18 @@ protected void service(HttpServletRequest req,HttpServletResponse resp)
 点击是否可以跳转到类文件中`
 * 2.`service 方法体代码错误`
 
-
-
-
-
+##### [四.Servlet 基本流程](#top) <span id="service"></span> 
+* `浏览器发起请求到服务器`
+* `服务器[Tomcat]接收HTTP请求 并且创建request 对象存储HTTP请求信息`
+* `服务器调用对应的Servlet类对请求进行处理并且 request 对象作为参数传递给Servlet 方法`
+* `执行Servlet方法处理请求`
+* `设置请求编码格式`
+* `设置响应格式`
+* `获取请求信息`
+* `处理请求信息`
+* `创建业务层对象`
+* `调用业务层方法`
+* `响应处理结果`
 
 
 
