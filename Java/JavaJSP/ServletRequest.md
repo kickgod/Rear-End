@@ -54,7 +54,11 @@
   * `java.lang.String[]`	`getParameterValues(java.lang.String name) `:`返回String包含给定请求参数具有的所有值的对象数组，或者 null参数是否不存在。`
   * ` java.lang.String`	`getQueryString()` `返回路径后请求URL中包含的查询字符串。`
   * `Bool` `isRequestedSessionIdValid() ` `   检查请求的会话ID是否仍然有效。`
-     	
-             
-     	
-              
+* `请求转发`:`request.getRequestDispatcher("Login.jsp").forward(request,response);`   
+  
+  ```java
+  //请求转发之后要加 return   在之后 一般
+  request.getRequestDispatcher("Login.jsp").forward(request,response);
+  return;
+  ```
+
