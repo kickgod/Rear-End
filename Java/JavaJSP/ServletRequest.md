@@ -5,6 +5,7 @@
 
 - [x] :maple_leaf: [`Request对象的由来`](#request) 
 - [x] :maple_leaf: [`Request功能`](#func) 
+- [x] :maple_leaf: [`Request作用域`](#life) 
 
 ##### [Request对象的由来](#top)  <b id="request"></b>
 (1).`浏览器发送给服务器的HTTP请求既要存储又要保证其完整性，Servlet的解决方法是创建一个对象进行存储,服务器每接收一个HTTP请求，就专门创建一个对象对该请求信息
@@ -61,4 +62,5 @@
    request.getRequestDispatcher("Login.jsp").forward(request,response);
    return;
   ```
-
+##### [Request作用域](#top)  <b id="life"></b>
+`在页面跳转过程中,可以将这个request 传递给另一个servlet类 有可能多个Servlet 负责响应一个HTTP请求 然后多个 Servlet 公用一个request对象`
