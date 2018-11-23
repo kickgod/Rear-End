@@ -20,8 +20,8 @@
    <br/>
    
    ```Java
-       System.out.println(req.getMethod()); //GET 
-       System.out.println(req.getRequestURL()); //http://localhost:8089/servlet/update
+     System.out.println(req.getMethod()); //GET 
+     System.out.println(req.getRequestURL()); //http://localhost:8089/servlet/update
    ```
 * `获取请求行数据`
   * `java.lang.String	getHeader(java.lang.String name) `: `以a形式返回指定请求标头的值String。`
@@ -30,10 +30,10 @@
   <br/>
   
   ```java
-   Enumeration enums = request.getHeaderNames();
-   while (enums.hasMoreElements()){
-       System.out.println(enums.nextElement());
-   }
+    Enumeration enums = request.getHeaderNames();
+    while (enums.hasMoreElements()){
+        System.out.println(enums.nextElement());
+    }
 
    /*
     host:localhost:8089
@@ -57,8 +57,8 @@
 * `请求转发`:`request.getRequestDispatcher("Login.jsp").forward(request,response);`   
   
   ```java
-  //请求转发之后要加 return   在之后 一般
-  request.getRequestDispatcher("Login.jsp").forward(request,response);
-  return;
+   //请求转发之后要加 return   在之后 一般
+   request.getRequestDispatcher("Login.jsp").forward(request,response);
+   return;
   ```
 
