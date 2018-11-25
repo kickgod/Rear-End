@@ -154,8 +154,8 @@ protected void service(HttpServletRequest req,HttpServletResponse resp)
 * `服务器[Tomcat]接收HTTP请求 并且创建request 对象存储HTTP请求信息`
 * `服务器调用对应的Servlet类对请求进行处理并且 request 对象作为参数传递给Servlet 方法`
 * `执行Servlet方法处理请求`
-* `设置请求编码格式`
-* `设置响应格式`
+* `设置请求编码格式`:`request.setCharacterEncoding("utf-8");`
+* `设置响应编码格式`:`response.setContentType("text/html;charset=UTF-8");`
 * `获取请求信息`
 * `处理请求信息`
 * `创建业务层对象`
