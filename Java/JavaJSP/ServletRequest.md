@@ -66,7 +66,7 @@
 ##### [Request作用域](#top)  <b id="life"></b>
 `在页面跳转过程中,可以将这个request 传递给另一个servlet类 有可能多个Servlet 负责响应一个HTTP请求 然后多个 Servlet 公用一个request对象`
 
-###### 登录重定向  
+###### 登录 请求转发 用户重发刷新会导致表单重复提交  
 `当登录失败的时候,显示失败信息 通过` `setAttribute` `方法`
 ```java
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
