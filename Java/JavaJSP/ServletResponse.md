@@ -21,7 +21,7 @@
 * `设置响应HTTP 信息 或者获取`
   * `setStatus(int sc)`:`设置此响应的状态代码。`
   * `isCommitted() `:`返回一个布尔值，指示响应是否已提交。`
-* `页面跳转`
+* `重定向 可以改变浏览器的URL 请求转发不改变浏览器URL`
   * `sendRedirect(java.lang.String location)` :`使用指定的重定向位置URL向客户端发送临时重定向响应。`
 
 ##### [乱码原因](#top)  <b id="code"></b>
