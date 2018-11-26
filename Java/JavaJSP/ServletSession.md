@@ -1,4 +1,4 @@
-### [Request Session](#top) <b id="top"></b> :maple_leaf:
+### [Servlet Session](#top) <b id="top"></b> :maple_leaf:
 
 ----
 `将客户信息存储在服务器中...` [`官方文档`](http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpSession.html)
