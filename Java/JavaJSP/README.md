@@ -12,6 +12,7 @@
 - [x] :mens:[`Cookie 对象`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/ServletCookie.md)
 - [x] :mens:[`Session 对象`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/ServletSession.md)
 - [x] :mens:[`ServletContent 对象`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/ServletContent.md)
+- [x] :mens:[`ServletConfig 对象`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/ServletConfig.md)
 
 #### :checkered_flag: [Jsp 基础](#top) :maple_leaf:	
 - [x] :mens:[`JSP 架构与认识`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPArchitecture.md)
