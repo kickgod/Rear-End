@@ -71,6 +71,8 @@ public class ChangeUser extends HttpServlet {
 每一次请求服务器都会开启一个新的线程并执行一次service方法，service根据客户端的请求类型，调用doGet、doPost等方法。`
 
 ##### [二.Web.xml 常用配置](#top) <span id="xml"></span> 
+`xml 核心相关的四个配置 全局上下文配置 Servlet配置 过滤器配置 监听器配置`
+
 [`参考文件`](https://blog.csdn.net/xiuwu0423/article/details/54861184) <br/>
 * `<display-name></display-name>`:`定义了WEB应用的名字 `
 * `<error-page></error-page>`:` 在返回特定HTTP状态代码时，或者特定类型的异常被抛出时，能够制定将要显示的页面。 `
