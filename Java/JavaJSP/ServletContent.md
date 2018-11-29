@@ -68,3 +68,28 @@ InputStream stream_  = sc.getResourceAsStream("/resources/my.txt");
 * `void	setAttribute(java.lang.String name, java.lang.Object object)`: `将对象绑定到此servlet上下文中的给定属性名称。`
 * `java.lang.Object	getAttribute(java.lang.String name)` :`返回具有给定名称的servlet容器属性，或者null如果该名称没有属性。`
 * `java.util.Enumeration	getAttributeNames()`:` 返回Enumeration包含此servlet上下文中可用的属性名称的内容。`
+
+
+##### 其他方法
+```c#
+01 Object getAttribute(String name) 返回给定名的属性值
+
+02 Enumeration getAttributeNames() 返回所有可用属性名的枚举
+03 void setAttribute(String name,Object obj) 设定属性的属性值
+04 void removeAttribute(String name) 删除一属性及其属性值
+05 String getServerInfo() 返回JSP(Servlet)引擎名及版本号
+06 String getRealPath(String path) 返回一虚拟路径的真实路径
+07 ServletContext getContext(String uripath) 返回指定WebApplication的application对象
+08 int getMajorVersion() 返回服务器支持的Servlet API的最大版本号
+09 int getMinorVersion() 返回服务器支持的Servlet API的最大版本号
+10 String getMimeType(String file) 返回指定文件的MIME类型
+11 URL getResource(String path) 返回指定资源(文件及目录)的URL路径
+12 InputStream getResourceAsStream(String path) 返回指定资源的输入流
+13 RequestDispatcher getRequestDispatcher(String uripath) 返回指定资源的RequestDispatcher对象
+14 Servlet getServlet(String name) 返回指定名的Servlet
+15 Enumeration getServlets() 返回所有Servlet的枚举
+16 Enumeration getServletNames() 返回所有Servlet名的枚举
+17 void log(String msg) 把指定消息写入Servlet的日志文件
+18 void log(Exception exception,String msg) 把指定异常的栈轨迹及错误消息写入Servlet日志文件
+19 void log(String msg,Throwable throwable) 把栈轨迹及Throwable异常信息写入Servlet日志文件
+```
