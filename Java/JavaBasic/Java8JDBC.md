@@ -58,7 +58,12 @@ public static String DriverMysqlString="com.mysql.jdbc.Driver";
 Driver driver=(Driver)Class.forName(DriverMysqlString).newInstance();
 ```
 ##### [连接数据库](#top) <b id="connect"></b> :maple_leaf:
+`连接数据库需要提供一些信息 （前提:数据库服务要打开）`
+ * `数据库连接地址`:`jdbc:mysql://127.0.0.1:3306/mydb?&characterEncoding=UTF-8`
+ * `jdbc:数据库类型:IP地址:端口/数据库名称？附加信息`
+ * `数据库用户名 密码`
 ```
+Driver driver=(Driver)Class.forName(driverClass).newInstance();
 ```
 
 
