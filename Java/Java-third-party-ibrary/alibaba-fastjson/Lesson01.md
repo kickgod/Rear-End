@@ -8,7 +8,7 @@
 - [x] :maple_leaf: [`JSON解析为JAVA对象`](#hook)
 - [x] :maple_leaf: [`数组类型与JSONArray之间的转换`](#array)
 - [x] :maple_leaf: [`将JSON字符串数组转换为List`](#toarray)
-- [ ] :maple_leaf: [`使用JSONObject 对象`](jsonobject)
+- [ ] :maple_leaf: [`使用JSONObject 对象`](#jsonobject)
 
 
 ##### [fastjson 介绍](#introduce) :maple_leaf:
@@ -249,3 +249,27 @@ public  static  void JSONtoArray(){
   JSONObject course = jsonObject.getJSONObject("course");
   JSONArray students = jsonObject.getJSONArray("students");
 ```
+
+```java
+public class UseJsonObject {
+    public static void main(String[] args){
+        JSONObject obj = new JSONObject();
+        //添加属性
+        obj.put("Name","JxKicker");
+        obj.put("Age",19);
+        obj.put("Sex",true);
+        obj.put("year",1997);
+
+        //删除属性
+        obj.remove("yaer");
+        //删除所有键值 obj.clear();
+
+        //修改
+        obj.put("Age",20);
+        System.out.println(obj.getString("Name")); //JxKicker
+        System.out.println(obj.getString("yaer")); //null
+        System.out.println(obj.toJSONString()); //{"year":1997,"Sex":true,"Age":20,"Name":"JxKicker"}
+    }
+}
+```
+
