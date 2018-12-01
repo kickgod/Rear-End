@@ -5,6 +5,8 @@
 
 - [x] :maple_leaf: [`如何在Idea里面导入Jar 包呢？`](#notice)
 - [x] :maple_leaf: [`JSP注释 <%-- --%>`](#note)
+- [x] :maple_leaf: [`JSP Page指令`](#page)
+
 
 
 ##### [如何在Idea 里面导入Jar 包呢？](#top)  :maple_leaf: <b id="notice"></b> 
@@ -18,9 +20,21 @@
 * `那两个Jar 包在 Tomcat 文件夹里面的lib文件夹中`
 
 ##### [JSP 注释 <%-- --%>](#top)  :maple_leaf: <b id="note"></b> 
-`JSP 注释:` `<%-- --%>`
+* `jsp 有三种注释`
+   * `前端注释`:`会被转义然后 也会被发送到浏览器 但是不会被浏览器执行`
+   * `Java 注释`:`会被转义 但是不会被Servlet执行`
+   * `JSP 注释`:`不会被转义为Servlet里面的语句`  `<%-- --%>`
 ```c#
- <%--
-      response.getWriter().println("在这里我不会被编译哟！");
- --%>
+<%--
+     response.getWriter().println("在这里我不会被编译哟！");
+--%>
+```
+##### [JSP Page指令](#top)  :maple_leaf: <b id="page"></b> 
+`page 有很多的参数 可以指定许多的信息 例如导入包 指定错误页面 编码格式`
+* `import:导入Java包`
+* `pageEncoding:指定JSP页面的编码格式`
+* `language:指定JSP的转义格式`
+```jsp
+<%@ page  contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"  %>
+<%@ page  import="java.util.*" %>
 ```
