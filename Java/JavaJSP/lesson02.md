@@ -1,4 +1,4 @@
-### [JSP 动态引入和静态引入 001](#top) <b id="top"></b> :maple_leaf:
+### [JSP 动态引入和静态引入 002](#top) <b id="top"></b> :maple_leaf:
 
 ----
 `JSP的本质是 Servlet 谨记 没有JSP Servlet早就凉凉了`
