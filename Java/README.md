@@ -7,8 +7,8 @@
 -----
 
 - [x] :maple_leaf: [`Java 8 基础语法`](https://github.com/kickgod/Rear-End/tree/master/Java/JavaBasic)
-- [x] :maple_leaf: [`Java 8 第三方包使用笔记`](https://github.com/kickgod/Rear-End/tree/master/Java/JavaBasic)
-- [x] :maple_leaf: [`Java JSP和Servlet技术`](https://github.com/kickgod/Rear-End/tree/master/Java/Java-third-party-ibrary)
+- [x] :maple_leaf: [`Java JSP和Servlet技术`](https://github.com/kickgod/Rear-End/tree/master/Java/JavaJSP)
+- [x] :maple_leaf: [`Java 第三方包使用笔记`](https://github.com/kickgod/Rear-End/tree/master/Java/Java-third-party-ibrary)
 
 
 -----
