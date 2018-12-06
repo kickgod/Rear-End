@@ -1,10 +1,11 @@
-### [JSP EL表达式 004](#top) <b id="top"></b> :maple_leaf:
+### [JSP EL表达式 JSTL表达式 004](#top) <b id="top"></b> :maple_leaf:
 
 ----
 `别看 这些内置对象都是Servlet的类 然后实例化一个对象`
 
 - [x] :maple_leaf: [`EL 表达式简介`](#intro)
 - [x] :maple_leaf: [`EL 获取对象数据`](#url)
+- [x] :maple_leaf: [`JSTL表达式`](#jstl)
 
 ------
 
@@ -22,3 +23,5 @@
 * `map集合`：`${键名.map集合的键名}`
 
 `el 还可以进行表达式运行`：`${5-6}`
+##### [JSP JSTL表达式](#top)  :maple_leaf: <b id="jstl"></b>
+`JSTL 表达式...不学也罢 反正前端都模板化了还学这个干吗`
