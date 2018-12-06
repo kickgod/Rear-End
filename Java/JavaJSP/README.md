@@ -23,4 +23,6 @@
 - [x] :mens:[`JSP 内置对象 `](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/lesson03.md)
 - [x] :mens:[`JSP EL JSTL 介绍`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/lesson04.md)
 
- 	
+#### :checkered_flag: [Jsp 开发建议](#top) :maple_leaf:	
+- [x] :mens:[`JSP 开发模式 介绍`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JavaWebModel.md)
+
