@@ -14,7 +14,11 @@
   * `2、执行运算`:`利用EL表达式可以在JSP页面中执行一些基本的关系运算、逻辑运算和算术运算，以在JSP页面中完成一些简单的逻辑运算。${user==null}`
   * `3、获取web开发常用对象`:`EL 表达式定义了一些隐式对象，利用这些隐式对象，web开发人员可以很轻松获得对web常用对象的引用，从而获得这些对象中的数据。`
   * `4、调用Java方法`:`EL表达式允许用户开发自定义EL函数，以在JSP页面中通过EL表达式调用Java类的方法。`
-
-##### [JSP 资源路径](#top)  :maple_leaf: <b id="url"></b> 
+  * `查找顺序： pageContext-->request->session->application`
+##### [JSP 获取对象数据](#top)  :maple_leaf: <b id="url"></b> 
 `EL 框架获取的数据只能是来自于 pageContext request session application 的值 其他数据一概不支持 找到了获取返回  找不到 就什么也不发生`
-  
+* `普通对象`：`${键名称.属性.属性...}   ${user.id}`  
+* `list集合`:`${键名[下标].属性}`
+* `map集合`：`${键名.map集合的键名}`
+
+`el 还可以进行表达式运行`：`${5-6}`
