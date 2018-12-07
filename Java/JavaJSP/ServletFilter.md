@@ -88,17 +88,26 @@ FilterChain filterChain) throws IOException, ServletException {
 ```
 
 ##### [过滤器用户 用户登录session 管理](#session)  <b id="create"></b>
-`用户登录那就可以进入网站 没有登录那么跳转到登录页面`
+`用户登录那就可以进入网站 没有登录那么跳转到登录页面 这里有很多的难点 稍微不留意就发生循环重定向 和资源加载被拦截问题`
 ```java
-HttpSession session = ((HttpServletRequest)servletRequest).getSession();
-if (session.getAttribute("UserIdentified")!= null){
-}else {
-    ((HttpServletResponse)servletResponse).sendRedirect("/login.html");
-}       
+public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+FilterChain filterChain) throws IOException, ServletException {
+    //如果不判断请求路由 那么造成请求错误 因为 会造成重复重定向
+    if(((HttpServletRequest)servletRequest).getRequestURI()!= "/exam02/login.html" ) {
+    
+        HttpSession session = ((HttpServletRequest)servletRequest).getSession();
+        if (session.getAttribute("UserName")!= null){
+             filterChain.doFilter(servletRequest,servletResponse);
+        }else {
+            ((HttpServletResponse)servletResponse).sendRedirect("login.html"); //再次请求
+        }  
+    }else {
+        filterChain.doFilter(servletRequest,servletResponse);
+    } 
+}
 ```
-
 * `为啥可以强转:因为虽然传入的类型规定是接口 servletRequest 但是实际上传入的是类 HttpServletRequest...同理如此`
-
+* ``
 
 
 
