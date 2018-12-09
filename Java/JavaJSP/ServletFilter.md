@@ -93,7 +93,7 @@ FilterChain filterChain) throws IOException, ServletException {
 public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 FilterChain filterChain) throws IOException, ServletException {
     //如果不判断请求路由 那么造成请求错误 因为 会造成重复重定向
-    if(((HttpServletRequest)servletRequest).getRequestURI()!= "/exam02/login.html" ) {
+    if(((HttpServletRequest)servletRequest).getRequestURI().equals("/exam02/login.html") ) {
     
         HttpSession session = ((HttpServletRequest)servletRequest).getSession();
         if (session.getAttribute("UserName")!= null){
