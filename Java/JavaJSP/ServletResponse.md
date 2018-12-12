@@ -48,3 +48,14 @@ req.setCharacterEncoding("utf-8");
 ```java
 req.setCharacterEncoding("utf-8");
 ```
+##### 一键方法
+`如此整个世界都变好了`
+```java
+protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    req.setCharacterEncoding("utf-8");
+    resp.setCharacterEncoding("utf-8");
+    resp.setContentType("text/html;charset=UTF-8");
+    super.service(req, resp);
+}
+
+```
