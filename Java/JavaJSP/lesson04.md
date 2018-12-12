@@ -13,17 +13,7 @@
 <%  request.setAttribute("username","LiYang"); %>
 姓名: ${username}
 ```
-
-##### [EL表达式简介](#top)  :maple_leaf: <b id="intro"></b> 
-* `EL 全名为Expression Language。EL主要作用`
-  * `1、获取数据`:`EL表达式主要用于替换JSP页面中的脚本表达式，以从各种类型的web域 中检索java对象、获取数据。(某个web域 中的对象，访问javabean的属性、访问list集合、访问map集合、访问数组)`
-  * `2、执行运算`:`利用EL表达式可以在JSP页面中执行一些基本的关系运算、逻辑运算和算术运算，以在JSP页面中完成一些简单的逻辑运算。${user==null}`
-  * `3、获取web开发常用对象`:`EL 表达式定义了一些隐式对象，利用这些隐式对象，web开发人员可以很轻松获得对web常用对象的引用，从而获得这些对象中的数据。`
-  * `4、调用Java方法`:`EL表达式允许用户开发自定义EL函数，以在JSP页面中通过EL表达式调用Java类的方法。`
-  * `查找顺序： page-->request->session->application`
-
-
-
+##### [EL 表达式内置对象]
 |属性范围|EL中的名称 [EL隐式对象介绍 ]|
 |:--|:--|
 |page |pageScope,例如${pageScope.username} 表示在pageContext对象查找username 变量 找不到返回null  一般使用EL 表达式都要带上Scope|
@@ -33,6 +23,14 @@
 |param|返回客户端的请求参数的字符串值|
 |paramValues|返回映射至客户端的请求参数的一组值|
 |pageContext|提供对用户请求和页面信息的访问|
+##### [EL表达式简介](#top)  :maple_leaf: <b id="intro"></b> 
+`EL 全名为Expression Language。EL主要作用`
+* `1、获取数据`:`EL表达式主要用于替换JSP页面中的脚本表达式，以从各种类型的web域 中检索java对象、获取数据。(某个web域 中的对象，访问javabean的属性、访问list集合、访问map集合、访问数组)`
+* `2、执行运算`:`利用EL表达式可以在JSP页面中执行一些基本的关系运算、逻辑运算和算术运算，以在JSP页面中完成一些简单的逻辑运算。${user==null}`
+* `3、获取web开发常用对象`:`EL 表达式定义了一些隐式对象，利用这些隐式对象，web开发人员可以很轻松获得对web常用对象的引用，从而获得这些对象中的数据。`
+* `4、调用Java方法`:`EL表达式允许用户开发自定义EL函数，以在JSP页面中通过EL表达式调用Java类的方法。`
+* `查找顺序： page-->request->session->application`
+
 
 ##### [JSP 获取对象数据](#top)  :maple_leaf: <b id="url"></b> 
 `${ EL exprission }`
@@ -125,8 +123,8 @@ applicationArea:指定var变量的作用域 可以省略
 * `varStatus属性用于存放var引用的成员的相关信息，如索引等`
 ```jsp
 <%
-	List products = GoodsDao.getAllProducts();
-	request.setAttribute("products", products);
+  List products = GoodsDao.getAllProducts();
+  request.setAttribute("products", products);
 %>
 …
 <!-- 循环输出商品信息 -->
