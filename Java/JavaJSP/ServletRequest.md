@@ -87,7 +87,14 @@ throws ServletException, IOException {
     }
 }
 ```
-
+* `login.jsp  是相对路径 也就是说相对于这个servlet的路径  如果Servlet 的url 是 product/getSearch 而 Login.jsp 在web 根目录下面
+也就是说login.jsp的url 为  localhost:8080/projectName/login.jsp 而 Servlet url 为 localhost:8080/projectName/product/getSearch
+那么最终结果 会找不到Login.jsp 因为 `
+* `  request.getRequestDispatcher("Login.jsp").forward(request,response); 映射的路由为 localhost:8080/projectName/product/Login.jsp` 
+* `所以在转发的时候我们最好使用绝对路径`
+```
+request.getRequestDispatcher(request.getContextPath()+"/Login.jsp").forward(request,response);
+```
 ```jsp
 <form  method="post" action="/login" >
     <%
