@@ -12,6 +12,7 @@ Oracle 这个公司的领导人不喜欢微软 导致性能不高`
 - [x] :maple_leaf: [`操作数据库 `](#statement)
 - [x] :maple_leaf: [`PreparedStatement`](#ps)
 - [x] :maple_leaf: [`批处理和事务操作`](#commit)
+- [x] :maple_leaf: [`JDBC 模糊查询`](#like)
 
 -----
 
@@ -254,4 +255,13 @@ try {
 	e.printStackTrace();
 }
 ```
-
+##### [JDBC 模糊查询](#top) <b id="like"></b> :maple_leaf:
+```java
+String sql = "select studentname, age, phone, address, other from customer"
+                + " where studentname like ? ";
+pstmt = conn.prepareStatement(sql);
+// 设定参数
+pstmt.setString(1, "%" + customername + "%" );       
+// 获取查询的结果集           
+rs = pstmt.executeQuery();
+```
