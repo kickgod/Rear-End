@@ -4,6 +4,8 @@
 - [x] :maple_leaf: [`基本的概念`](#know)
 - [x] :maple_leaf: [`Java多线程`](#thread)
 - [X] :maple_leaf: [`Thread 类`](#use)
+- [X] :maple_leaf: [`Thread 操作`](#opr)
+- [X] :maple_leaf: [`Java 概念题目`](#face)
 
 
 ----
@@ -50,22 +52,122 @@
 ####  [Java多线程](#top) :star2:<b id="thread"></b>  
 `Java多线程目前有三种实现方式`
 * [`Thread 类`](https://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html)
-* [`Runnable 接口`](https://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Runnable.html) `(Callable 接口)`
+* [`Runnable 接口`](https://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Runnable.html) 
+* [`(Callable 接口)`](https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/Callable.html)
 
 ---
 `Java的所有的类 运行的时候都有一个 起点 main 方法  Thread类也有自己起点 就是 run方法`
 
-##### Thread 类型
+----
+`他们的区别呢？`
+* `1.Runnable`:`解决单继承定义的局限 定义线程的核心功能`
+* `2.Thread类 实现了Runnable 接口 实现操作系统资源分配 调用run方法`
+* `3.可以更好用来描述数据共享的概念`
+##### :one: Thread 类型
 * `支持:JDK1.0开始就支持 Thread 类`
 * `继承自`:`java.lang.Object `
 * `实现接口`:`Interfaces:Runnable `
+* `相关内容请看下面 Thread内介绍`
 
-
-##### Runnable 接口
+##### :two: Runnable 接口
 `Thread 类是有缺点的 Java是单继承的哟 所以如果有些类需要实现多线程 难道每一个都去基础Thread 吗？ 会不会太麻烦 所有推荐使用 Runnable接口`
+```java
+//函数式 接口 也就是说支持 
+@FunctionalInterface
+public interface Runnable {
+    /**
+     * When an object implementing interface <code>Runnable</code> is used
+     * to create a thread, starting the thread causes the object's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see     java.lang.Thread#run()
+     */
+    public abstract void run();
+}
+```
+* `发现没有 没有start 方法 那么启动多线程又必须使用 start 方法 怎么办呀 ,借用Thread类的 看到Thread类的构造函数没有  传进去啊`
+```java
+package com.company;
 
+public class MyRunThread  implements Runnable{
+    @Override
+    public void run() {
+        for(int i =0;i<10;i++){
+            System.out.println( Thread.currentThread().getName()+" "+ i);
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        MyRunThread run1 = new MyRunThread();
+        MyRunThread run2 = new MyRunThread();
+        MyRunThread run3 = new MyRunThread();
+
+        new Thread(run1,"Run One").start();
+        new Thread(run2,"Run Two").start();
+        new Thread(run3,"Run Three").start();
+    }
+}
+```
+##### :three: Callable 接口--package java.util.concurrent.Callable<V>;
+`源码如何 函数式泛型接口 不知道为何需要设计得那么复杂 了解就好 重点是要 Runnable 配置 Thread 就好了` :hocho:
+```java
+@FunctionalInterface
+public interface Callable<V> {
+    /**
+     * Computes a result, or throws an exception if unable to do so.
+     *
+     * @return computed result
+     * @throws Exception if unable to compute a result
+     */
+    V call() throws Exception;
+}
+```
+* `它的麻烦在于什么呢？ 就是它的多线程调用需要借助其他的东西` 才能被 Thread 执行 并且得到返回值`
+    * `Class FutureTask<V> 实现的接口`:`Runnable, Future<V>`
+    * `并且具有Get 方法`
+```java
+import java.util.concurrent.Callable;
+
+public class MyRunThread  implements Callable<String> {
+
+    @Override
+    public String call() throws Exception {
+        for(int i = 10 ;i > 0;i--){
+            System.out.println("卖票 " + i);
+        }
+        System.out.println( Thread.currentThread().getName() + " 票已经卖光了");
+        return "卖票完成";
+    }
+
+}
+
+public class Main {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        MyRunThread run1 = new MyRunThread();
+        MyRunThread run2 = new MyRunThread();
+
+        FutureTask<String> task1 = new FutureTask<>(run1);
+        FutureTask<String> task2 = new FutureTask<>(run2);
+
+        new Thread(task1,"call1 ").start();
+        new Thread(task2,"call2 ").start();
+
+        String result1 = task1.get();
+        String result2 = task2.get();
+
+        System.out.println(result1);
+        System.out.println(result2);
+    }
+}
+
+```
 ####  [Thread 类](#top) :star2:<b id="use"></b> 
-`Thread 类 多线程的一种实现方式`
+`Thread 类 多线程的一种实现方式 并且整个多线程 都是基于这个Thread 来调用 启动多线程的`
 
 ##### run和 start的区别
 `分别使用 run 和 start 跑一下 下面的代码`
@@ -155,8 +257,6 @@ public void run() {
     }
 }
 ```
-
-
 ###### 静态属性
 * `static class 	Thread.State`:`描述线程状态`
 * `static interface Thread.UncaughtExceptionHandler`:`   当线程因未捕获的异常而突然终止时调用的处理程序接口。`
@@ -168,6 +268,7 @@ public void run() {
 * `Thread() `:`分配一个新Thread对象。`
 * `Thread(String name)` :`分配一个新Thread对象。并给一个线程名称`
 * `Thread(Runnable target) `:`还有一个运行对象`
+* `Thread(Runnable target, String name)` ：` 运行并且给一个线程名称`
 * `Thread(ThreadGroup group, Runnable target, String name, long stackSize) `:`分配一个新Thread对象，使其具有 target作为其运行对
 象，具有指定 name的名称，属于所引用的线程组group，并具有指定的堆栈大小。`
 
@@ -184,7 +285,7 @@ public void run() {
 * `static boolean	interrupted() `:`测试当前线程是否已被中断。`
 * `int	getPriority() `:`Returns this thread's priority.`
 * `long	getId()`:`返回此Thread的标识符。`
-* `String	getName()`:`返回此线程的名称`
+* `String getName()`:`返回此线程的名称`
 * `Thread.State	getState() `:`返回此线程的状态。`
 * `boolean	isAlive() `:`测试此线程是否存活。`
 * `boolean	isDaemon() `:`测试此线程是否为守护程序线程。`
@@ -202,11 +303,18 @@ public void run() {
 * `void	interrupt() `:`中断此线程。`
 
 
+####  [Thread 操作](#top) :star2:<b id="opr"></b> 
+`所有的线程每一次运行 都可能参数不同的结果,因为每一次线程都会根据自己的情况进行资源抢占`
+* `区分线程 需要依靠线程命名，并且建议在线程运行前 给线程命名`
+    * `String getName()`:`返回此线程的名称`
+    * `void	  setName(String name) `:`设置名称`
+    
 
-
-
-
-
+####  [Java 概念题目](#top) :star2:<b id="face"></b> 
+* `每一个JVM进程启动的时候至少需要启动几个线程呢`
+   * `回答：两个`
+        * `1. main 线程 程序主要执行 以及启动子线程`
+        * `2. gc线程 垃圾回收`
 
 
 
