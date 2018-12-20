@@ -5,10 +5,11 @@
 
 - [x] :maple_leaf: [`fastjson 介绍 `](#introduce)
 - [x] :maple_leaf: [`序列化对象为JSON字符串`](#objectto)
-- [x] :maple_leaf: [`JSON解析为JAVA对象`](#hook)
-- [x] :maple_leaf: [`数组类型与JSONArray之间的转换`](#array)
-- [x] :maple_leaf: [`将JSON字符串数组转换为List`](#toarray)
-- [ ] :maple_leaf: [`使用JSONObject 对象`](#jsonobject)
+- [x] :maple_leaf: [`JSON 解析为JAVA对象`](#hook)
+- [x] :maple_leaf: [`List 类型与JSONArray之间的转换`](#array)
+- [x] :maple_leaf: [`将JSON字符串数组转换为 List`](#toarray)
+- [x] :maple_leaf: [`使用JSONObject 对象`](#jsonobject)
+- [x] :maple_leaf: [`使用JSONArray 对象`](#jsonArray)
 
 
 ##### [fastjson 介绍](#introduce) :maple_leaf:
@@ -270,6 +271,24 @@ public class UseJsonObject {
         System.out.println(obj.getString("yaer")); //null
         System.out.println(obj.toJSONString()); //{"year":1997,"Sex":true,"Age":20,"Name":"JxKicker"}
     }
+}
+```
+##### [使用JSONArray 对象](#top)  :maple_leaf: <b id="jsonArray"></b> 
+`JsonArray 你也可以理解为List<T> 集合 他本质是对ArrayList的封装 怎么使用 很简单了吧`
+##### JSONArray构造函数
+```java
+private final List<Object> list;
+
+public JSONArray() {
+    this.list = new ArrayList();
+}
+
+public JSONArray(List<Object> list) {
+    this.list = list;
+}
+
+public JSONArray(int initialCapacity) {
+    this.list = new ArrayList(initialCapacity);
 }
 ```
 
