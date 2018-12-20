@@ -147,7 +147,7 @@ maxIdle="30" maxWait="10000"   username="root"   password="Jiangxing627"
 driverClassName="com.mysql.cj.jdbc.Driver"    
 url="jdbc:mysql://localhost:3306/Zzw?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC"/>
 ```
-* `项目目录下的 web.xml 里面增加 配置文件`
+* `项目目录下的 web.xml 里面增加 配置文件 [已经添加了]`
 ```xml
   <resource-ref>
       <res-ref-name>jdbc/registration </res-ref-name>
@@ -155,9 +155,38 @@ url="jdbc:mysql://localhost:3306/Zzw?useUnicode=true&amp;characterEncoding=utf-8
       <res-auth> Container </res-auth>
   </resource-ref>
 ```
+* `包装 BaseDao 里面的函数 正确 [已经正确]`
+```java
+public Connection createConnection() {
+  Connection conn = null;
+  Context ctx = null;
+  // 获取连接并捕获异常
+  try {
+    ctx = new InitialContext();
+    DataSource ds = (DataSource) ctx
+		.lookup("java:comp/env/jdbc/registration");
+    conn = ds.getConnection();
+	} catch (NamingException e) {
+		e.printStackTrace();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	if(conn == null) {
+		System.err.println("无法建立数据库连接。");
+	}
+	return conn;
+}
+```
+
+##### 如果你觉得 意思操作太过于麻烦了 那么久这样
+`把里面 BaseDao的createConnection 函数代码 注释 然后把 上面被注释的代码 取消注释 改一下链接密码 和用户 就行了`
 
 ![链接图片](/Image/shopconnect.png)
 
+
+
+----
+`然后就可以跑了`
 
 
 
