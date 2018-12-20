@@ -28,3 +28,5 @@
 #### :checkered_flag: [Jsp 开发建议](#top) :maple_leaf:	
 - [x] :mens:[`JSP 开发模式 介绍`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JavaWebModel.md)
 
+#### :checkered_flag: [Jsp 小型项目样例](#top) :maple_leaf:	
+- [x] :mens:[`JSP 购物网站`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/JSPProject.md)
