@@ -47,6 +47,8 @@
 
 * [	C# 6.0 文件系统](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6FileSystemInfo.md)
 
+* [	C# 6.0 文件流操作](https://github.com/kickgod/Rear-End/blob/master/CSharp/Basic/Csharpe6Stream.md)
+
 * [	C# 6.0 XML和JSON](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6XMLJson.md):white_check_mark:
 
 * [	C# 6.0 Entity Framework 框架基本用法](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Entity_Framework.md):white_check_mark:
@@ -57,6 +59,8 @@
 
 * [	C# 6.0 Linq to Entity使用](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6LinqToEntity.md):white_check_mark:
 
+* [	C# 6.0 Entity Framework 使用经验](
+https://github.com/kickgod/Rear-End/blob/master/CSharp/Basic/Csharpe6EfUseing.md):white_check_mark:
 
 
 
