@@ -5,6 +5,7 @@
 
 - [x] [`功能展示`](#show)
 - [x] [`部署数据库`](#sql)
+- [x] [`立即下载`](https://github.com/kickgod/Rear-End/blob/master/Java/JavaJSP/Jsp-Loading.zip)
 
 
 
