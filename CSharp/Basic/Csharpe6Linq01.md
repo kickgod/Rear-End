@@ -969,15 +969,8 @@ namespace DotnetConsole
 * `命名空间`:`System.Threading`
 
 ```C#
-		var cts= new CancellationTokenSource();
-		var valuerep=countrys.AsParallel().WithCancellation(cts.Token)
-		.Where(val=>val.CountryStartTime>=1980).Select(val=>val);
-		//将查询包装在一个线程中  运行 然后在另一个线程中调用  cts.Cancel方法 就可停止查询
+var cts= new CancellationTokenSource();
+var valuerep=countrys.AsParallel().WithCancellation(cts.Token)
+.Where(val=>val.CountryStartTime>=1980).Select(val=>val);
+//将查询包装在一个线程中  运行 然后在另一个线程中调用  cts.Cancel方法 就可停止查询
 ```
-
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 5110c786639f50132318dd7ed1ebb106a7b423a8
