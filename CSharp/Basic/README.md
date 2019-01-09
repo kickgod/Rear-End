@@ -40,14 +40,10 @@
 #### C# 语言进阶必须  `能编程的C#` 	:whale2:
 :maple_leaf: `以下是非常重要的,决定是否能够参与编程,能够做出web,pc等等`
 
-* [	C# 6.0 之前的多线程,任务](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Charpe6ThreadingCoding.md)
+* [	C# 6.0 之前的多线程 新版多线程请看 Dotnet语法](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Charpe6ThreadingCoding.md)
 :white_check_mark:
 
-* [	C# 6.0 特性,反射,元数据,动态编程](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Charpe6CharacteristicreflectionMetadata.md)
-
 * [	C# 6.0 文件系统](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6FileSystemInfo.md)
-
-* [	C# 6.0 文件流操作](https://github.com/kickgod/Rear-End/blob/master/CSharp/Basic/Csharpe6Stream.md)
 
 * [	C# 6.0 XML和JSON](https://github.com/kickgod/ProgramingLanguage/blob/master/CSharp/Basic/Csharpe6XMLJson.md):white_check_mark:
 
