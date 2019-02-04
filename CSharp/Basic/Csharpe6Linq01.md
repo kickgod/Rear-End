@@ -736,6 +736,7 @@ namespace DotnetConsole
 ```
 ##### <a id="elementXulie" >`Any,All,Contains`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `如果元素序列满足指定的条件,限定符操作符就返回布尔值`
+
 |`标准查询操作符`|`说明`| 
 |:----|:------|
 |Any(Func)|确定集合中是否有满足谓词函数的元素 |
@@ -942,27 +943,27 @@ namespace DotnetConsole
 `对集合调用	AsParallel<TSource>(),启用查询的并行化.`
 
 ```C#
-	List<Country> countrys= new List<Country>(){
-		new Country("China","A-C12QX12456",1989),
-		new Country("America","V-Q99QX52457",1959),
-		new Country("Japan","V-E19CF82357",1961),
-		new Country("Indian","V-E19CF82357",1961),
-		new Country("Intali","W-C16DF77786",1972),
+List<Country> countrys= new List<Country>(){
+    new Country("China","A-C12QX12456",1989),
+    new Country("America","V-Q99QX52457",1959),
+    new Country("Japan","V-E19CF82357",1961),
+    new Country("Indian","V-E19CF82357",1961),
+    new Country("Intali","W-C16DF77786",1972),
 
-		new Country("Canadna","O-G62QX36445",1973),
-		new Country("English","A-N42XX15798",1982),
-		new Country("Germany","Q-Q42XX58198",1981),
-		new Country("Norway","C-Q42XX58198",1980),
-		new Country("Vietnam","K-K41XX58198",1980),
+    new Country("Canadna","O-G62QX36445",1973),
+    new Country("English","A-N42XX15798",1982),
+    new Country("Germany","Q-Q42XX58198",1981),
+    new Country("Norway","C-Q42XX58198",1980),
+    new Country("Vietnam","K-K41XX58198",1980),
 
-		new Country("Myanmar","L-K46XX58198",1980),
-		new Country("Thailand","F-G42XX58198",1980),
-		new Country("Laos","W-C42XX58198",1980)
-	};
-	var valuerep=countrys.AsParallel().Where(val=>val.CountryStartTime>=1980);
-	foreach(var item in valuerep){
-		WriteLine($"加入时间:{item.CountryStartTime} 编号{item.CountryId} 国名:{item.CountryName}");   
-	}
+    new Country("Myanmar","L-K46XX58198",1980),
+    new Country("Thailand","F-G42XX58198",1980),
+    new Country("Laos","W-C42XX58198",1980)
+};
+var valuerep=countrys.AsParallel().Where(val=>val.CountryStartTime>=1980);
+foreach(var item in valuerep){
+	WriteLine($"加入时间:{item.CountryStartTime} 编号{item.CountryId} 国名:{item.CountryName}");   
+}
 ```
 ##### <a id="CancelSearch" >`取消查询..`</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * `CancellationTokenSource  被用来做消息传递机制 的令牌`
