@@ -197,92 +197,92 @@ namespace DotnetConsole
 ```
 * `主函数 数据`
 ```C#
-          static void Main(string[] args)
-        {
-           //初始化集合
-           List<Car> Carlist=new List<Car>(){
-               new Car("DongFen-ZXC","G",Convert.ToDateTime("2011/5/21")),
-               new Car("KuangFen","T",Convert.ToDateTime("2009/4/6")),
-               new Car("TInay","Q",Convert.ToDateTime("2013/10/8")),
-               new Car("Wudi","G",Convert.ToDateTime("2011/5/19")),
-               new Car("Ati","Z",Convert.ToDateTime("2006/9/6")),
-               new Car("TianYi","T",Convert.ToDateTime("2007/12/6")),
-               new Car("DIlong","Z",Convert.ToDateTime("2013/1/1"))       
-           };
+static void Main(string[] args)
+{
+   //初始化集合
+   List<Car> Carlist=new List<Car>(){
+       new Car("DongFen-ZXC","G",Convert.ToDateTime("2011/5/21")),
+       new Car("KuangFen","T",Convert.ToDateTime("2009/4/6")),
+       new Car("TInay","Q",Convert.ToDateTime("2013/10/8")),
+       new Car("Wudi","G",Convert.ToDateTime("2011/5/19")),
+       new Car("Ati","Z",Convert.ToDateTime("2006/9/6")),
+       new Car("TianYi","T",Convert.ToDateTime("2007/12/6")),
+       new Car("DIlong","Z",Convert.ToDateTime("2013/1/1"))       
+   };
 
-           List<GCRacer> rs=new List<GCRacer>{
-                new GCRacer(1,"J","X","China  ",20,Carlist[1]),
-                new GCRacer(2,"C","L","America",3,Carlist[2]),
-                new GCRacer(3,"G","X","Indian ",2,Carlist[3]),
-                new GCRacer(4,"Z","B","China  ",5,Carlist[4]),
-                new GCRacer(5,"J","T","China  ",10,Carlist[5]),
-                new GCRacer(6,"X","X","China  ",20,Carlist[6]),
-                new GCRacer(7,"D","L","America",3,Carlist[0]),
-                new GCRacer(8,"G","F","Indian ",2,Carlist[1]),
-                new GCRacer(9,"Q","B","China  ",5,Carlist[2]),
-                new GCRacer(10,"N","T","China  ",10,Carlist[3])                
-           };
-           
-           List<Student> stu= new List<Student>(){
-                new Student("Wanglimi",15,"2014001",false,new int[]{61,60,90,75,80,72}),
-                new Student("shanghai",14,"2014002",true,new int[]{99,87,90,85,97,82}),
-                new Student("tianguan",16,"2014003",false,new int[]{61,60,90,75,83,92}),
-                new Student("Yangliwe",15,"2014004",false,new int[]{88,93,95,95,90,62}),
-                new Student("Caoniman",15,"2014005",true,new int[]{71,80,70,75,82,75}),
-                new Student("Jiangfen",15,"2014006",true,new int[]{60,62,50,55,42,75})
-            };
+   List<GCRacer> rs=new List<GCRacer>{
+	new GCRacer(1,"J","X","China  ",20,Carlist[1]),
+	new GCRacer(2,"C","L","America",3,Carlist[2]),
+	new GCRacer(3,"G","X","Indian ",2,Carlist[3]),
+	new GCRacer(4,"Z","B","China  ",5,Carlist[4]),
+	new GCRacer(5,"J","T","China  ",10,Carlist[5]),
+	new GCRacer(6,"X","X","China  ",20,Carlist[6]),
+	new GCRacer(7,"D","L","America",3,Carlist[0]),
+	new GCRacer(8,"G","F","Indian ",2,Carlist[1]),
+	new GCRacer(9,"Q","B","China  ",5,Carlist[2]),
+	new GCRacer(10,"N","T","China  ",10,Carlist[3])                
+   };
 
-        }   
+   List<Student> stu= new List<Student>(){
+	new Student("Wanglimi",15,"2014001",false,new int[]{61,60,90,75,80,72}),
+	new Student("shanghai",14,"2014002",true,new int[]{99,87,90,85,97,82}),
+	new Student("tianguan",16,"2014003",false,new int[]{61,60,90,75,83,92}),
+	new Student("Yangliwe",15,"2014004",false,new int[]{88,93,95,95,90,62}),
+	new Student("Caoniman",15,"2014005",true,new int[]{71,80,70,75,82,75}),
+	new Student("Jiangfen",15,"2014006",true,new int[]{60,62,50,55,42,75})
+    };
+
+}   
 ```
 #### <a id="SampleExcetion">2.1&nbsp;&nbsp;  `Linq小例子-初体验` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 
 *  查询所有及格了的分数排序 求得及格学生的平均分
 ```C#
-    float[] ClassGrades=new float[]{69.5F,99.5F,75.8F,95.6F,85.5F,77F,86F,59F,52F,85.2F,76.5F};
-    // 查询所有及格了的分数排序 求得及格学生的平均分
-    var query =from val in ClassGrades
-               where val>=60 
-               orderby val descending   //降序排列
-               select val;
-    foreach(var grade in query){
-        WriteLine($"及格成绩:{grade}");
-    }
-    WriteLine($"及格学生平均成绩:{query.Average()}");
-    /*输出:
-        及格成绩:99.5
-        及格成绩:95.6
-        及格成绩:86
-        及格成绩:85.5
-        及格成绩:85.2
-        及格成绩:77
-        及格成绩:76.5
-        及格成绩:75.8
-        及格成绩:69.5
-        及格学生平均成绩:83.4    
-    */
+float[] ClassGrades=new float[]{69.5F,99.5F,75.8F,95.6F,85.5F,77F,86F,59F,52F,85.2F,76.5F};
+// 查询所有及格了的分数排序 求得及格学生的平均分
+var query =from val in ClassGrades
+       where val>=60 
+       orderby val descending   //降序排列
+       select val;
+foreach(var grade in query){
+WriteLine($"及格成绩:{grade}");
+}
+WriteLine($"及格学生平均成绩:{query.Average()}");
+/*输出:
+及格成绩:99.5
+及格成绩:95.6
+及格成绩:86
+及格成绩:85.5
+及格成绩:85.2
+及格成绩:77
+及格成绩:76.5
+及格成绩:75.8
+及格成绩:69.5
+及格学生平均成绩:83.4    
+*/
 ```
 * 查询中国的赛车手 名称,编号,赢的场次  
 ```C#
-     //查询中国的赛车手 名称,编号,赢的场次  生成新类型 注意空格
-     var query=from user in rs
-                    where user.Country=="China  "
-                    select new {
-                        user.GetName,
-                        user.Id,
-                        user.Wins,
-                        user.Country
-                    };
-      foreach(var user in query){
-          WriteLine($"Country{user.Country} Id: {user.Id}  Name:{user.GetName} Win Times:{user.Wins}");
-      }
-      /* 输出:
-          Id: 1  Name:J X Win Times:20
-          Id: 4  Name:Z B Win Times:5
-          Id: 5  Name:J T Win Times:10
-          Id: 6  Name:X X Win Times:20
-          Id: 9  Name:Q B Win Times:5
-          Id: 10  Name:N T Win Times:10
-       */
+//查询中国的赛车手 名称,编号,赢的场次  生成新类型 注意空格
+var query=from user in rs
+	    where user.Country=="China  "
+	    select new {
+		user.GetName,
+		user.Id,
+		user.Wins,
+		user.Country
+	    };
+foreach(var user in query){
+  WriteLine($"Country{user.Country} Id: {user.Id} Name:{user.GetName} Win Times:{user.Wins}");
+}
+/* 输出:
+  Id: 1  Name:J X Win Times:20
+  Id: 4  Name:Z B Win Times:5
+  Id: 5  Name:J T Win Times:10
+  Id: 6  Name:X X Win Times:20
+  Id: 9  Name:Q B Win Times:5
+  Id: 10  Name:N T Win Times:10
+*/
 ```
 #### <a id="LinqIntroduce">3.1&nbsp;&nbsp;  `Linq 查询概述` </a> :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 `Linq是一门对象查询语言,子句from，where,select,orderby,descending... 都是Linq查询预定义的关键字`
@@ -316,24 +316,23 @@ namespace DotnetConsole
     */
 ```
 ```C#
-           var chinaRacer=rs.Where(user=>user.Country=="China  ").Select(user=>new {
-                user.GetName,
-                user.Id,
-                user.Wins,
-                user.Country
-           });
-            foreach(var user in chinaRacer){
-                WriteLine($"Country{user.Country} Id: {user.Id}  Name:{user.GetName} Win Times:{user.Wins}");
-            }
-      /*
-        CountryChina   Id: 1  Name:J X Win Times:20
-        CountryChina   Id: 4  Name:Z B Win Times:5
-        CountryChina   Id: 5  Name:J T Win Times:10
-        CountryChina   Id: 6  Name:X X Win Times:20
-        CountryChina   Id: 9  Name:Q B Win Times:5
-        CountryChina   Id: 10  Name:N T Win Times:10      
-       */      
-            
+var chinaRacer=rs.Where(user=>user.Country=="China  ").Select(user=>new {
+  user.GetName,
+  user.Id,
+  user.Wins,
+  user.Country
+});
+foreach(var user in chinaRacer){
+  WriteLine($"Country{user.Country} Id: {user.Id}  Name:{user.GetName} Win Times:{user.Wins}");
+}
+/*
+CountryChina   Id: 1  Name:J X Win Times:20
+CountryChina   Id: 4  Name:Z B Win Times:5
+CountryChina   Id: 5  Name:J T Win Times:10
+CountryChina   Id: 6  Name:X X Win Times:20
+CountryChina   Id: 9  Name:Q B Win Times:5
+CountryChina   Id: 10  Name:N T Win Times:10      
+*/             
 ```      
 ##### 得到查询结果
 `如果查询结果多次用到,那么没使用一次就进行一次查询,那么当数据量大的时候就太吃亏了,于是我们尝试一次查询,多次使用,将第一次查询的结果固定下来`
@@ -569,57 +568,73 @@ namespace DotnetConsole
 |GroupJoin|可以链接两个集合,组合其结果|
 
 ```C#
-    List<Country> countrys= new List<Country>(){
-	new Country("China","A-C12QX12456",1989),
-	new Country("America","V-Q99QX52457",1959),
-	new Country("Indian","I-B72QQ78239",1971),
-	new Country("Japan","V-E19CF82357",1961),
-	new Country("Intali","W-C16DF77786",1972),
-	new Country("Canadna","O-G62QX36445",1973),
-	new Country("English","A-N42XX15798",1982),
-    };
+List<Country> countrys= new List<Country>(){
+  new Country("China","A-C12QX12456",1989),
+  new Country("America","V-Q99QX52457",1959),
+  new Country("Indian","I-B72QQ78239",1971),
+  new Country("Japan","V-E19CF82357",1961),
+  new Country("Intali","W-C16DF77786",1972),
+  new Country("Canadna","O-G62QX36445",1973),
+  new Country("English","A-N42XX15798",1982),
+};
 
-    var reuslt=(from racer in 
-		  from r in rs
-		  where r.Wins>=3
-		  select new{
-		      racer_Name=r.GetName,
-		      racer_Country=r.Country.Trim(),
-		      Racer_Id=r.Id
-		  }
-		 join coun in                             
-		    from c in countrys
-		    select new {
-			Country_name=c.CountryName.Trim(),
-			Country_start_year=c.CountryStartTime,
-			Country_id=c.CountryId
-		    }
-		on racer.racer_Country equals coun.Country_name   //注意是 equals
-		orderby racer.Racer_Id descending
-		select new {
-		      Id=racer.Racer_Id,
-		      Name=racer.racer_Name,
-		      Country=racer.racer_Country,
-		      CountryId=coun.Country_id,
-		      CountryStartYear=coun.Country_start_year
+var reuslt=(from racer in 
+  from r in rs
+  where r.Wins>=3
+  select new{
+      racer_Name=r.GetName,
+      racer_Country=r.Country.Trim(),
+      Racer_Id=r.Id
+  }
+ join coun in                             
+    from c in countrys
+    select new {
+	Country_name=c.CountryName.Trim(),
+	Country_start_year=c.CountryStartTime,
+	Country_id=c.CountryId
+    }
+on racer.racer_Country equals coun.Country_name   //注意是 equals
+orderby racer.Racer_Id descending
+select new {
+      Id=racer.Racer_Id,
+      Name=racer.racer_Name,
+      Country=racer.racer_Country,
+      CountryId=coun.Country_id,
+      CountryStartYear=coun.Country_start_year
+}).ToList();    
 
-		}).ToList();    
-    foreach(var val in reuslt){
-	 WriteLine($"选手编号:{val.Id} 名称:{val.Name} 国家编号:{val.CountryId} 所属国家 {val.Country} 
-	 加入运动时间:{val.CountryStartYear}");
-    }  
-    /*
-      选手编号:10 名称:N T 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
-      选手编号:9 名称:Q B 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
-      选手编号:7 名称:D L 国家编号:V-Q99QX52457 所属国家 America 加入运动时间:1959
-      选手编号:6 名称:X X 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
-      选手编号:5 名称:J T 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
-      选手编号:4 名称:Z B 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
-      选手编号:2 名称:C L 国家编号:V-Q99QX52457 所属国家 America 加入运动时间:1959
-      选手编号:1 名称:J X 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
-    */    
+foreach(var val in reuslt){
+ WriteLine($"选手编号:{val.Id} 名称:{val.Name} 国家编号:{val.CountryId} 所属国家 {val.Country} 
+ 加入运动时间:{val.CountryStartYear}");
+}  
+
+/*
+选手编号:10 名称:N T 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+选手编号:9 名称:Q B 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+选手编号:7 名称:D L 国家编号:V-Q99QX52457 所属国家 America 加入运动时间:1959
+选手编号:6 名称:X X 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+选手编号:5 名称:J T 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+选手编号:4 名称:Z B 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+选手编号:2 名称:C L 国家编号:V-Q99QX52457 所属国家 America 加入运动时间:1959
+选手编号:1 名称:J X 国家编号:A-C12QX12456 所属国家 China 加入运动时间:1989
+*/    
     
 ```
+
+`方法语法`
+```c#
+var q = db.Products.Join
+(
+    db.Categories,
+    p => p.CategoryID,
+    c => c.CategoryID,
+    (p, c) => new { p.ProductID, p.ProductName, c.CategoryID, c.CategoryName }
+)
+.Where(p => p.CategoryID == 1)
+.ToList();
+```
+
+
 ##### <a id="LeftOutterConnection" >`左外链接 join DefaultIfEmpty `</a>  :closed_umbrella: <a href="#top"> `置顶` :arrow_up:</a>
 * 关键是搞懂一点:`on r.Country equals t.CountryName into` **`rt`** `这个rt是什么 它是一个判断值,判断右边是否有与左边相匹配的,而tt实质上
 不是t 而是 t?null 如果t不为null那么 tt=t否则 `
