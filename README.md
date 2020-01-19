@@ -5,10 +5,10 @@
 
 
 ##### 1.各类语言的索引
-`后端语言`
+`前,后端语言`
 
 * [C ](https://github.com/east-learner/PL.Learning/tree/master/c)
 * [C# .net core](https://github.com/kickgod/Rear-End/tree/master/CSharp)
 * [Java Jsp](https://github.com/kickgod/Rear-End/tree/master/Java/JavaJSP)
-
+* [JavaScript](https://github.com/kickgod/Front-End/tree/master/Javascript)
 
